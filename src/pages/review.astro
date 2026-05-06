@@ -1,0 +1,798 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = '知识复习';
+
+const reviewImages = [
+  {
+    src: '/NotebookLM Mind Map.png',
+    alt: '复习脑图',
+  },
+  {
+    src: '/unnamed.png',
+    alt: '复习图示',
+  },
+];
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <h1>{pageTitle}</h1>
+      <p>按图片总览、互动问答、考核演练、疾病详情四个模块组织，支持手机端高效复习。</p>
+
+      <nav class="review-nav" aria-label="知识复习导航栏">
+        <a href="#images">复习图片</a>
+        <a href="#flashcards">闪卡问答</a>
+        <a href="#exam">考核题</a>
+        <a href="#summary">疾病详情</a>
+      </nav>
+
+      <section id="images">
+        <h2>复习图片</h2>
+        <p>点击图片可放大查看，支持上一张/下一张切换。</p>
+        <div class="image-grid">
+          {reviewImages.map((img, index) => (
+            <figure class="review-image" data-index={index}>
+              <img src={img.src} alt={img.alt} loading="lazy" data-gallery-image="true" />
+              <figcaption>{img.alt}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section id="flashcards">
+        <h2>闪卡问答</h2>
+        <p>先自己作答，再点击显示答案。可用“记住了/再练一次”进行训练。</p>
+        <div class="quiz-panel">
+          <div class="quiz-stats" id="quiz-stats">加载题库中...</div>
+          <article class="quiz-card" aria-live="polite">
+            <h3 id="quiz-question">题目加载中...</h3>
+            <p id="quiz-answer" hidden></p>
+          </article>
+          <div class="quiz-actions">
+            <button id="show-answer" type="button">显示答案</button>
+            <button id="mark-known" type="button">记住了</button>
+            <button id="mark-again" type="button">再练一次</button>
+            <button id="next-question" type="button">下一题</button>
+          </div>
+        </div>
+
+        <details class="all-qa">
+          <summary>查看全部闪卡</summary>
+          <div id="qa-grid" class="qa-grid"></div>
+        </details>
+      </section>
+
+      <section id="exam">
+        <h2>临床技能考试考核题</h2>
+        <p>考核题改为与闪卡一致的互动演练方式。</p>
+        <div class="quiz-panel exam-panel">
+          <div class="quiz-stats" id="exam-stats">加载考核题中...</div>
+          <article class="quiz-card" aria-live="polite">
+            <h3 id="exam-question">题目加载中...</h3>
+            <p id="exam-answer" hidden>本模块为问答演练题，建议先口述作答，再查看参考答案。</p>
+          </article>
+          <div class="quiz-actions">
+            <button id="exam-show-answer" type="button">显示答题提示</button>
+            <button id="exam-mark-done" type="button">完成此题</button>
+            <button id="exam-mark-again" type="button">稍后再练</button>
+            <button id="exam-next-question" type="button">下一题</button>
+          </div>
+        </div>
+
+        <details class="all-qa">
+          <summary>查看全部考核题</summary>
+          <ol id="exam-list" class="exam-list"></ol>
+        </details>
+      </section>
+
+      <section id="summary">
+        <h2>疾病名称与详情</h2>
+        <div class="summary-layout">
+          <div class="summary-list-box">
+            <div class="table-tools">
+              <label for="summary-search">疾病筛选：</label>
+              <input id="summary-search" type="search" placeholder="输入疾病名称关键词" />
+              <span id="summary-count"></span>
+            </div>
+            <ul id="summary-list" class="summary-list"></ul>
+          </div>
+
+          <article id="summary-detail" class="summary-detail" aria-live="polite">
+            <h3>请选择左侧疾病名称</h3>
+            <p>选择后将在这里展示诊断依据、治疗原则、疾病特点等详细信息。</p>
+          </article>
+        </div>
+      </section>
+
+      <dialog id="image-lightbox" class="image-lightbox">
+        <form method="dialog" class="lightbox-top">
+          <button type="submit" aria-label="关闭图片">关闭</button>
+        </form>
+        <img id="lightbox-image" src="" alt="" />
+        <p id="lightbox-caption"></p>
+        <div class="lightbox-actions">
+          <button id="lightbox-prev" type="button">上一张</button>
+          <button id="lightbox-next" type="button">下一张</button>
+        </div>
+      </dialog>
+    </main>
+
+    <Footer />
+
+    <script>
+      import '../scripts/menu.js';
+    </script>
+    <script type="module" define:vars={{ reviewImages }}>
+      const qaGrid = document.getElementById('qa-grid');
+      const examList = document.getElementById('exam-list');
+      const examStats = document.getElementById('exam-stats');
+      const examQuestion = document.getElementById('exam-question');
+      const examAnswer = document.getElementById('exam-answer');
+      const examShowAnswerButton = document.getElementById('exam-show-answer');
+      const examMarkDoneButton = document.getElementById('exam-mark-done');
+      const examMarkAgainButton = document.getElementById('exam-mark-again');
+      const examNextQuestionButton = document.getElementById('exam-next-question');
+
+      const summarySearch = document.getElementById('summary-search');
+      const summaryCount = document.getElementById('summary-count');
+      const summaryList = document.getElementById('summary-list');
+      const summaryDetail = document.getElementById('summary-detail');
+
+      const quizStats = document.getElementById('quiz-stats');
+      const quizQuestion = document.getElementById('quiz-question');
+      const quizAnswer = document.getElementById('quiz-answer');
+      const showAnswerButton = document.getElementById('show-answer');
+      const markKnownButton = document.getElementById('mark-known');
+      const markAgainButton = document.getElementById('mark-again');
+      const nextQuestionButton = document.getElementById('next-question');
+
+      const lightbox = document.getElementById('image-lightbox');
+      const lightboxImage = document.getElementById('lightbox-image');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      const lightboxPrev = document.getElementById('lightbox-prev');
+      const lightboxNext = document.getElementById('lightbox-next');
+
+      let allFlashcards = [];
+      let deck = [];
+      let currentCard = null;
+      let totalAnswered = 0;
+      let knownCount = 0;
+
+      let allExamQuestions = [];
+      let examDeck = [];
+      let currentExamQuestion = '';
+      let examAnswered = 0;
+      let examCompleted = 0;
+
+      let allSummaryRows = { headers: [], rows: [] };
+
+      const galleryImages = Array.from(document.querySelectorAll('[data-gallery-image="true"]'));
+      let currentImageIndex = 0;
+
+      const shuffle = (items) => {
+        const arr = [...items];
+        for (let i = arr.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      };
+
+      const parseFlashcards = (raw) =>
+        raw
+          .split(/\r?\n/)
+          .map((line) => line.trim())
+          .filter(Boolean)
+          .map((line) => {
+            const splitIndex = line.indexOf(',');
+            if (splitIndex < 0) {
+              return null;
+            }
+
+            return {
+              question: line.slice(0, splitIndex).trim(),
+              answer: line.slice(splitIndex + 1).trim(),
+            };
+          })
+          .filter(Boolean);
+
+      const parseExamQuestions = (raw) =>
+        raw
+          .split(/\r?\n/)
+          .map((line) => line.trim())
+          .filter((line) => /^\d+\.\s+\*\*/.test(line))
+          .map((line) => line.replace(/^\d+\.\s+\*\*(.*?)\*\*\s*$/, '$1').trim());
+
+      const parseSummary = (raw) => {
+        const lines = raw
+          .split(/\r?\n/)
+          .map((line) => line.trim())
+          .filter(Boolean);
+
+        const headers = lines[0]?.split('\t').map((cell) => cell.trim()) ?? [];
+        const rows = lines.slice(1).map((line) => line.split('\t').map((cell) => cell.trim()));
+        return { headers, rows };
+      };
+
+      const renderFlashcards = (cards) => {
+        qaGrid.innerHTML = '';
+        cards.forEach((card) => {
+          const details = document.createElement('details');
+          details.className = 'qa-card';
+
+          const summary = document.createElement('summary');
+          summary.textContent = card.question;
+
+          const answer = document.createElement('p');
+          answer.textContent = card.answer;
+
+          details.append(summary, answer);
+          qaGrid.append(details);
+        });
+      };
+
+      const renderExamQuestions = (questions) => {
+        examList.innerHTML = '';
+        questions.forEach((question, index) => {
+          const li = document.createElement('li');
+          li.textContent = `${index + 1}. ${question}`;
+          examList.append(li);
+        });
+      };
+
+      const renderSummaryList = ({ headers, rows }) => {
+        if (!headers.length) {
+          summaryList.innerHTML = '<li>暂未解析到汇总数据。</li>';
+          summaryDetail.innerHTML = '<h3>暂无详情</h3>';
+          return;
+        }
+
+        summaryList.innerHTML = '';
+
+        rows.forEach((row, rowIndex) => {
+          const diseaseName = row[0] || `疾病 ${rowIndex + 1}`;
+          const li = document.createElement('li');
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'disease-button';
+          button.textContent = diseaseName;
+
+          button.addEventListener('click', () => {
+            summaryDetail.innerHTML = '';
+
+            const title = document.createElement('h3');
+            title.textContent = diseaseName;
+            summaryDetail.append(title);
+
+            headers.forEach((header, index) => {
+              if (index === 0) return;
+              const p = document.createElement('p');
+              const strong = document.createElement('strong');
+              strong.textContent = `${header}：`;
+              p.append(strong, document.createTextNode(row[index] ?? ''));
+              summaryDetail.append(p);
+            });
+          });
+
+          li.append(button);
+          summaryList.append(li);
+        });
+
+        summaryCount.textContent = `共 ${rows.length} 条`;
+      };
+
+      const updateQuizStats = () => {
+        const total = allFlashcards.length;
+        quizStats.textContent = `已练习 ${totalAnswered} 题，记住 ${knownCount} 题，题库总计 ${total} 题`;
+      };
+
+      const nextCard = () => {
+        if (!deck.length) {
+          deck = shuffle(allFlashcards);
+        }
+
+        currentCard = deck.pop() ?? null;
+        if (!currentCard) {
+          quizQuestion.textContent = '暂无题目';
+          quizAnswer.hidden = true;
+          return;
+        }
+
+        quizQuestion.textContent = currentCard.question;
+        quizAnswer.textContent = currentCard.answer;
+        quizAnswer.hidden = true;
+        showAnswerButton.textContent = '显示答案';
+      };
+
+      const initQuiz = (cards) => {
+        allFlashcards = cards;
+        deck = shuffle(cards);
+        totalAnswered = 0;
+        knownCount = 0;
+        updateQuizStats();
+        nextCard();
+      };
+
+      const updateExamStats = () => {
+        examStats.textContent = `已练习 ${examAnswered} 题，完成 ${examCompleted} 题，题库总计 ${allExamQuestions.length} 题`;
+      };
+
+      const nextExamCard = () => {
+        if (!examDeck.length) {
+          examDeck = shuffle(allExamQuestions);
+        }
+
+        currentExamQuestion = examDeck.pop() ?? '';
+
+        if (!currentExamQuestion) {
+          examQuestion.textContent = '暂无考核题';
+          examAnswer.hidden = true;
+          return;
+        }
+
+        examQuestion.textContent = currentExamQuestion;
+        examAnswer.hidden = true;
+        examShowAnswerButton.textContent = '显示答题提示';
+      };
+
+      const initExamQuiz = (questions) => {
+        allExamQuestions = questions;
+        examDeck = shuffle(questions);
+        examAnswered = 0;
+        examCompleted = 0;
+        updateExamStats();
+        nextExamCard();
+      };
+
+      showAnswerButton.addEventListener('click', () => {
+        const nextHidden = !quizAnswer.hidden;
+        quizAnswer.hidden = nextHidden;
+        showAnswerButton.textContent = nextHidden ? '显示答案' : '隐藏答案';
+      });
+
+      markKnownButton.addEventListener('click', () => {
+        if (!currentCard) return;
+        knownCount += 1;
+        totalAnswered += 1;
+        updateQuizStats();
+        nextCard();
+      });
+
+      markAgainButton.addEventListener('click', () => {
+        if (!currentCard) return;
+        deck.unshift(currentCard);
+        totalAnswered += 1;
+        updateQuizStats();
+        nextCard();
+      });
+
+      nextQuestionButton.addEventListener('click', () => {
+        if (!currentCard) return;
+        totalAnswered += 1;
+        updateQuizStats();
+        nextCard();
+      });
+
+      examShowAnswerButton.addEventListener('click', () => {
+        const nextHidden = !examAnswer.hidden;
+        examAnswer.hidden = nextHidden;
+        examShowAnswerButton.textContent = nextHidden ? '显示答题提示' : '隐藏答题提示';
+      });
+
+      examMarkDoneButton.addEventListener('click', () => {
+        if (!currentExamQuestion) return;
+        examAnswered += 1;
+        examCompleted += 1;
+        updateExamStats();
+        nextExamCard();
+      });
+
+      examMarkAgainButton.addEventListener('click', () => {
+        if (!currentExamQuestion) return;
+        examDeck.unshift(currentExamQuestion);
+        examAnswered += 1;
+        updateExamStats();
+        nextExamCard();
+      });
+
+      examNextQuestionButton.addEventListener('click', () => {
+        if (!currentExamQuestion) return;
+        examAnswered += 1;
+        updateExamStats();
+        nextExamCard();
+      });
+
+      const showLightboxAt = (index) => {
+        currentImageIndex = index;
+        const img = reviewImages[currentImageIndex];
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+        lightboxCaption.textContent = img.alt;
+        if (!lightbox.open) {
+          lightbox.showModal();
+        }
+      };
+
+      galleryImages.forEach((img, index) => {
+        img.addEventListener('click', () => showLightboxAt(index));
+      });
+
+      lightboxPrev.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex - 1 + reviewImages.length) % reviewImages.length;
+        showLightboxAt(currentImageIndex);
+      });
+
+      lightboxNext.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex + 1) % reviewImages.length;
+        showLightboxAt(currentImageIndex);
+      });
+
+      summarySearch.addEventListener('input', () => {
+        const keyword = summarySearch.value.trim().toLowerCase();
+        if (!keyword) {
+          renderSummaryList(allSummaryRows);
+          return;
+        }
+
+        const filteredRows = allSummaryRows.rows.filter((row) =>
+          (row[0] ?? '').toLowerCase().includes(keyword)
+        );
+
+        renderSummaryList({ headers: allSummaryRows.headers, rows: filteredRows });
+      });
+
+      const loadReviewContent = async () => {
+        try {
+          const [flashcardRaw, examGuideRaw, summaryRaw] = await Promise.all([
+            fetch('/闪卡.md').then((res) => res.text()),
+            fetch('/临床技能考试综合复习指南.md').then((res) => res.text()),
+            fetch('/汇总.md').then((res) => res.text()),
+          ]);
+
+          const cards = parseFlashcards(flashcardRaw);
+          const questions = parseExamQuestions(examGuideRaw);
+          const summary = parseSummary(summaryRaw);
+
+          renderFlashcards(cards);
+          renderExamQuestions(questions);
+          renderSummaryList(summary);
+          initQuiz(cards);
+          initExamQuiz(questions);
+          allSummaryRows = summary;
+        } catch (error) {
+          qaGrid.innerHTML = '<p>加载闪卡失败，请稍后重试。</p>';
+          examList.innerHTML = '<li>加载考核题失败，请稍后重试。</li>';
+          examStats.textContent = '加载考核题失败，请稍后重试。';
+          summaryList.innerHTML = '<li>加载疾病列表失败，请稍后重试。</li>';
+          summaryDetail.innerHTML = '<h3>加载详情失败</h3>';
+        }
+      };
+
+      loadReviewContent();
+    </script>
+  </body>
+</html>
+
+<style>
+  :root {
+    --review-surface: #ffffff;
+    --review-border: #dbe6f3;
+    --review-muted: #516277;
+    --review-primary: #0f4c81;
+    --review-chip: #eaf4ff;
+  }
+
+  main {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  section {
+    background: var(--review-surface);
+    border: 1px solid var(--review-border);
+    border-radius: 12px;
+    padding: 1rem;
+    scroll-margin-top: 5rem;
+  }
+
+  .review-nav {
+    position: sticky;
+    top: 0.5rem;
+    z-index: 3;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    background: #ffffffd9;
+    border: 1px solid var(--review-border);
+    border-radius: 10px;
+    padding: 0.5rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .review-nav a {
+    text-decoration: none;
+    color: var(--review-primary);
+    font-size: 0.95rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: var(--review-chip);
+  }
+
+  #images {
+    background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+  }
+
+  .qa-grid {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+  }
+
+  .qa-card {
+    border: 1px solid #c8d8ea;
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    background: #f8fbff;
+  }
+
+  .qa-card summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .quiz-panel {
+    border: 1px dashed #bfd0e4;
+    border-radius: 10px;
+    padding: 0.9rem;
+    background: #f8fbff;
+  }
+
+  .quiz-stats {
+    color: var(--review-muted);
+    margin-bottom: 0.7rem;
+  }
+
+  .quiz-card {
+    border-radius: 10px;
+    border: 1px solid #d7e5f4;
+    background: #fff;
+    padding: 0.9rem;
+    min-height: 7.5rem;
+  }
+
+  .quiz-card h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.08rem;
+  }
+
+  .quiz-card p {
+    margin: 0;
+    color: #19395a;
+    font-weight: 600;
+  }
+
+  .quiz-actions {
+    margin-top: 0.8rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .quiz-actions button {
+    border: 1px solid #bdd0e6;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.55rem 0.65rem;
+    cursor: pointer;
+  }
+
+  .all-qa {
+    margin-top: 0.9rem;
+  }
+
+  .all-qa summary {
+    cursor: pointer;
+    color: var(--review-primary);
+    font-weight: 600;
+  }
+
+  .exam-list {
+    padding-left: 1.2rem;
+    margin: 0.8rem 0 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .exam-list li {
+    line-height: 1.45;
+  }
+
+  .summary-layout {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+
+  .summary-list-box {
+    border: 1px solid #d9e3ef;
+    border-radius: 10px;
+    padding: 0.7rem;
+    background: #fbfdff;
+  }
+
+  .table-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+    margin-bottom: 0.8rem;
+  }
+
+  .table-tools input {
+    flex: 1;
+    min-width: 9rem;
+    border: 1px solid #c9d9eb;
+    border-radius: 8px;
+    padding: 0.5rem 0.65rem;
+  }
+
+  #summary-count {
+    color: var(--review-muted);
+    font-size: 0.92rem;
+  }
+
+  .summary-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+
+  .disease-button {
+    width: 100%;
+    text-align: left;
+    border: 1px solid #d3e0f0;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.55rem 0.65rem;
+    cursor: pointer;
+  }
+
+  .disease-button:hover,
+  .disease-button:focus {
+    border-color: #9eb8d8;
+    background: #f4f9ff;
+  }
+
+  .summary-detail {
+    border: 1px solid #d9e3ef;
+    border-radius: 10px;
+    padding: 0.9rem;
+    background: #fff;
+    min-height: 240px;
+  }
+
+  .summary-detail h3 {
+    margin: 0 0 0.7rem;
+  }
+
+  .summary-detail p {
+    margin: 0.5rem 0;
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+  }
+
+  .review-image {
+    margin: 0;
+    border: 1px solid #dbe6f3;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .review-image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+
+  .review-image figcaption {
+    padding: 0.6rem 0.8rem;
+    color: #44556a;
+    font-size: 0.95rem;
+  }
+
+  .image-lightbox {
+    width: min(94vw, 1000px);
+    border: none;
+    border-radius: 12px;
+    padding: 0.9rem;
+  }
+
+  .image-lightbox::backdrop {
+    background: rgb(0 0 0 / 65%);
+  }
+
+  .lightbox-top {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.4rem;
+  }
+
+  .lightbox-top button {
+    border: 1px solid #cedbeb;
+    background: #fff;
+    border-radius: 7px;
+    padding: 0.35rem 0.6rem;
+    cursor: pointer;
+  }
+
+  #lightbox-image {
+    width: 100%;
+    max-height: 68vh;
+    object-fit: contain;
+    display: block;
+  }
+
+  #lightbox-caption {
+    margin: 0.6rem 0;
+    color: var(--review-muted);
+  }
+
+  .lightbox-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+  }
+
+  .lightbox-actions button {
+    border: 1px solid #cedbeb;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 720px) {
+    section {
+      padding: 0.8rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .quiz-actions {
+      grid-template-columns: 1fr;
+    }
+
+    .summary-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .image-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
