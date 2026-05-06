@@ -3,7 +3,11 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-const pageTitle = '临床技能考试综合复习';
+const pageTitle = '知识复习';
+const buildTimestamp = new Intl.DateTimeFormat('zh-CN', {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+}).format(new Date());
 
 const reviewImages = [
   {
@@ -31,6 +35,7 @@ const reviewImages = [
       <p class="page-intro">
         按图片总览、互动问答、考核演练、疾病详情四个模块组织，支持手机端高效复习。
       </p>
+      <p class="page-meta">最后更新于 {buildTimestamp}（构建）</p>
 
       <nav class="review-nav" aria-label="知识复习导航栏">
         <a href="#images">复习图片</a>
@@ -906,6 +911,13 @@ const reviewImages = [
     font-size: 1.08rem;
     color: #31455f;
     margin-bottom: 0.25rem;
+  }
+
+  .page-meta {
+    margin: 0 0 0.9rem;
+    color: #64758b;
+    font-size: 0.92rem;
+    font-weight: 600;
   }
 
   section {
