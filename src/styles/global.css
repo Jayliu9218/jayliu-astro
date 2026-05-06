@@ -11,6 +11,10 @@ body {
   line-height: 1.5;
 }
 
+body.review-page {
+  max-width: none;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -72,5 +76,39 @@ h1 {
 
   .menu {
     display: none;
+  }
+}
+
+@media screen and (max-width: 635px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.25rem 0 0.5rem;
+    margin-left: 0;
+    scrollbar-width: none;
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    background: #eaf2ff;
+    color: #0d0950;
+    font-size: 0.98rem;
+    text-transform: none;
+    flex: 0 0 auto;
   }
 }

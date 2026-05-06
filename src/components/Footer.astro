@@ -4,14 +4,6 @@ const profiles = {
     name: "GitHub",
     url: "https://github.com/Jayliu9218"
   },
-  researchgate: {
-    name: "ResearchGate", 
-    url: "https://www.researchgate.net/profile/Jie-Liu-476"
-  },
-  scopus: {
-    name: "Scopus",
-    url: "https://www.scopus.com/authid/detail.uri?authorId=59745163700"
-  },
   scholar: {
     name: "Google Scholar",
     url: "https://scholar.google.com/citations?user=Q-i6GPwAAAAJ"
@@ -37,5 +29,4 @@ import Social from './Social.astro';
   {Object.entries(profiles).map(([key, profile]) => (
     <a href={profile.url}>{profile.name}</a> <></> <></>
   ))}
-  <Social platform="github" username="Jayliu9218" />
 </footer>
