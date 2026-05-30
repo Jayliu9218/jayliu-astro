@@ -1,4 +1,5 @@
 ---
+layout: ../../layouts/MarkdownPostLayout.astro
 title: Adobe Illustrator相关
 author: 杰
 description: "我遇到了一些问题，但是在社区里面提问真的很有帮助！"

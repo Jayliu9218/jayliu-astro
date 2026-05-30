@@ -1,40 +1,363 @@
 ---
-import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-const pageTitle = '我的博客';
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+type PostModule = {
+  frontmatter: {
+    title: string;
+    description?: string;
+    pubDate: string | Date;
+    tags?: string[];
+  };
+};
+
+type CategoryRule = {
+  key: string;
+  label: string;
+  labelEn: string;
+  match: string[];
+};
+
+const postModules = import.meta.glob<PostModule>('./posts/*.md', { eager: true });
+
+const categoryRules: CategoryRule[] = [
+  {
+    key: 'course',
+    label: '课程笔记',
+    labelEn: 'Course notes',
+    match: ['course', 'cfd', 'fluid mechanics', 'two-phase flow', 'heat transfer', 'numerical methods', 'math'],
+  },
+  {
+    key: 'tooling',
+    label: '工具方法',
+    labelEn: 'Tools',
+    match: [
+      'tooling',
+      'commands',
+      'conda',
+      'python',
+      'automation',
+      'github actions',
+      'powershell',
+      'vs code',
+      'windows',
+      'system',
+      'debugging',
+      'data workflow',
+    ],
+  },
+  {
+    key: 'research',
+    label: '科研实验',
+    labelEn: 'Research',
+    match: ['fib', 'note', 'thermal', 'engineering', 'propulsion', 'microscopy'],
+  },
+  {
+    key: 'life',
+    label: '生活随笔',
+    labelEn: 'Life',
+    match: ['life', 'reflection', 'diary'],
+  },
+  {
+    key: 'web',
+    label: 'Web 与创作',
+    labelEn: 'Web',
+    match: ['web', 'astro', 'illustrator', 'personal site', 'bookmarks', 'resources'],
+  },
+];
+
+function normalizeTag(tag: string) {
+  return String(tag).toLowerCase();
+}
+
+function getCategory(tags: string[] = []): CategoryRule {
+  const normalized = tags.map(normalizeTag);
+  return (
+    categoryRules.find((category) =>
+      category.match.some((keyword) => normalized.includes(keyword))
+    ) || {
+      key: 'notes',
+      label: '杂项记录',
+      labelEn: 'Notes',
+      match: [],
+    }
+  );
+}
+
+const posts = Object.entries(postModules)
+  .map(([path, post]) => {
+    const frontmatter = post.frontmatter;
+    const slug = path.replace('./posts/', '').replace('.md', '');
+    const date = new Date(frontmatter.pubDate);
+    const dateValue = Number.isNaN(date.valueOf()) ? 0 : date.valueOf();
+    const tags = frontmatter.tags || [];
+    const category = getCategory(tags);
+
+    return {
+      title: frontmatter.title,
+      description: frontmatter.description || '一篇正在整理中的研究、技术或学习记录。',
+      date,
+      dateValue,
+      year: date.getFullYear(),
+      dateLabel: dateValue
+        ? date.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          })
+        : '持续更新',
+      dateLabelEn: dateValue
+        ? date.toLocaleDateString('en', {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+          })
+        : 'Ongoing',
+      tags,
+      category,
+      href: `/posts/${slug}`,
+    };
+  })
+  .sort((a, b) => b.dateValue - a.dateValue);
+
+const fallbackCategory = { key: 'notes', label: '杂项记录', labelEn: 'Notes', match: [] };
+const categoryCounts = [...categoryRules, fallbackCategory]
+  .map((category) => ({
+    ...category,
+    count: posts.filter((post) => post.category.key === category.key).length,
+  }))
+  .filter((category) => category.count > 0);
+
+const tagCounts = Array.from(
+  posts
+    .flatMap((post) => post.tags)
+    .reduce((map, tag) => map.set(tag, (map.get(tag) || 0) + 1), new Map<string, number>())
+    .entries()
+)
+  .map(([tag, count]) => ({ tag, count }))
+  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
+  .slice(0, 18);
+
+const allTagCount = new Set(posts.flatMap((post) => post.tags)).size;
+
+const archiveYears = Array.from(
+  posts
+    .reduce(
+      (map, post) => map.set(post.year, (map.get(post.year) || 0) + 1),
+      new Map<number, number>()
+    )
+    .entries()
+)
+  .map(([year, count]) => ({ year, count }))
+  .sort((a, b) => b.year - a.year);
+
+const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>${pageTitle}</title>
-  </head>
-  <body>
-    <Header />
+<BaseLayout
+  pageTitle="Blog"
+  description="Jay Liu 的科研技术笔记、实验记录、项目复盘和学习日志。"
+  pageClass="portfolio-page blog-portfolio-page"
+>
+  <main class="portfolio-home blog-home">
+    <section class="portfolio-section blog-list-section" id="all">
+      <div class="section-header">
+        <div>
+          <p class="section-label" data-i18n-en="Writing" data-i18n-zh="写作">Writing</p>
+          <h2>Blog</h2>
+        </div>
+        <div class="section-side">
+          <div
+            class="mini-stats"
+            aria-label="Post count"
+            data-i18n-aria-en="Post count"
+            data-i18n-aria-zh="文章数量"
+          >
+            <span>
+              <strong>{posts.length}</strong>
+              <span data-i18n-en="posts" data-i18n-zh="篇文章">posts</span>
+            </span>
+            <span>
+              <strong>{allTagCount}</strong>
+              <span data-i18n-en="tags" data-i18n-zh="个标签">tags</span>
+            </span>
+          </div>
+          <a
+            class="see-all"
+            href="#categories"
+            data-i18n-en="Categories ->"
+            data-i18n-zh="分类 ->"
+          >
+            Categories ->
+          </a>
+        </div>
+      </div>
 
-    <h1>博客</h1>
-    <p>
-      欢迎来到我的博客！在这里，我将分享我的想法、经验和见解，涵盖各种主题，包括技术、生活、旅行等等。希望你能在这里找到有价值的内容，并与我一起交流和讨论！
-    </p>
-    <p>请随时浏览我的博客文章，并留下你的评论和反馈。我期待与你的互动！</p>
+      <div
+        class="blog-card-grid"
+        aria-label="Post list"
+        data-i18n-aria-en="Post list"
+        data-i18n-aria-zh="文章列表"
+      >
+        {posts.map((post, index) => (
+          <a class={`post-card ${index === 0 ? 'featured' : ''}`} href={post.href}>
+            <span
+              class="post-tag"
+              data-i18n-en={post.category.labelEn}
+              data-i18n-zh={post.category.label}
+            >
+              {post.category.labelEn}
+            </span>
+            <h3>{post.title}</h3>
+            <p>{post.description}</p>
+            <div class="post-card-meta">
+              <time
+                datetime={post.dateValue ? post.date.toISOString() : undefined}
+                data-i18n-en={post.dateLabelEn}
+                data-i18n-zh={post.dateLabel}
+              >
+                {post.dateLabelEn}
+              </time>
+              <span
+                data-i18n-en={`${post.tags.length || 1} tags`}
+                data-i18n-zh={`${post.tags.length || 1} 个标签`}
+              >
+                {post.tags.length || 1} tags
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
 
-    <ul>
-      <li><a href="/posts/post-1">博客文章 1</a></li>
-      <li><a href="/posts/post-2">博客文章 2</a></li>
-      <li><a href="/posts/post-3">博客文章 3</a></li>
-    </ul>
+    <section
+      class="blog-filter-panel"
+      aria-label="Archive and categories"
+      data-i18n-aria-en="Archive and categories"
+      data-i18n-aria-zh="归档与分类"
+    >
+      <div class="filter-block">
+        <div class="section-header compact">
+          <div>
+            <p class="section-label" data-i18n-en="Years" data-i18n-zh="年份">Years</p>
+            <h2 data-i18n-en="By year" data-i18n-zh="按年份">By year</h2>
+          </div>
+        </div>
+        <div class="archive-bars">
+          {archiveYears.map((item) => (
+            <a
+              href="#all"
+              class="archive-bar"
+              style={`--bar-size: ${(item.count / maxArchiveCount) * 100}%`}
+            >
+              <span>{item.year}</span>
+              <i aria-hidden="true"></i>
+              <strong>{item.count}</strong>
+            </a>
+          ))}
+        </div>
+      </div>
 
-    <Footer />
+      <div class="filter-block">
+        <div class="section-header compact">
+          <div>
+            <p class="section-label" data-i18n-en="Topics" data-i18n-zh="主题">Topics</p>
+            <h2 data-i18n-en="By topic" data-i18n-zh="按主题">By topic</h2>
+          </div>
+        </div>
+        <nav
+          class="category-nav"
+          aria-label="Blog categories"
+          data-i18n-aria-en="Blog categories"
+          data-i18n-aria-zh="博客分类"
+        >
+          <a href="#all">
+            <span data-i18n-en="All" data-i18n-zh="全部">All</span>
+            <strong>{posts.length}</strong>
+          </a>
+          {categoryCounts.map((category) => (
+            <a href={`#${category.key}`}>
+              <span data-i18n-en={category.labelEn} data-i18n-zh={category.label}>
+                {category.labelEn}
+              </span>
+              <strong>{category.count}</strong>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </section>
 
-    <script>
-      import '../scripts/menu.js';
-    </script>
-  </body>
-</html>
+    <section class="portfolio-section category-index-section" id="categories">
+      <div class="section-header">
+        <div>
+          <p class="section-label" data-i18n-en="Index" data-i18n-zh="索引">Index</p>
+          <h2 data-i18n-en="By category" data-i18n-zh="按分类">By category</h2>
+        </div>
+      </div>
+
+      <div class="category-index">
+        {categoryCounts.map((category) => (
+          <section class="category-index-block" id={category.key}>
+            <div>
+              <h3 data-i18n-en={category.labelEn} data-i18n-zh={category.label}>
+                {category.labelEn}
+              </h3>
+              <span
+                data-i18n-en={`${category.count} posts`}
+                data-i18n-zh={`${category.count} 篇文章`}
+              >
+                {category.count} posts
+              </span>
+            </div>
+            <div class="category-post-list">
+              {posts
+                .filter((post) => post.category.key === category.key)
+                .slice(0, 6)
+                .map((post) => (
+                  <a href={post.href}>
+                    <time
+                      datetime={post.dateValue ? post.date.toISOString() : undefined}
+                      data-i18n-en={post.dateLabelEn}
+                      data-i18n-zh={post.dateLabel}
+                    >
+                      {post.dateLabelEn}
+                    </time>
+                    <strong>{post.title}</strong>
+                  </a>
+                ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+
+    <section
+      class="portfolio-section blog-tag-section"
+      aria-label="Tags"
+      data-i18n-aria-en="Tags"
+      data-i18n-aria-zh="标签"
+    >
+      <div class="section-header">
+        <div>
+          <p class="section-label" data-i18n-en="Tags" data-i18n-zh="标签">Tags</p>
+          <h2 data-i18n-en="Keyword cloud" data-i18n-zh="关键词云">Keyword cloud</h2>
+        </div>
+        <div
+          class="mini-stats"
+          aria-label="Tag count"
+          data-i18n-aria-en="Tag count"
+          data-i18n-aria-zh="标签数量"
+        >
+          <span>
+            <strong>{tagCounts.length}</strong>
+            <span data-i18n-en="tags" data-i18n-zh="个标签">tags</span>
+          </span>
+        </div>
+      </div>
+      <div class="tag-cloud">
+        {tagCounts.map((item) => (
+          <span>{item.tag}</span>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

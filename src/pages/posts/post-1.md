@@ -1,29 +1,24 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
-title: '我的第一篇博客文章'
+title: 'Astro 个人主页整理记录'
 pubDate: 2026-04-02
-description: '这是我 Astro 博客的第一篇文章。'
-author: 'Astro 学习者'
+description: '记录这个个人主页从教程脚手架逐步整理成科研技术型站点的过程。'
+author: 'Jay Liu'
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
-    alt: 'The Astro logo on a dark background with a pink glow.'
-tags: ["astro", "blogging", "learning in public"]
+    alt: 'Astro documentation artwork with a soft glow.'
+tags: ["astro", "personal site", "learning log"]
 ---
 
- 欢迎来到我学习关于 Astro 的新博客！在这里，我将分享我建立新网站的学习历程。
+这个站点最初来自 Astro 的入门教程。教程很适合快速理解页面、组件和 Markdown 路由，但如果要作为个人主页长期使用，还需要重新整理信息结构、视觉风格和内容入口。
 
-## 我做了什么
+## 这次整理关注什么
 
-1. **安装 Astro**：首先，我创建了一个新的 Astro 项目并设置好了我的在线账号。
-2. **制作页面**：然后我学习了如何通过创建新的 `.astro` 文件并将它们保存在 `src/pages/` 文件夹里来制作页面。
-3. **发表博客文章**：这是我的第一篇博客文章！我现在有用 Astro 编写的页面和用 Markdown 写的文章了！
+1. **主页定位**：从“我的第一个 Astro 页面”转向“科研技术型个人主页”。
+2. **内容入口**：把博客、关于页、CV、GitHub 和 Google Scholar 放到更清晰的位置。
+3. **视觉语言**：使用浅色背景、细线、留白和克制的蓝绿色点缀，减少教程模板感。
+4. **长期维护**：让文章列表从 Markdown 自动生成，后续只需要持续写内容。
 
-## 下一步计划
+## 下一步
 
- 我将完成 Astro 教程，然后继续编写更多内容。关注我以获取更多信息。
-
-## 注意
-
-第一次生成网页之后，需要使用 `build`命令生成 `dist`文件夹
-
-可以调整 `netlify`的 `deploy setting`，在 `build settings`里面修改 `Build command`为 `npm run build`，修改 `Publish directory`为 `dist`
+后续会继续补充更具体的研究项目、实验流程、代码记录和学习复盘。这个站点会先保持简洁，再慢慢长出更完整的内容结构。

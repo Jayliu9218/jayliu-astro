@@ -2,7 +2,7 @@
 layout: ../../layouts/MarkdownPostLayout.astro
 title: FIB操作笔记
 author: 杰
-description: null
+description: 'FIB 样品制备与显微操作流程的个人实验笔记。'
 image:
     url: "https://docs.astro.build/assets/arc.webp"
     alt: "The Astro logo on a dark background with a purple gradient arc."

@@ -1,10 +1,28 @@
 ---
-
+const links = [
+  { href: '/#about', label: 'About', zh: '关于' },
+  { href: '/#blog', label: 'Blog', zh: '文档' },
+  { href: '/#tools', label: 'Tools', zh: '工具' },
+  { href: '/#projects', label: 'Projects', zh: '项目' },
+  { href: '/#contact', label: 'Contact', zh: '联系' },
+];
 ---
 
-<div id="main-menu" class="nav-links">
-  <a href="/">首页</a>
-  <a href="/about/">关于</a>
-  <a href="/blog/">博客</a>
-  <a href="/review/">知识复习</a>
+<div class="nav-content" id="main-menu">
+  <div class="nav-links" aria-label="页面栏目">
+    {links.map((link) => (
+      <a href={link.href} data-en={link.label} data-zh={link.zh}>{link.label}</a>
+    ))}
+  </div>
+
+  <span class="nav-divider" aria-hidden="true">|</span>
+
+  <div class="nav-actions" aria-label="显示设置">
+    <button class="nav-control" type="button" data-theme-toggle aria-label="切换明暗模式">
+      Dark
+    </button>
+    <button class="nav-control" type="button" data-language-toggle aria-label="切换语言">
+      中
+    </button>
+  </div>
 </div>

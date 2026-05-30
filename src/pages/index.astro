@@ -1,10 +1,271 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const pageTitle = '首页';
+
+type PostModule = {
+  frontmatter: {
+    title: string;
+    description?: string;
+    pubDate: string | Date;
+    tags?: string[];
+  };
+};
+
+const postModules = import.meta.glob<PostModule>('./posts/*.md', { eager: true });
+
+const posts = Object.entries(postModules)
+  .map(([path, post]) => {
+    const frontmatter = post.frontmatter;
+    const slug = path.replace('./posts/', '').replace('.md', '');
+    const date = new Date(frontmatter.pubDate);
+    const tags = frontmatter.tags || [];
+
+    return {
+      title: frontmatter.title,
+      description:
+        frontmatter.description || '一篇正在整理中的研究、技术或学习记录。',
+      date,
+      dateValue: Number.isNaN(date.valueOf()) ? 0 : date.valueOf(),
+      dateLabel: Number.isNaN(date.valueOf())
+        ? '持续更新'
+        : date.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          }),
+      tag: tags[0] || 'Note',
+      tags,
+      href: `/posts/${slug}`,
+    };
+  })
+  .sort((a, b) => b.dateValue - a.dateValue);
+
+const allTags = new Set(posts.flatMap((post) => post.tags));
+const recentPosts = posts.slice(0, 5);
+
+const tools = [
+  {
+    name: 'Conda 基本命令',
+    href: '/posts/conda-basic-commands',
+    description: '环境管理、包安装和常用命令的简明记录。',
+  },
+  {
+    name: 'PowerShell 路径括号问题',
+    href: '/posts/powershell-path-brackets',
+    description: 'Windows 路径、括号和转义问题的排查笔记。',
+  },
+  {
+    name: 'Windows 任务计划程序',
+    href: '/posts/windows-task-scheduler-startup-shutdown',
+    description: '用任务计划程序管理开关机与自动化任务。',
+  },
+  {
+    name: 'Mail Reminder by Transfer',
+    href: '/posts/mail-reminder-by-transfer',
+    description: '把提醒、邮件和传输动作串起来的工作流记录。',
+  },
+  {
+    name: 'Web bookmarks',
+    href: '/posts/web-bookmarks',
+    description: '常用网页资源、浏览器书签和信息入口整理。',
+  },
+];
+
+const projects = [
+  {
+    name: 'Inspiration Flow',
+    href: 'https://let-inspiration-flow-explore.netlify.app/',
+    tags: ['Personal Notes', 'Netlify', 'Writing'],
+  },
+  {
+    name: 'Medical Study',
+    href: 'https://medical-study.netlify.app/',
+    tags: ['Learning Tool', 'Cards', 'Review'],
+  },
+  {
+    name: 'Jayliu Netlify',
+    href: 'https://jayliu.netlify.app/',
+    tags: ['Personal Site', 'Archive', 'Web'],
+  },
+  {
+    name: 'Build of Thermal Loop',
+    href: '/posts/build-of-thermal-loop',
+    tags: ['Engineering', 'Experiment', 'Thermal'],
+  },
+  {
+    name: 'CFD 学习线索',
+    href: '/posts/computational-fluid-dynamics',
+    tags: ['Computation', 'CFD', 'Notes'],
+  },
+];
+
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <h2>我超棒的博客副标题</h2>
-  <p>新增知识复习专区，包含闪卡问答、考核题、汇总表格与复习图片。</p>
-  <p><a href="/review/">进入知识复习子网页</a></p>
+<BaseLayout
+  pageTitle="Jay Liu"
+  description="Jay Liu 的个人主页，收纳科研技术文档、工程项目、工具方法和个人链接。"
+  pageClass="portfolio-page"
+>
+  <main class="portfolio-home">
+    <section class="portfolio-hero" id="about">
+      <div class="hero-text">
+        <h1
+          data-i18n-en="Materials, microscopy, code, and research notes."
+          data-i18n-zh="材料、显微、代码与研究笔记。"
+        >
+          Materials, microscopy, code, and research notes.
+        </h1>
+        <p
+          data-i18n-en="I collect research notes, engineering projects, practical tools, and personal web experiments in one quiet place."
+          data-i18n-zh="我在这里整理科研记录、工程项目、实用工具和个人网页实验，让长期积累变得清晰、可追踪，也方便与他人分享。"
+        >
+          I collect research notes, engineering projects, practical tools, and personal
+          web experiments in one quiet place.
+        </p>
+        <p
+          class="personal-statement"
+          data-i18n-en="My current interests sit around materials characterization, microscopy workflows, computational methods, and small tools that make research habits more durable."
+          data-i18n-zh="我目前关注材料表征、显微分析流程、计算方法，以及那些能让科研习惯更稳定的小工具。"
+        >
+          My current interests sit around materials characterization, microscopy workflows,
+          computational methods, and small tools that make research habits more durable.
+        </p>
+        <div class="hero-actions">
+          <a
+            class="btn btn-primary"
+            href="/blog/"
+            data-i18n-en="Read Blog"
+            data-i18n-zh="阅读文档"
+          >
+            Read Blog
+          </a>
+          <a
+            class="btn btn-secondary"
+            href="#projects"
+            data-i18n-en="View projects"
+            data-i18n-zh="查看项目"
+          >
+            View projects
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-mark" aria-hidden="true">
+        <span>JL</span>
+      </div>
+    </section>
+
+    <section class="portfolio-section" id="blog">
+      <div class="section-header">
+        <div>
+          <p class="section-label" data-i18n-en="Writing" data-i18n-zh="写作">
+            Writing
+          </p>
+          <h2 data-i18n-en="Recent posts" data-i18n-zh="最新文档">Recent posts</h2>
+        </div>
+        <div class="section-side">
+          <div class="mini-stats" aria-label="Document stats">
+            <span>
+              <strong>{posts.length}</strong>
+              <span data-i18n-en="Documents" data-i18n-zh="文档">Documents</span>
+            </span>
+            <span>
+              <strong>{allTags.size}</strong>
+              <span data-i18n-en="Tags" data-i18n-zh="标签">Tags</span>
+            </span>
+          </div>
+          <a class="see-all" href="/blog/" data-i18n-en="All posts ->" data-i18n-zh="全部文档 ->">
+            All posts ->
+          </a>
+        </div>
+      </div>
+
+      <div class="post-grid">
+        {recentPosts.map((post, index) => (
+          <a class={`post-card ${index === 0 ? 'featured' : ''}`} href={post.href}>
+            <span class="post-tag">{post.tag}</span>
+            <h3>{post.title}</h3>
+            <p>{post.description}</p>
+            <div class="post-card-meta">
+              <time datetime={post.dateValue ? post.date.toISOString() : undefined}>
+                {post.dateLabel}
+              </time>
+              <span>{post.tags.length || 1} tags</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="portfolio-section" id="tools">
+      <div class="section-header">
+        <div>
+          <p class="section-label" data-i18n-en="Utilities" data-i18n-zh="工具">
+            Utilities
+          </p>
+          <h2 data-i18n-en="Useful tools" data-i18n-zh="常用工具">Useful tools</h2>
+        </div>
+        <a
+          class="see-all"
+          href="/blog/#tooling"
+          data-i18n-en="Tool notes ->"
+          data-i18n-zh="工具笔记 ->"
+        >
+          Tool notes ->
+        </a>
+      </div>
+
+      <div class="tools-grid">
+        {tools.map((tool) => (
+          <a class="tool-card" href={tool.href}>
+            <span class="tool-icon" aria-hidden="true">+</span>
+            <strong>{tool.name}</strong>
+            <p>{tool.description}</p>
+            <span class="tool-link" data-i18n-en="Open ->" data-i18n-zh="打开 ->">
+              Open ->
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="portfolio-section" id="projects">
+      <div class="section-header">
+        <div>
+          <p class="section-label" data-i18n-en="Work" data-i18n-zh="项目">
+            Work
+          </p>
+          <h2 data-i18n-en="Selected projects" data-i18n-zh="项目索引">
+            Selected projects
+          </h2>
+        </div>
+        <div class="mini-stats" aria-label="Project stats">
+          <span>
+            <strong>{projects.length}</strong>
+            <span data-i18n-en="Projects" data-i18n-zh="项目">Projects</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="projects-list">
+        {projects.map((project, index) => (
+          <a
+            class="project-row"
+            href={project.href}
+            target={project.href.startsWith('http') ? '_blank' : undefined}
+            rel={project.href.startsWith('http') ? 'noreferrer' : undefined}
+          >
+            <span class="project-num">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{project.name}</h3>
+              <div class="project-tags">
+                {project.tags.map((tag) => <span>{tag}</span>)}
+              </div>
+            </div>
+            <span class="project-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </main>
 </BaseLayout>

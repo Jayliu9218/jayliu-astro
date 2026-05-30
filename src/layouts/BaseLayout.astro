@@ -1,34 +1,82 @@
 ---
 import '../styles/global.css';
+import 'katex/dist/katex.min.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-const { pageTitle } = Astro.props;
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const {
+  pageTitle = 'Jay Liu',
+  description = 'Jay Liu 的个人主页，记录材料表征、显微分析、科研技术笔记与个人项目。',
+  pageClass = '',
+} = Astro.props;
+
+const siteTitle = pageTitle === 'Jay Liu' ? pageTitle : `${pageTitle} | Jay Liu`;
 ---
 
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <title>${pageTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{siteTitle}</title>
   </head>
-
-  <body>
+  <body class={pageClass}>
     <Header />
-
-    <h1>{pageTitle}</h1>
-
-    <h2>……和我的新 Astro 网站！</h2>
     <slot />
     <Footer />
     <script>
       import '../scripts/menu.js';
+    </script>
+    <script is:inline>
+      const root = document.documentElement;
+      const themeButton = document.querySelector('[data-theme-toggle]');
+      const languageButton = document.querySelector('[data-language-toggle]');
+      const navLinks = document.querySelectorAll('.nav-links a[data-en]');
+      const i18nNodes = document.querySelectorAll('[data-i18n-en]');
+      const i18nAriaNodes = document.querySelectorAll('[data-i18n-aria-en]');
+
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      root.dataset.theme = savedTheme;
+      if (themeButton) {
+        themeButton.textContent = savedTheme === 'dark' ? 'Light' : 'Dark';
+        themeButton.addEventListener('click', () => {
+          const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+          root.dataset.theme = nextTheme;
+          localStorage.setItem('theme', nextTheme);
+          themeButton.textContent = nextTheme === 'dark' ? 'Light' : 'Dark';
+        });
+      }
+
+      const savedLanguage = localStorage.getItem('language') || 'en';
+      function setLanguage(language) {
+        root.lang = language === 'zh' ? 'zh-CN' : 'en';
+        root.dataset.language = language;
+        navLinks.forEach((link) => {
+          link.textContent = link.dataset[language] || link.textContent;
+        });
+        i18nNodes.forEach((node) => {
+          node.textContent = node.dataset[`i18n${language === 'zh' ? 'Zh' : 'En'}`] || node.textContent;
+        });
+        i18nAriaNodes.forEach((node) => {
+          const ariaLabel = node.getAttribute(`data-i18n-aria-${language}`);
+          if (ariaLabel) {
+            node.setAttribute('aria-label', ariaLabel);
+          }
+        });
+        if (languageButton) {
+          languageButton.textContent = language === 'zh' ? 'EN' : '中';
+        }
+        localStorage.setItem('language', language);
+      }
+
+      setLanguage(savedLanguage);
+      languageButton?.addEventListener('click', () => {
+        setLanguage(root.dataset.language === 'zh' ? 'en' : 'zh');
+      });
     </script>
   </body>
 </html>

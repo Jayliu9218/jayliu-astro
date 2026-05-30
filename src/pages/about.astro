@@ -1,92 +1,101 @@
 ---
-import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-const pageTitle = '关于我';
+const interests = [
+  '材料微结构与显微表征',
+  'FIB / SEM / TEM 相关实验流程',
+  '科研数据整理与可复现分析',
+  '个人知识库、技术写作与长期学习',
+];
 
-const identity = {
-  firstName: '杰',
-  country: '中国',
-  occupation: '在读研究生',
-  hobbies: ['摄影', '编程', '运动'],
-};
-
-const skills = ['HTML', 'CSS', 'JavaScript', 'React', 'Astro', 'Writing Docs'];
-
-const happy = true;
-const finished = false;
-const goal = 3;
-
-const skillColor = 'crimson';
+const skills = [
+  {
+    group: 'Research',
+    items: ['Microscopy workflow', 'FIB sample prep', 'Experiment notes'],
+  },
+  {
+    group: 'Code',
+    items: ['HTML', 'CSS', 'JavaScript', 'Astro'],
+  },
+  {
+    group: 'Writing',
+    items: ['Technical notes', 'Documentation', 'Learning logs'],
+  },
+];
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>${pageTitle}</title>
-  </head>
-  <body>
-    <Header />
+<BaseLayout
+  pageTitle="关于"
+  description="关于 Jay Liu 的研究兴趣、技术栈、个人记录方式和联系方式。"
+>
+  <main class="page-shell content-page">
+    <section class="page-hero">
+      <p class="section-kicker">About</p>
+      <h1>我关注材料表征，也关注如何把研究过程记录得更清楚。</h1>
+      <p>
+        这个主页是我的公开索引：一部分用于整理实验与技术笔记，一部分用于记录学习、项目和长期问题。这里的内容会持续更新，并尽量保持准确、简洁、可追溯。
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/cv.pdf">下载 CV</a>
+        <a class="button button-secondary" href="/blog/">浏览文章</a>
+      </div>
+    </section>
 
-    <h1>{pageTitle}</h1>
-    <style define:vars={{ skillColor }}>
-      h1 {
-        color: purple;
-        font-size: 4rem;
-      }
-      .skill {
-        color: var(--skillColor);
-        font-weight: bold;
-      }
-    </style>
+    <section class="about-layout">
+      <div class="about-main">
+        <h2>当前关注</h2>
+        <p>
+          我希望把材料、显微、代码和写作连接起来：在实验中积累问题，在分析中建立方法，在写作中沉淀判断。这个站点会优先收纳科研技术相关内容，也会保留一些个人项目和学习复盘。
+        </p>
+        <ul class="clean-list">
+          {interests.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
 
-    <h2>……和我的新 Astro 网站！</h2>
+      <aside class="profile-card">
+        <h2>Profile</h2>
+        <dl>
+          <div>
+            <dt>方向</dt>
+            <dd>材料 / 显微 / 科研记录</dd>
+          </div>
+          <div>
+            <dt>站点</dt>
+            <dd>Astro 静态个人主页</dd>
+          </div>
+          <div>
+            <dt>链接</dt>
+            <dd>
+              <a href="https://github.com/Jayliu9218" target="_blank" rel="noreferrer">GitHub</a>
+              <span>/</span>
+              <a
+                href="https://scholar.google.com/citations?user=Q-i6GPwAAAAJ"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Scholar
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </aside>
+    </section>
 
-    <p>
-      我正在学习 Astro
-      的入门教程。这是我网站上的第二个页面，也是我自己建立的第一页面！
-    </p>
-
-    <p>
-      随着我完成更多教程，该站点将更新，所以请继续查看我的旅程将如何进行吧！
-    </p>
-
-    <p>以下是关于我的几个事实：</p>
-    <ul>
-      <li>我的名字是{identity.firstName}.</li>
-      <li>我住在{identity.country}。我目前是{identity.occupation}。</li>
-      {
-        identity.hobbies.length >= 2 && (
-          <li>
-            我的两个习惯：{identity.hobbies[0]}和{identity.hobbies[1]}
-          </li>
-        )
-      }
-    </ul>
-    <p>我的技能是：</p>
-    <ul>
-      {skills.map((skill) => <li class="skill">{skill}</li>)}
-    </ul>
-
-    {happy && <p>我非常乐意学习 Astro！</p>}
-
-    {finished && <p>我完成了这节教程！</p>}
-
-    {goal === 3 ? <p>我的目标是在三天内完成。</p> : <p>我的目标不是 3 天。</p>}
-
-    <a
-      href="/cv.pdf"
-      download="刘杰-简历.pdf"
-      class="px-4 py-2 bg-black text-white rounded"
-    >
-      下载简历 PDF
-    </a>
-    <Footer />
-
-    <script>
-      import '../scripts/menu.js';
-    </script>
-  </body>
-</html>
+    <section class="skill-section">
+      <div class="section-heading">
+        <p class="section-kicker">Toolkit</p>
+        <h2>技能栈与工作方式</h2>
+      </div>
+      <div class="skill-grid">
+        {skills.map((skill) => (
+          <article class="feature-card compact">
+            <h3>{skill.group}</h3>
+            <div class="capability-cloud">
+              {skill.items.map((item) => <span>{item}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,32 +1,48 @@
 ---
-const profiles = {
-  github: {
-    name: "GitHub",
-    url: "https://github.com/Jayliu9218"
+const profiles = [
+  {
+    name: 'eMail',
+    url: 'mailto:jayliu9218@gmail.com',
   },
-  scholar: {
-    name: "Google Scholar",
-    url: "https://scholar.google.com/citations?user=Q-i6GPwAAAAJ"
+  {
+    name: 'GitHub',
+    url: 'https://github.com/Jayliu9218',
   },
-  hdarea:{
-    name: "HDArea",
-    url: "https://hdarea.club/promotionlink.php?key=e4362fe760234f1c36ffec7ce51dbe29"
-  }
-};
-
-import Social from './Social.astro';
+  {
+    name: 'Google Scholar',
+    url: 'https://scholar.google.com/citations?user=Q-i6GPwAAAAJ',
+  },
+  {
+    name: 'ORCID',
+    url: 'https://orcid.org/0009-0001-3925-2219',
+  },
+  {
+    name: 'CV',
+    url: '/cv.pdf',
+  },
+  {
+    name: 'CV(zh-cn)',
+    url: '/cv-zh-cn.pdf',
+  },
+  {
+    name: 'Hotel Orders',
+    url: '/hotel-orders/',
+  },
+];
 ---
-<style>
-  footer {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-</style>
 
-<footer>
-  个人主页
-  {Object.entries(profiles).map(([key, profile]) => (
-    <a href={profile.url}>{profile.name}</a> <></> <></>
-  ))}
+<footer class="site-footer" id="contact">
+  <span class="footer-name">Jay Liu</span>
+  <div class="footer-links" aria-label="联系链接">
+    {profiles.map((profile) => (
+      <a
+        href={profile.url}
+        target={profile.url.startsWith('http') ? '_blank' : undefined}
+        rel={profile.url.startsWith('http') ? 'noreferrer' : undefined}
+      >
+        {profile.name}
+      </a>
+    ))}
+  </div>
+  <span class="footer-copy">© 2026</span>
 </footer>

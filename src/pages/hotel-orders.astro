@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const monthlyRows = [
+  ['2025-07', '4', '3', '1285.99'],
+  ['2025-08', '3', '1', '541.65'],
+  ['2025-09', '2', '2', '739.58'],
+  ['2025-10', '2', '2', '630.76'],
+  ['2025-11', '2', '4', '1385.34'],
+  ['2025-12', '3', '3', '927.22'],
+  ['2026-01', '2', '2', '889.90'],
+  ['2026-02', '4', '6', '1858.82'],
+  ['2026-03', '1', '4', '1169.84'],
+  ['2026-05', '1', '3', '1350.00'],
+  ['2026-06', '3', '5', '1606.97'],
+];
+
+const charts = [
+  {
+    src: 'https://pic1.imgdb.cn/item/6a1a6cb2172c6dd74dd3ef7b.png',
+    alt: 'Monthly hotel spending chart',
+  },
+  {
+    src: 'https://pic1.imgdb.cn/item/6a1a6cb1172c6dd74dd3ef79.png',
+    alt: 'Annual hotel spending chart',
+  },
+  {
+    src: 'https://pic1.imgdb.cn/item/6a1a6cb2172c6dd74dd3ef7a.png',
+    alt: 'Hotel stay frequency chart',
+  },
+  {
+    src: 'https://pic1.imgdb.cn/item/6a1a6cb2172c6dd74dd3ef7c.png',
+    alt: 'Hotel spending by hotel chart',
+  },
+];
+---
+
+<BaseLayout
+  pageTitle="酒店订单统计"
+  description="酒店订单开销、入住晚数和月度明细统计。"
+  pageClass="hotel-orders-page"
+>
+  <main class="hotel-orders">
+    <section class="hotel-orders-hero">
+      <p class="section-label">Personal Utility</p>
+      <h1>酒店订单统计</h1>
+    </section>
+
+    <section class="hotel-stats" aria-label="酒店订单概览">
+      <div class="hotel-stat">
+        <span>总开销</span>
+        <strong>CNY 12386.07</strong>
+      </div>
+      <div class="hotel-stat">
+        <span>订单数</span>
+        <strong>27</strong>
+      </div>
+      <div class="hotel-stat">
+        <span>入住晚数</span>
+        <strong>35</strong>
+      </div>
+      <div class="hotel-stat">
+        <span>入住晚数最多</span>
+        <strong>上海馨乐庭陆家嘴公寓酒店</strong>
+      </div>
+    </section>
+
+    <section class="hotel-charts" aria-label="酒店订单图表">
+      {charts.map((chart) => (
+        <figure class="hotel-chart">
+          <img src={chart.src} alt={chart.alt} loading="lazy" />
+        </figure>
+      ))}
+    </section>
+
+    <section class="hotel-table-section" aria-label="月度订单明细">
+      <table class="hotel-table">
+        <thead>
+          <tr>
+            <th>月份</th>
+            <th>订单数</th>
+            <th>晚数</th>
+            <th>金额</th>
+          </tr>
+        </thead>
+        <tbody>
+          {monthlyRows.map((row) => (
+            <tr>
+              {row.map((cell) => <td>{cell}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</BaseLayout>
+
