@@ -6,9 +6,10 @@ description: 'BiliBili 【小缸和阿灿】全视频下载及处理过程记录
 pubDate: 2025-01-01
 tags: ['tooling', 'media', 'archive']
 ---
+
 # BiliBili 【小缸和阿灿】全视频下载及处理过程记录
 
-***声明：此记录仅作学习交流，不得进行任何商业用途。***
+**_声明：此记录仅作学习交流，不得进行任何商业用途。_**
 
 ## 简介
 
@@ -36,9 +37,9 @@ tags: ['tooling', 'media', 'archive']
 
 ### 对下载得到的视频进行解密
 
-参考视频[【解决】电脑端哔哩哔哩uwp版更新后*下载视频无法播放的问题](https://www.bilibili.com/video/BV1D94y1f7hs/?spm_id_from=333.880.my_history.page.click&vd_source=496c978c9ca078273e95c0be75af9d08)，所得到的视频（应该是4K的加密？）绝大多数都有加密，无法直接使用视频播放器播放，需要使用WinHex进行一些处理。
+参考视频[【解决】电脑端哔哩哔哩uwp版更新后\*下载视频无法播放的问题](https://www.bilibili.com/video/BV1D94y1f7hs/?spm_id_from=333.880.my_history.page.click&vd_source=496c978c9ca078273e95c0be75af9d08)，所得到的视频（应该是4K的加密？）绝大多数都有加密，无法直接使用视频播放器播放，需要使用WinHex进行一些处理。
 
-WinHex下载地址: https://wwp.lanzouq.com/iZhf501pt1bi   密码:crub
+WinHex下载地址: https://wwp.lanzouq.com/iZhf501pt1bi 密码:crub
 
 [![图4 使用WinHex解密过程](https://pic.imgdb.cn/item/66dc64b1d9c307b7e95e3bf0.png)](https://pic.imgdb.cn/item/66dc64b1d9c307b7e95e3bf0.png)
 
@@ -77,7 +78,7 @@ WinHex下载地址: https://wwp.lanzouq.com/iZhf501pt1bi   密码:crub
 
 ## 参考
 
-1. [【解决】电脑端哔哩哔哩uwp版更新后*下载视频无法播放的问题](https://www.bilibili.com/video/BV1D94y1f7hs/?spm_id_from=333.880.my_history.page.click&vd_source=496c978c9ca078273e95c0be75af9d08)
+1. [【解决】电脑端哔哩哔哩uwp版更新后\*下载视频无法播放的问题](https://www.bilibili.com/video/BV1D94y1f7hs/?spm_id_from=333.880.my_history.page.click&vd_source=496c978c9ca078273e95c0be75af9d08)
 2. [用 Python 批量把文件复制到另一个文件夹](https://www.jianshu.com/p/acf27824e901)
 
 ## 一些想说的话

@@ -10,7 +10,8 @@ const {
   pageClass = '',
 } = Astro.props;
 
-const siteTitle = pageTitle === 'Jay Liu' ? pageTitle : `${pageTitle} | Jay Liu`;
+const siteTitle =
+  pageTitle === 'Jay Liu' ? pageTitle : `${pageTitle} | Jay Liu`;
 ---
 
 <!doctype html>
@@ -59,7 +60,9 @@ const siteTitle = pageTitle === 'Jay Liu' ? pageTitle : `${pageTitle} | Jay Liu`
           link.textContent = link.dataset[language] || link.textContent;
         });
         i18nNodes.forEach((node) => {
-          node.textContent = node.dataset[`i18n${language === 'zh' ? 'Zh' : 'En'}`] || node.textContent;
+          node.textContent =
+            node.dataset[`i18n${language === 'zh' ? 'Zh' : 'En'}`] ||
+            node.textContent;
         });
         i18nAriaNodes.forEach((node) => {
           const ariaLabel = node.getAttribute(`data-i18n-aria-${language}`);

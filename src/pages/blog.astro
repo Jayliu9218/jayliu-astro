@@ -17,14 +17,24 @@ type CategoryRule = {
   match: string[];
 };
 
-const postModules = import.meta.glob<PostModule>('./posts/*.md', { eager: true });
+const postModules = import.meta.glob<PostModule>('./posts/*.md', {
+  eager: true,
+});
 
 const categoryRules: CategoryRule[] = [
   {
     key: 'course',
     label: '课程笔记',
     labelEn: 'Course notes',
-    match: ['course', 'cfd', 'fluid mechanics', 'two-phase flow', 'heat transfer', 'numerical methods', 'math'],
+    match: [
+      'course',
+      'cfd',
+      'fluid mechanics',
+      'two-phase flow',
+      'heat transfer',
+      'numerical methods',
+      'math',
+    ],
   },
   {
     key: 'tooling',
@@ -49,7 +59,14 @@ const categoryRules: CategoryRule[] = [
     key: 'research',
     label: '科研实验',
     labelEn: 'Research',
-    match: ['fib', 'note', 'thermal', 'engineering', 'propulsion', 'microscopy'],
+    match: [
+      'fib',
+      'note',
+      'thermal',
+      'engineering',
+      'propulsion',
+      'microscopy',
+    ],
   },
   {
     key: 'life',
@@ -61,7 +78,14 @@ const categoryRules: CategoryRule[] = [
     key: 'web',
     label: 'Web 与创作',
     labelEn: 'Web',
-    match: ['web', 'astro', 'illustrator', 'personal site', 'bookmarks', 'resources'],
+    match: [
+      'web',
+      'astro',
+      'illustrator',
+      'personal site',
+      'bookmarks',
+      'resources',
+    ],
   },
 ];
 
@@ -73,7 +97,7 @@ function getCategory(tags: string[] = []): CategoryRule {
   const normalized = tags.map(normalizeTag);
   return (
     categoryRules.find((category) =>
-      category.match.some((keyword) => normalized.includes(keyword))
+      category.match.some((keyword) => normalized.includes(keyword)),
     ) || {
       key: 'notes',
       label: '杂项记录',
@@ -94,7 +118,8 @@ const posts = Object.entries(postModules)
 
     return {
       title: frontmatter.title,
-      description: frontmatter.description || '一篇正在整理中的研究、技术或学习记录。',
+      description:
+        frontmatter.description || '一篇正在整理中的研究、技术或学习记录。',
       date,
       dateValue,
       year: date.getFullYear(),
@@ -119,7 +144,12 @@ const posts = Object.entries(postModules)
   })
   .sort((a, b) => b.dateValue - a.dateValue);
 
-const fallbackCategory = { key: 'notes', label: '杂项记录', labelEn: 'Notes', match: [] };
+const fallbackCategory = {
+  key: 'notes',
+  label: '杂项记录',
+  labelEn: 'Notes',
+  match: [],
+};
 const categoryCounts = [...categoryRules, fallbackCategory]
   .map((category) => ({
     ...category,
@@ -130,8 +160,11 @@ const categoryCounts = [...categoryRules, fallbackCategory]
 const tagCounts = Array.from(
   posts
     .flatMap((post) => post.tags)
-    .reduce((map, tag) => map.set(tag, (map.get(tag) || 0) + 1), new Map<string, number>())
-    .entries()
+    .reduce(
+      (map, tag) => map.set(tag, (map.get(tag) || 0) + 1),
+      new Map<string, number>(),
+    )
+    .entries(),
 )
   .map(([tag, count]) => ({ tag, count }))
   .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
@@ -143,9 +176,9 @@ const archiveYears = Array.from(
   posts
     .reduce(
       (map, post) => map.set(post.year, (map.get(post.year) || 0) + 1),
-      new Map<number, number>()
+      new Map<number, number>(),
     )
-    .entries()
+    .entries(),
 )
   .map(([year, count]) => ({ year, count }))
   .sort((a, b) => b.year - a.year);
@@ -162,7 +195,9 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
     <section class="portfolio-section blog-list-section" id="all">
       <div class="section-header">
         <div>
-          <p class="section-label" data-i18n-en="Writing" data-i18n-zh="写作">Writing</p>
+          <p class="section-label" data-i18n-en="Writing" data-i18n-zh="写作">
+            Writing
+          </p>
           <h2>Blog</h2>
         </div>
         <div class="section-side">
@@ -187,7 +222,7 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
             data-i18n-en="Categories ->"
             data-i18n-zh="分类 ->"
           >
-            Categories ->
+            Categories -&gt;
           </a>
         </div>
       </div>
@@ -198,34 +233,41 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
         data-i18n-aria-en="Post list"
         data-i18n-aria-zh="文章列表"
       >
-        {posts.map((post, index) => (
-          <a class={`post-card ${index === 0 ? 'featured' : ''}`} href={post.href}>
-            <span
-              class="post-tag"
-              data-i18n-en={post.category.labelEn}
-              data-i18n-zh={post.category.label}
+        {
+          posts.map((post, index) => (
+            <a
+              class={`post-card ${index === 0 ? 'featured' : ''}`}
+              href={post.href}
             >
-              {post.category.labelEn}
-            </span>
-            <h3>{post.title}</h3>
-            <p>{post.description}</p>
-            <div class="post-card-meta">
-              <time
-                datetime={post.dateValue ? post.date.toISOString() : undefined}
-                data-i18n-en={post.dateLabelEn}
-                data-i18n-zh={post.dateLabel}
-              >
-                {post.dateLabelEn}
-              </time>
               <span
-                data-i18n-en={`${post.tags.length || 1} tags`}
-                data-i18n-zh={`${post.tags.length || 1} 个标签`}
+                class="post-tag"
+                data-i18n-en={post.category.labelEn}
+                data-i18n-zh={post.category.label}
               >
-                {post.tags.length || 1} tags
+                {post.category.labelEn}
               </span>
-            </div>
-          </a>
-        ))}
+              <h3>{post.title}</h3>
+              <p>{post.description}</p>
+              <div class="post-card-meta">
+                <time
+                  datetime={
+                    post.dateValue ? post.date.toISOString() : undefined
+                  }
+                  data-i18n-en={post.dateLabelEn}
+                  data-i18n-zh={post.dateLabel}
+                >
+                  {post.dateLabelEn}
+                </time>
+                <span
+                  data-i18n-en={`${post.tags.length || 1} tags`}
+                  data-i18n-zh={`${post.tags.length || 1} 个标签`}
+                >
+                  {post.tags.length || 1} tags
+                </span>
+              </div>
+            </a>
+          ))
+        }
       </div>
     </section>
 
@@ -238,29 +280,35 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
       <div class="filter-block">
         <div class="section-header compact">
           <div>
-            <p class="section-label" data-i18n-en="Years" data-i18n-zh="年份">Years</p>
+            <p class="section-label" data-i18n-en="Years" data-i18n-zh="年份">
+              Years
+            </p>
             <h2 data-i18n-en="By year" data-i18n-zh="按年份">By year</h2>
           </div>
         </div>
         <div class="archive-bars">
-          {archiveYears.map((item) => (
-            <a
-              href="#all"
-              class="archive-bar"
-              style={`--bar-size: ${(item.count / maxArchiveCount) * 100}%`}
-            >
-              <span>{item.year}</span>
-              <i aria-hidden="true"></i>
-              <strong>{item.count}</strong>
-            </a>
-          ))}
+          {
+            archiveYears.map((item) => (
+              <a
+                href="#all"
+                class="archive-bar"
+                style={`--bar-size: ${(item.count / maxArchiveCount) * 100}%`}
+              >
+                <span>{item.year}</span>
+                <i aria-hidden="true" />
+                <strong>{item.count}</strong>
+              </a>
+            ))
+          }
         </div>
       </div>
 
       <div class="filter-block">
         <div class="section-header compact">
           <div>
-            <p class="section-label" data-i18n-en="Topics" data-i18n-zh="主题">Topics</p>
+            <p class="section-label" data-i18n-en="Topics" data-i18n-zh="主题">
+              Topics
+            </p>
             <h2 data-i18n-en="By topic" data-i18n-zh="按主题">By topic</h2>
           </div>
         </div>
@@ -274,14 +322,19 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
             <span data-i18n-en="All" data-i18n-zh="全部">All</span>
             <strong>{posts.length}</strong>
           </a>
-          {categoryCounts.map((category) => (
-            <a href={`#${category.key}`}>
-              <span data-i18n-en={category.labelEn} data-i18n-zh={category.label}>
-                {category.labelEn}
-              </span>
-              <strong>{category.count}</strong>
-            </a>
-          ))}
+          {
+            categoryCounts.map((category) => (
+              <a href={`#${category.key}`}>
+                <span
+                  data-i18n-en={category.labelEn}
+                  data-i18n-zh={category.label}
+                >
+                  {category.labelEn}
+                </span>
+                <strong>{category.count}</strong>
+              </a>
+            ))
+          }
         </nav>
       </div>
     </section>
@@ -289,44 +342,53 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
     <section class="portfolio-section category-index-section" id="categories">
       <div class="section-header">
         <div>
-          <p class="section-label" data-i18n-en="Index" data-i18n-zh="索引">Index</p>
+          <p class="section-label" data-i18n-en="Index" data-i18n-zh="索引">
+            Index
+          </p>
           <h2 data-i18n-en="By category" data-i18n-zh="按分类">By category</h2>
         </div>
       </div>
 
       <div class="category-index">
-        {categoryCounts.map((category) => (
-          <section class="category-index-block" id={category.key}>
-            <div>
-              <h3 data-i18n-en={category.labelEn} data-i18n-zh={category.label}>
-                {category.labelEn}
-              </h3>
-              <span
-                data-i18n-en={`${category.count} posts`}
-                data-i18n-zh={`${category.count} 篇文章`}
-              >
-                {category.count} posts
-              </span>
-            </div>
-            <div class="category-post-list">
-              {posts
-                .filter((post) => post.category.key === category.key)
-                .slice(0, 6)
-                .map((post) => (
-                  <a href={post.href}>
-                    <time
-                      datetime={post.dateValue ? post.date.toISOString() : undefined}
-                      data-i18n-en={post.dateLabelEn}
-                      data-i18n-zh={post.dateLabel}
-                    >
-                      {post.dateLabelEn}
-                    </time>
-                    <strong>{post.title}</strong>
-                  </a>
-                ))}
-            </div>
-          </section>
-        ))}
+        {
+          categoryCounts.map((category) => (
+            <section class="category-index-block" id={category.key}>
+              <div>
+                <h3
+                  data-i18n-en={category.labelEn}
+                  data-i18n-zh={category.label}
+                >
+                  {category.labelEn}
+                </h3>
+                <span
+                  data-i18n-en={`${category.count} posts`}
+                  data-i18n-zh={`${category.count} 篇文章`}
+                >
+                  {category.count} posts
+                </span>
+              </div>
+              <div class="category-post-list">
+                {posts
+                  .filter((post) => post.category.key === category.key)
+                  .slice(0, 6)
+                  .map((post) => (
+                    <a href={post.href}>
+                      <time
+                        datetime={
+                          post.dateValue ? post.date.toISOString() : undefined
+                        }
+                        data-i18n-en={post.dateLabelEn}
+                        data-i18n-zh={post.dateLabel}
+                      >
+                        {post.dateLabelEn}
+                      </time>
+                      <strong>{post.title}</strong>
+                    </a>
+                  ))}
+              </div>
+            </section>
+          ))
+        }
       </div>
     </section>
 
@@ -338,8 +400,12 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
     >
       <div class="section-header">
         <div>
-          <p class="section-label" data-i18n-en="Tags" data-i18n-zh="标签">Tags</p>
-          <h2 data-i18n-en="Keyword cloud" data-i18n-zh="关键词云">Keyword cloud</h2>
+          <p class="section-label" data-i18n-en="Tags" data-i18n-zh="标签">
+            Tags
+          </p>
+          <h2 data-i18n-en="Keyword cloud" data-i18n-zh="关键词云">
+            Keyword cloud
+          </h2>
         </div>
         <div
           class="mini-stats"
@@ -354,9 +420,7 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
         </div>
       </div>
       <div class="tag-cloud">
-        {tagCounts.map((item) => (
-          <span>{item.tag}</span>
-        ))}
+        {tagCounts.map((item) => <span>{item.tag}</span>)}
       </div>
     </section>
   </main>

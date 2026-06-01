@@ -6,9 +6,8 @@ description: '似乎是路径问题，我原来的路径是[ongoing][CS] CPDAMAS
 pubDate: 2026-01-01
 tags: ['PowerShell', 'VS Code', 'debugging']
 ---
+
 > 似乎是路径问题，我原来的路径是[ongoing][CS] CP-DAMASK-SCC
-
-
 
 对，**你这个判断是完全正确的** 👍
 而且现在问题已经**100% 对上号了**：
@@ -18,7 +17,7 @@ tags: ['PowerShell', 'VS Code', 'debugging']
 
 下面我把**原因 → 为什么会退回 System32 → 你该怎么彻底解决**一次说清。
 
-------
+---
 
 ## 一、问题的“根因”：PowerShell 对 `[` `]` 的特殊语义
 
@@ -59,7 +58,7 @@ PS C:\Windows\System32\WindowsPowerShell\v1.0>
 
 这也是为什么你怎么改 `terminal.integrated.cwd` 都“像是无效”。
 
-------
+---
 
 ## 二、这不是你一个人的问题（而是已知坑）
 
@@ -73,11 +72,11 @@ PS C:\Windows\System32\WindowsPowerShell\v1.0>
 📌 **cmd.exe 不会有这个问题**
 📌 **Linux / WSL bash 也不会**
 
-------
+---
 
 ## 三、三种解决方案（从“强烈推荐”到“能用但不优雅”）
 
-------
+---
 
 ## ✅ 方案一（强烈推荐，长期最稳）：**重命名目录**
 
@@ -107,7 +106,7 @@ ongoing_CS_CP-DAMASK-SCC
 
 👉 **这是科研 / 工程项目的“最佳实践”**
 
-------
+---
 
 ## ✅ 方案二（PowerShell 专用，保留原名）：`-LiteralPath`
 
@@ -129,7 +128,7 @@ cd -LiteralPath "[ongoing][CS] CP-DAMASK-SCC"
 - 所以只能手动 cd
 - **不适合作为默认 cwd**
 
-------
+---
 
 ## ⚠️ 方案三（不推荐）：加引号但不加 `-LiteralPath`
 
@@ -141,7 +140,7 @@ cd "[ongoing][CS] CP-DAMASK-SCC"
 ❌ 不稳定
 ❌ VS Code 自动 cwd 仍可能失败
 
-------
+---
 
 ## 四、为什么 VS Code 这次“看起来像 bug”
 
@@ -160,7 +159,7 @@ powershell.exe -NoExit -Command "cd <path>"
 
 👉 所以你会误以为是 **VS Code 设置没生效**
 
-------
+---
 
 ## 五、你现在可以立刻验证（1 分钟）
 
@@ -180,7 +179,7 @@ cd -LiteralPath "[ongoing][CS] CP-DAMASK-SCC"
 
 👉 第二条一定成功
 
-------
+---
 
 ### ② 改名后测试（推荐）
 
@@ -194,7 +193,7 @@ cd -LiteralPath "[ongoing][CS] CP-DAMASK-SCC"
 PS D:\...\ongoing-CS_CP-DAMASK-SCC>
 ```
 
-------
+---
 
 ## 六、终极总结（请记住这一条）
 

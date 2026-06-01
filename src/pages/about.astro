@@ -66,7 +66,11 @@ const skills = [
           <div>
             <dt>链接</dt>
             <dd>
-              <a href="https://github.com/Jayliu9218" target="_blank" rel="noreferrer">GitHub</a>
+              <a
+                href="https://github.com/Jayliu9218"
+                target="_blank"
+                rel="noreferrer">GitHub</a
+              >
               <span>/</span>
               <a
                 href="https://scholar.google.com/citations?user=Q-i6GPwAAAAJ"
@@ -87,14 +91,18 @@ const skills = [
         <h2>技能栈与工作方式</h2>
       </div>
       <div class="skill-grid">
-        {skills.map((skill) => (
-          <article class="feature-card compact">
-            <h3>{skill.group}</h3>
-            <div class="capability-cloud">
-              {skill.items.map((item) => <span>{item}</span>)}
-            </div>
-          </article>
-        ))}
+        {
+          skills.map((skill) => (
+            <article class="feature-card compact">
+              <h3>{skill.group}</h3>
+              <div class="capability-cloud">
+                {skill.items.map((item) => (
+                  <span>{item}</span>
+                ))}
+              </div>
+            </article>
+          ))
+        }
       </div>
     </section>
   </main>

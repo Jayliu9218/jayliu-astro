@@ -6,6 +6,7 @@ description: '浏览器打开微信链接提示：“请在微信客户端打开
 pubDate: 2024-01-01
 tags: ['WeChat', 'web', 'debugging']
 ---
+
 # 浏览器打开微信链接提示：“请在微信客户端打开链接”
 
 ## 问题
@@ -21,8 +22,6 @@ tags: ['WeChat', 'web', 'debugging']
 ```
 
 ```
-
-
 
 ```
 <!DOCTYPE html>

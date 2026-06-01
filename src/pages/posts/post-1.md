@@ -5,9 +5,9 @@ pubDate: 2026-04-02
 description: '记录这个个人主页从教程脚手架逐步整理成科研技术型站点的过程。'
 author: 'Jay Liu'
 image:
-    url: 'https://docs.astro.build/assets/rose.webp'
-    alt: 'Astro documentation artwork with a soft glow.'
-tags: ["astro", "personal site", "learning log"]
+  url: 'https://docs.astro.build/assets/rose.webp'
+  alt: 'Astro documentation artwork with a soft glow.'
+tags: ['astro', 'personal site', 'learning log']
 ---
 
 这个站点最初来自 Astro 的入门教程。教程很适合快速理解页面、组件和 Markdown 路由，但如果要作为个人主页长期使用，还需要重新整理信息结构、视觉风格和内容入口。

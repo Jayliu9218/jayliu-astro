@@ -6,6 +6,7 @@ description: '《微分方程数值解法基础教程》 林群 第三版 202310
 pubDate: 2023-10-09
 tags: ['course', 'numerical methods', 'math']
 ---
+
 # 《微分方程数值解法基础教程》
 
 林群
@@ -26,7 +27,7 @@ tags: ['course', 'numerical methods', 'math']
 
 ## 线性多步法：
 
-1. 线性组合思想构造多点差商逼近微分方程，展开$u(t+jh),u’(t+jh)$表示局部截断误差$L[u(t),t]$；
+1. 线性组合思想构造多点差商逼近微分方程，展开$u(t+jh),u'(t+jh)$表示局部截断误差$L[u(t),t]$；
    1. 对于方程$\Sigma_{j=0}^{k}\alpha_ju_{(m+j)} = h\Sigma_{j=0}^{k}{\beta_jf(t_{m+j},u_{m+j})}$：
    2. $c_0=\Sigma_{j=0}^{k}{\alpha_j} = \alpha_0+\alpha_1+\alpha_2+\dots+\alpha_k$
    3. $c_1 =  \Sigma_{j=0}^{k}{(j\alpha_{j}-\beta_j)}=\alpha_1+2\alpha_2+3\alpha_3+\dots+k\alpha_k-(\beta_0+\beta_1+\beta_2+\dots\beta_k)$

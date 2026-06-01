@@ -10,18 +10,32 @@ const links = [
 
 <div class="nav-content" id="main-menu">
   <div class="nav-links" aria-label="页面栏目">
-    {links.map((link) => (
-      <a href={link.href} data-en={link.label} data-zh={link.zh}>{link.label}</a>
-    ))}
+    {
+      links.map((link) => (
+        <a href={link.href} data-en={link.label} data-zh={link.zh}>
+          {link.label}
+        </a>
+      ))
+    }
   </div>
 
   <span class="nav-divider" aria-hidden="true">|</span>
 
   <div class="nav-actions" aria-label="显示设置">
-    <button class="nav-control" type="button" data-theme-toggle aria-label="切换明暗模式">
+    <button
+      class="nav-control"
+      type="button"
+      data-theme-toggle
+      aria-label="切换明暗模式"
+    >
       Dark
     </button>
-    <button class="nav-control" type="button" data-language-toggle aria-label="切换语言">
+    <button
+      class="nav-control"
+      type="button"
+      data-language-toggle
+      aria-label="切换语言"
+    >
       中
     </button>
   </div>

@@ -6,6 +6,7 @@ description: '两相流动与传热 WEEK1120230213 考核 1. 20 作业+线上 2.
 pubDate: 2023-02-13
 tags: ['course', 'two-phase flow', 'heat transfer']
 ---
+
 # 两相流动与传热
 
 [toc]
@@ -18,7 +19,7 @@ tags: ['course', 'two-phase flow', 'heat transfer']
 2. 30 两次实验
 3. 50 期末考试
 
-------
+---
 
 ## WEEK1-2-2023-02-16
 
@@ -33,7 +34,7 @@ tags: ['course', 'two-phase flow', 'heat transfer']
 
 1. 连续相 or 弥散相以及相对大小
 
-------
+---
 
 ## WEEK3-2023-03-02
 
@@ -47,17 +48,17 @@ tags: ['course', 'two-phase flow', 'heat transfer']
    2. Drift flux can also be written as:$j_{gl}=(1-\alpha)V_g+\alpha V_l\xrightarrow{}j_{gl}|*{\alpha=0}=V_g\ ,\ j*{gl}|_{\alpha=1}=V_l$
    3. For flooding the superficial velocities are:$V_g=2u_b\alpha ^2(1-\alpha)\ ,\ V_l=-u_b(1-2\alpha)(1-\alpha)^2$
 
-| 2    | 2    |
-| ---- | ---- |
-| 2    | 2    |
-| 2    | 2    |
+| 2   | 2   |
+| --- | --- |
+| 2   | 2   |
+| 2   | 2   |
 
-1. Example of plug flow 
+1. Example of plug flow
    1. $u_p=0.35(gd)^{0.5}$
    2. $j_{gl}=\alpha (0.2j+u_p)\xrightarrow{} j=V_g+V_l\ and\  j_{gl}=(1-\alpha)V_g-\alpha V_l\xrightarrow{} \alpha  u_p=(1-1.2\alpha)V_g-1.2\alpha  V_l\xrightarrow{}\alpha=\frac{V_g}{u_p+1.2(V_g+V_l)}$
    3. Correlations due profile effects
       1. $u=\frac{}{}$
-      2. 
+      2.
 
 # 1 沸腾传热基础
 
@@ -76,6 +77,7 @@ g=h-Ts
 $$
 
 根据自由焓降低原理，气液两相平衡时
+
 $$
 g_l(T,p)=g_g(T,p)
 $$
@@ -85,6 +87,7 @@ $$
 ### （1）气液压力 - 比容特性
 
 开尔文关系式
+
 $$
 \mathrm{ln}\frac{p_r}{p_{\infty} }=\frac{2\sigma M}{RT\rho r}
 $$
@@ -138,13 +141,17 @@ $x_E$（基于热平衡的空泡份额）与液体平均温度有关，不与$x$
 ## 4.1 单相对流换热
 
 对于均匀加热：
+
 $$
 \pi Dqz = \frac{\pi d^2}{4}G\cdot \overline{c}*{pl}[T*{b}(z)-T_{b}(0)]
 $$
+
 对于非均匀加热：
+
 $$
 \int_0^z q(z)\pi Ddz = \frac{\pi d^2}{4}G\cdot \overline{c}*{pl}[T*{b}(z)-T_{b}(0)]
 $$
+
 由DB公式等确定对流换热系数$h$
 
 ## 4.2 ONB点的确定
@@ -179,11 +186,11 @@ $$
 
 ### 6. 试用以下三式重新计算下方例题
 
-1. $F=\begin{cases}1.0,\ &\frac{1}{X_{\rm tt}  }\leq0.1\2.35(\frac{1}{X_{\rm tt} }+0.213) ^{0.736},\  &\frac{1}{X_{\rm tt} }>0.1\end{cases}$ 
-2. $S=\begin{cases}[1+0.12(Re_{\rm TP}^*)^{1.14}]^{-1},\ &Re_{\rm  TP}^*<32.5\ [1+0.42(Re_{\rm TP}^*)^{0.78}]^{-1},\ &32.5\leq  Re_{\rm TP}^*<70 \ 0.1 &Re_{\rm TP}^*\geq70\end{cases}$ 
+1. $F=\begin{cases}1.0,\ &\frac{1}{X_{\rm tt}  }\leq0.1\2.35(\frac{1}{X_{\rm tt} }+0.213) ^{0.736},\  &\frac{1}{X_{\rm tt} }>0.1\end{cases}$
+2. $S=\begin{cases}[1+0.12(Re_{\rm TP}^*)^{1.14}]^{-1},\ &Re_{\rm  TP}^*<32.5\ [1+0.42(Re_{\rm TP}^*)^{0.78}]^{-1},\ &32.5\leq  Re_{\rm TP}^*<70 \ 0.1 &Re_{\rm TP}^*\geq70\end{cases}$
 3. $(p_{\rm w}-p_{\rm s})=\frac{h_{\rm fg}(T_{\rm w}-T_{\rm s})}{T_{\rm s}(v_{\rm g}-v_{\rm l})}$
 
-> 压力 $p=0.143\ \rm MPa$ 的饱和水 - 蒸汽混合物在管径 $D=13\ \rm mm$ 的圆管内沸腾蒸发，已知质量流密度 $G=300\ \rm kg/(m^2\cdot s)$ ，热流密度分别为：（1）$q=0.826\ \rm W/m^2$  ；（2）$q=3.4\times 10^5\ \rm W/m^2$ 。用 Chen 关系式计算含气率 $x=0.2$ 处的壁面温度  $T_{\rm w}$，并分析在这两种热流密度下，泡核沸腾是否受到抑制。
+> 压力 $p=0.143\ \rm MPa$ 的饱和水 - 蒸汽混合物在管径 $D=13\ \rm mm$ 的圆管内沸腾蒸发，已知质量流密度 $G=300\ \rm kg/(m^2\cdot s)$ ，热流密度分别为：（1）$q=0.826\ \rm W/m^2$ ；（2）$q=3.4\times 10^5\ \rm W/m^2$ 。用 Chen 关系式计算含气率 $x=0.2$ 处的壁面温度 $T_{\rm w}$，并分析在这两种热流密度下，泡核沸腾是否受到抑制。
 
 # 6 流动沸腾临界热流密度（CHF）
 
@@ -212,21 +219,24 @@ $$
 ### 6.2.1 临界热流密度的界限值
 
 加热表面温度 $T_\rm W$ 低于饱和温度 $T_\rm S$ ，此时临界热流密度不会发生，临界热流密度最小值为
+
 $$
 q_{ {\rm c,min} }=\frac{ {\rm \Delta T_{SUB,in} }}{\frac{4L}{GD\overline{c}*{ {\rm pl} }}+\frac{1}{h*{ {\rm l0} }} }
 $$
+
 在供给通道的全部液体蒸发完（$x_E=1$）或蒸发完以前出现，临界热流密度最大值为
+
 $$
 q_{ {\rm c,max} }=\frac{GD}{4L}({h_{ {\rm fg} }+\overline{c}*{\rm pl}\Delta T*{\rm SUB,in} })
 $$
 
 ### 6.2.2 影响临界热流密度 $q_{\rm c}$ 的独立变量
 
-1. 进口欠热度 $T_{\rm SUB,in}$ 
-2. 出口含气率 $x_{\rm c}$ 
-3. 加热长度 $L$ 
-4. 管道内径 $D$ 
-5. 质量流密度 $G$ 
+1. 进口欠热度 $T_{\rm SUB,in}$
+2. 出口含气率 $x_{\rm c}$
+3. 加热长度 $L$
+4. 管道内径 $D$
+5. 质量流密度 $G$
 6. 压力 $p$
 
 ## 习题
@@ -361,6 +371,7 @@ $\overline{\alpha}=K_H\beta$
 #### （1）孔板
 
 流体在孔道内停留时间极短
+
 $$
 G=0.61\sqrt{2\rho_0(p_0-p_b)}
 $$

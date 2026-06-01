@@ -4,11 +4,12 @@ title: FIB操作笔记
 author: 杰
 description: 'FIB 样品制备与显微操作流程的个人实验笔记。'
 image:
-    url: "https://docs.astro.build/assets/arc.webp"
-    alt: "The Astro logo on a dark background with a purple gradient arc."
+  url: 'https://docs.astro.build/assets/arc.webp'
+  alt: 'The Astro logo on a dark background with a purple gradient arc.'
 pubDate: 2026-04-10
-tags: ["FIB", "Note"]
+tags: ['FIB', 'Note']
 ---
+
 在学习 Astro 大约一周后，我决定尝试些新的东西。我编写并导入了一个小组件！
 
 离子束轰击样品，导致粒子与基体粘连
