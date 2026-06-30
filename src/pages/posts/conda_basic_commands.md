@@ -1,13 +1,13 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
-title: 'Conda 基本命令'
+title: '基本命令'
 author: 'Jay Liu'
-description: 'Conda 1. Conda 的基本命令包括环境管理（ conda create, conda activate, conda deactivate, conda env remove）、包管理（conda install, conda...'
+description: '各种包管理、编程、文档软件基本命令'
 pubDate: 2024-01-01
-tags: ['conda', 'Python', 'commands']
+tags: ['conda', 'jupyter notebook', 'commands']
 ---
 
-# Conda
+## conda
 
 1. Conda 的基本命令包括环境管理（
 
@@ -52,3 +52,26 @@ tags: ['conda', 'Python', 'commands']
    5. **卸载** `matplotlib`: `conda remove matplotlib`
    6. **退出**环境: `conda deactivate`
    7. **删除**环境: `conda env remove -n data_analysis`.
+
+
+
+## jupter notebook
+
+注册`kernel`
+
+```bash
+python -m ipykernel install --user --name 4dstem --display-name "Python (4dstem)"
+```
+
+删除`kernel`
+
+```bash
+jupyter kernelspec uninstall 4dstem
+```
+
+查看`kernel`列表
+
+```bash
+jupyter kernelspec list
+```
+
