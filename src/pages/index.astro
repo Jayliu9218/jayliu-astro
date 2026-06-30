@@ -213,29 +213,21 @@ const projects = [
           ))
         }
       </div>
-    </section>
 
-    <section class="portfolio-section" id="tools">
-      <div class="section-header">
-        <div>
+      <div class="tools-grid section-subsection">
+        <div class="section-subsection-header">
           <p class="section-label" data-i18n-en="Utilities" data-i18n-zh="工具">
             Utilities
           </p>
-          <h2 data-i18n-en="Useful tools" data-i18n-zh="常用工具">
-            Useful tools
-          </h2>
+          <a
+            class="see-all"
+            href="/blog/#tooling"
+            data-i18n-en="Tool notes ->"
+            data-i18n-zh="工具笔记 ->"
+          >
+            Tool notes -&gt;
+          </a>
         </div>
-        <a
-          class="see-all"
-          href="/blog/#tooling"
-          data-i18n-en="Tool notes ->"
-          data-i18n-zh="工具笔记 ->"
-        >
-          Tool notes -&gt;
-        </a>
-      </div>
-
-      <div class="tools-grid">
         {
           tools.map((tool) => (
             <a class="tool-card" href={tool.href}>
