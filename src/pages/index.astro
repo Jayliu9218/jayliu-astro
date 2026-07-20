@@ -1,45 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPosts } from '../lib/posts';
 
-type PostModule = {
-  frontmatter: {
-    title: string;
-    description?: string;
-    pubDate: string | Date;
-    tags?: string[];
-  };
-};
-
-const postModules = import.meta.glob<PostModule>('./posts/*.md', {
-  eager: true,
-});
-
-const posts = Object.entries(postModules)
-  .map(([path, post]) => {
-    const frontmatter = post.frontmatter;
-    const slug = path.replace('./posts/', '').replace('.md', '');
-    const date = new Date(frontmatter.pubDate);
-    const tags = frontmatter.tags || [];
-
-    return {
-      title: frontmatter.title,
-      description:
-        frontmatter.description || '一篇正在整理中的研究、技术或学习记录。',
-      date,
-      dateValue: Number.isNaN(date.valueOf()) ? 0 : date.valueOf(),
-      dateLabel: Number.isNaN(date.valueOf())
-        ? '持续更新'
-        : date.toLocaleDateString('zh-CN', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-          }),
-      tag: tags[0] || 'Note',
-      tags,
-      href: `/posts/${slug}`,
-    };
-  })
-  .sort((a, b) => b.dateValue - a.dateValue);
+const posts = await getPosts();
 
 const allTags = new Set(posts.flatMap((post) => post.tags));
 const recentPosts = posts.slice(0, 5);
@@ -47,28 +10,36 @@ const recentPosts = posts.slice(0, 5);
 const tools = [
   {
     name: 'Conda 基本命令',
-    href: '/posts/conda-basic-commands',
-    description: '环境管理、包安装和常用命令的简明记录。',
+    href: '/posts/conda_basic_commands',
+    descriptionEn:
+      'A concise reference for environments, packages, and commands.',
+    descriptionZh: '环境管理、包安装和常用命令的简明记录。',
   },
   {
     name: 'PowerShell 路径括号问题',
     href: '/posts/powershell-path-brackets',
-    description: 'Windows 路径、括号和转义问题的排查笔记。',
+    descriptionEn: 'Troubleshooting Windows paths, brackets, and escaping.',
+    descriptionZh: 'Windows 路径、括号和转义问题的排查笔记。',
   },
   {
     name: 'Windows 任务计划程序',
     href: '/posts/windows-task-scheduler-startup-shutdown',
-    description: '用任务计划程序管理开关机与自动化任务。',
+    descriptionEn:
+      'Manage startup, shutdown, and automation with Task Scheduler.',
+    descriptionZh: '用任务计划程序管理开关机与自动化任务。',
   },
   {
     name: 'Mail Reminder by Transfer',
     href: '/posts/mail-reminder-by-transfer',
-    description: '把提醒、邮件和传输动作串起来的工作流记录。',
+    descriptionEn:
+      'A workflow connecting reminders, email, and file transfers.',
+    descriptionZh: '把提醒、邮件和传输动作串起来的工作流记录。',
   },
   {
     name: 'Web bookmarks',
     href: '/posts/web-bookmarks',
-    description: '常用网页资源、浏览器书签和信息入口整理。',
+    descriptionEn: 'A curated index of web resources and browser bookmarks.',
+    descriptionZh: '常用网页资源、浏览器书签和信息入口整理。',
   },
 ];
 
@@ -196,7 +167,7 @@ const projects = [
               class={`post-card ${index === 0 ? 'featured' : ''}`}
               href={post.href}
             >
-              <span class="post-tag">{post.tag}</span>
+              <span class="post-tag">{post.tags[0] || 'Note'}</span>
               <h3>{post.title}</h3>
               <p>{post.description}</p>
               <div class="post-card-meta">
@@ -205,7 +176,7 @@ const projects = [
                     post.dateValue ? post.date.toISOString() : undefined
                   }
                 >
-                  {post.dateLabel}
+                  {post.dateLabelEn}
                 </time>
                 <span>{post.tags.length || 1} tags</span>
               </div>
@@ -235,7 +206,12 @@ const projects = [
                 +
               </span>
               <strong>{tool.name}</strong>
-              <p>{tool.description}</p>
+              <p
+                data-i18n-en={tool.descriptionEn}
+                data-i18n-zh={tool.descriptionZh}
+              >
+                {tool.descriptionEn}
+              </p>
               <span
                 class="tool-link"
                 data-i18n-en="Open ->"

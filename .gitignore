@@ -25,3 +25,13 @@ pnpm-debug.log*
 
 # format
 .prettierrc
+
+# LaTeX resume build products; source files and fonts may be versioned.
+resume/*.aux
+resume/*.fdb_latexmk
+resume/*.fls
+resume/*.log
+resume/*.out
+resume/*.pdf
+resume/*.synctex.gz
+resume/*.xdv

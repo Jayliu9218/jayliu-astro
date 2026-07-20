@@ -1,0 +1,394 @@
+@media (max-width: 900px) {
+  .portfolio-page {
+    --page: min(100% - 40px, 680px);
+  }
+
+  .portfolio-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .blog-hero,
+  .blog-filter-panel,
+  .category-index-block {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-hero {
+    min-height: auto;
+    gap: 2.6rem;
+  }
+
+  .hero-mark {
+    display: none;
+  }
+
+  .blog-hero-mark {
+    min-height: 320px;
+    justify-self: start;
+  }
+
+  .post-grid,
+  .blog-card-grid,
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .post-card.featured,
+  .blog-card-grid .post-card.featured {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .project-row {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 1rem;
+  }
+
+  .section-header {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .section-side,
+  .mini-stats {
+    justify-content: flex-start;
+  }
+
+  .section-side {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .category-post-list a {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 860px) {
+  :root {
+    --page: min(100% - 28px, 680px);
+  }
+
+  .site-nav {
+    min-height: 66px;
+  }
+
+  .hero-section,
+  .home-section,
+  .section-intro,
+  .about-layout,
+  .split-section,
+  .post-row,
+  .focus-strip,
+  .home-columns,
+  .blog-header,
+  .blog-layout,
+  .blog-overview,
+  .article-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero {
+    min-height: auto;
+    padding: 64px 0 28px;
+  }
+
+  .home-section {
+    gap: 1.5rem;
+    padding: 52px 0;
+  }
+
+  .section-rail {
+    position: static;
+  }
+
+  .quiet-row {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .minimal-grid,
+  .more-links,
+  .year-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .more-links a {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .more-links a:last-child {
+    border-bottom: 0;
+  }
+
+  .minimal-item {
+    min-height: 0;
+  }
+
+  .hero-section {
+    gap: 2rem;
+    padding: 56px 0 40px;
+  }
+
+  .hero-copy h1,
+  .page-hero h1 {
+    font-size: clamp(2.45rem, 13vw, 4.2rem);
+  }
+
+  .feature-grid,
+  .skill-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    min-height: 0;
+  }
+
+  .focus-column {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 1.45rem 0;
+  }
+
+  .focus-column:last-child {
+    border-bottom: 0;
+  }
+
+  .home-columns {
+    padding: 32px 0 52px;
+  }
+
+  .blog-page {
+    padding: 38px 0 64px;
+  }
+
+  .blog-tabs {
+    justify-content: flex-start;
+  }
+
+  .blog-sidebar {
+    position: static;
+    grid-template-columns: 1fr;
+  }
+
+  .article-sidebar {
+    display: none;
+  }
+
+  .article-portfolio-page .article-shell {
+    padding-top: 7.5rem;
+  }
+
+  .article-portfolio-page .article-nav-bar {
+    margin-bottom: 2.6rem;
+  }
+
+  .article-portfolio-page .article-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .article-portfolio-page .article-page {
+    width: 100%;
+  }
+
+  .article-portfolio-page .article-content {
+    max-width: none;
+  }
+
+  .article-toc-card {
+    padding: 0.9rem;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .article-toc {
+    max-height: 260px;
+    overflow-y: auto;
+  }
+
+  .section-grid,
+  .split-section,
+  .contact-band,
+  .content-page {
+    padding: 52px 0;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2.5rem 0 3rem;
+    text-align: center;
+  }
+
+  .footer-links {
+    justify-content: flex-start;
+    gap: 1.2rem 1.6rem;
+  }
+
+  .site-footer .footer-links {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 560px) {
+  :root {
+    --page: min(100% - 24px, 100%);
+  }
+
+  .site-nav {
+    align-items: center;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 0.85rem 0;
+  }
+
+  .brand,
+  .nav-content {
+    width: var(--page);
+  }
+
+  .nav-content {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-links {
+    width: auto;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 0.2rem;
+    scrollbar-width: none;
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-links a {
+    flex: 0 0 auto;
+  }
+
+  .hero-actions,
+  .link-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .blog-hero {
+    padding: 7rem 0 3.4rem;
+  }
+
+  .blog-hero .hero-text h1 {
+    font-size: clamp(2.65rem, 14vw, 4.4rem);
+  }
+
+  .article-portfolio-page .article-header h1 {
+    font-size: clamp(2.35rem, 11vw, 3.2rem);
+    line-height: 1.06;
+  }
+
+  .blog-hero-mark {
+    width: 100%;
+    min-height: 0;
+    border-radius: 16px;
+    padding: 1.1rem;
+  }
+
+  .blog-hero-mark > span {
+    margin-bottom: 1.5rem;
+    font-size: 2.3rem;
+  }
+
+  .blog-hero-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.25rem 0.65rem;
+  }
+
+  .blog-hero-stats strong,
+  .blog-hero-stats span {
+    text-align: center;
+  }
+
+  .blog-hero-stats strong:nth-of-type(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .blog-hero-stats strong:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .blog-hero-stats strong:nth-of-type(3) {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .blog-hero-stats span:nth-of-type(1) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .blog-hero-stats span:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .blog-hero-stats span:nth-of-type(3) {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .blog-filter-panel,
+  .blog-list-section,
+  .category-index-section {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .button,
+  .link-group a {
+    width: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .home-hero-copy h1 {
+    font-size: clamp(3rem, 17vw, 5.2rem);
+  }
+
+  .hero-index {
+    gap: 0.75rem 1rem;
+  }
+
+  .tool-lines a {
+    grid-template-columns: 1fr;
+    gap: 0.28rem;
+  }
+
+  .stat-item {
+    min-height: 74px;
+    padding: 0.7rem 0.45rem;
+  }
+
+  .stat-item strong {
+    font-size: 1.25rem;
+  }
+
+  .stat-item span {
+    font-size: 0.74rem;
+  }
+}

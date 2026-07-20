@@ -1,16 +1,11 @@
 ---
-const links = [
-  { href: '/#about', label: 'About', zh: '关于' },
-  { href: '/#blog', label: 'Blog', zh: '文档' },
-  { href: '/#projects', label: 'Projects', zh: '项目' },
-  { href: '/#contact', label: 'Contact', zh: '联系' },
-];
+import { navigation } from '../config/site';
 ---
 
 <div class="nav-content" id="main-menu">
   <div class="nav-links" aria-label="页面栏目">
     {
-      links.map((link) => (
+      navigation.map((link) => (
         <a href={link.href} data-en={link.label} data-zh={link.zh}>
           {link.label}
         </a>

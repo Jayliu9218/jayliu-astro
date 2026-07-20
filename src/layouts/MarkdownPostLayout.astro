@@ -1,7 +1,16 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
-const { frontmatter } = Astro.props;
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+
+const { frontmatter, headings = [] } = Astro.props;
+const tocHeadings = (headings as Heading[]).filter(
+  (heading) => heading.depth === 2 || heading.depth === 3,
+);
 const date = new Date(frontmatter.pubDate);
 const dateLabel = date.toLocaleDateString('zh-CN', {
   year: 'numeric',
@@ -19,6 +28,8 @@ const dateLabelEn = date.toLocaleDateString('en', {
   pageTitle={frontmatter.title}
   description={frontmatter.description}
   pageClass="portfolio-page article-portfolio-page"
+  pageImage={frontmatter.image?.url}
+  pageType="article"
 >
   <main class="page-shell article-shell">
     <nav
@@ -57,7 +68,7 @@ const dateLabelEn = date.toLocaleDateString('en', {
           {
             frontmatter.tags && (
               <div class="post-tags">
-                {frontmatter.tags.map((tag) => (
+                {frontmatter.tags.map((tag: string) => (
                   <span>{tag}</span>
                 ))}
               </div>
@@ -78,53 +89,36 @@ const dateLabelEn = date.toLocaleDateString('en', {
         </div>
       </article>
 
-      <aside
-        class="article-sidebar"
-        aria-label="Table of contents"
-        data-i18n-aria-en="Table of contents"
-        data-i18n-aria-zh="文章目录"
-      >
-        <div class="article-toc-card">
-          <p class="panel-title" data-i18n-en="Contents" data-i18n-zh="目录">
-            Contents
-          </p>
-          <nav id="article-toc" class="article-toc"></nav>
-        </div>
-      </aside>
+      {
+        tocHeadings.length > 0 && (
+          <aside
+            class="article-sidebar"
+            aria-label="Table of contents"
+            data-i18n-aria-en="Table of contents"
+            data-i18n-aria-zh="文章目录"
+          >
+            <div class="article-toc-card">
+              <p
+                class="panel-title"
+                data-i18n-en="Contents"
+                data-i18n-zh="目录"
+              >
+                Contents
+              </p>
+              <nav id="article-toc" class="article-toc">
+                {tocHeadings.map((heading) => (
+                  <a
+                    href={`#${heading.slug}`}
+                    class={heading.depth === 3 ? 'toc-child' : undefined}
+                  >
+                    {heading.text}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </aside>
+        )
+      }
     </div>
   </main>
-
-  <script>
-    const content = document.querySelector('#article-content');
-    const toc = document.querySelector('#article-toc');
-    const headings = content
-      ? Array.from(content.querySelectorAll('h2, h3'))
-      : [];
-
-    if (toc && headings.length > 0) {
-      headings.forEach((heading, index) => {
-        const text = heading.textContent?.trim();
-        if (!text) return;
-
-        const id =
-          heading.id ||
-          text
-            .toLowerCase()
-            .replace(/[^\p{Letter}\p{Number}]+/gu, '-')
-            .replace(/^-|-$/g, '') ||
-          `section-${index + 1}`;
-
-        heading.id = id;
-
-        const link = document.createElement('a');
-        link.href = `#${id}`;
-        link.textContent = text;
-        link.className =
-          heading.tagName.toLowerCase() === 'h3' ? 'toc-child' : '';
-        toc.appendChild(link);
-      });
-    } else {
-      document.querySelector('.article-sidebar')?.remove();
-    }
-  </script>
 </BaseLayout>

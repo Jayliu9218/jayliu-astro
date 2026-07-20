@@ -1,0 +1,48 @@
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--page);
+  border-top: 1px solid var(--line);
+  margin: 40px auto 0;
+  padding: 3rem 0;
+  gap: 2rem;
+}
+
+.footer-note {
+  margin-bottom: 0;
+  font-size: 0.92rem;
+}
+
+.footer-name {
+  color: var(--text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.8rem;
+}
+
+.footer-links a {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.footer-copy {
+  color: var(--subtle);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
