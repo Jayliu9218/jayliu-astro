@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPosts } from '../lib/posts';
+import { getProjects } from '../lib/projects';
 
 const posts = await getPosts();
+const projects = (await getProjects()).slice(0, 5);
 
 const allTags = new Set(posts.flatMap((post) => post.tags));
 const recentPosts = posts.slice(0, 5);
@@ -40,34 +42,6 @@ const tools = [
     href: '/posts/web-bookmarks',
     descriptionEn: 'A curated index of web resources and browser bookmarks.',
     descriptionZh: '常用网页资源、浏览器书签和信息入口整理。',
-  },
-];
-
-const projects = [
-  {
-    name: 'Inspiration Flow',
-    href: 'https://let-inspiration-flow-explore.netlify.app/',
-    tags: ['Personal Notes', 'Netlify', 'Writing'],
-  },
-  {
-    name: 'Medical Study',
-    href: 'https://medical-study.netlify.app/',
-    tags: ['Learning Tool', 'Cards', 'Review'],
-  },
-  {
-    name: 'Jayliu Netlify',
-    href: 'https://jayliu.netlify.app/',
-    tags: ['Personal Site', 'Archive', 'Web'],
-  },
-  {
-    name: 'Build of Thermal Loop',
-    href: '/posts/build-of-thermal-loop',
-    tags: ['Engineering', 'Experiment', 'Thermal'],
-  },
-  {
-    name: 'CFD 学习线索',
-    href: '/posts/computational-fluid-dynamics',
-    tags: ['Computation', 'CFD', 'Notes'],
   },
 ];
 ---
@@ -113,7 +87,7 @@ const projects = [
           </a>
           <a
             class="btn btn-secondary"
-            href="#projects"
+            href="/projects/"
             data-i18n-en="View projects"
             data-i18n-zh="查看项目"
           >
@@ -235,28 +209,41 @@ const projects = [
             Selected projects
           </h2>
         </div>
-        <div class="mini-stats" aria-label="Project stats">
-          <span>
-            <strong>{projects.length}</strong>
-            <span data-i18n-en="Projects" data-i18n-zh="项目">Projects</span>
-          </span>
+        <div class="section-side">
+          <div class="mini-stats" aria-label="Project stats">
+            <span>
+              <strong>{projects.length}</strong>
+              <span data-i18n-en="Projects" data-i18n-zh="项目">Projects</span>
+            </span>
+          </div>
+          <a
+            class="see-all"
+            href="/projects/"
+            data-i18n-en="All projects ->"
+            data-i18n-zh="全部项目 ->"
+          >
+            All projects -&gt;
+          </a>
         </div>
       </div>
 
       <div class="projects-list">
         {
           projects.map((project, index) => (
-            <a
-              class="project-row"
-              href={project.href}
-              target={project.href.startsWith('http') ? '_blank' : undefined}
-              rel={project.href.startsWith('http') ? 'noreferrer' : undefined}
-            >
+            <a class="project-row" href={project.href}>
               <span class="project-num">
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <div>
-                <h3>{project.name}</h3>
+              <div class="project-row-content">
+                <h3 data-i18n-en={project.title} data-i18n-zh={project.titleZh}>
+                  {project.title}
+                </h3>
+                <p
+                  data-i18n-en={project.summary}
+                  data-i18n-zh={project.summaryZh}
+                >
+                  {project.summary}
+                </p>
                 <div class="project-tags">
                   {project.tags.map((tag) => (
                     <span>{tag}</span>
@@ -264,7 +251,7 @@ const projects = [
                 </div>
               </div>
               <span class="project-arrow" aria-hidden="true">
-                ↗
+                →
               </span>
             </a>
           ))

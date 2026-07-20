@@ -1,12 +1,25 @@
 ---
 import { navigation } from '../config/site';
+
+const currentPath = Astro.url.pathname;
+
+const isCurrent = (href: string) => {
+  if (href === '/') return currentPath === '/';
+  if (href === '/blog/' && currentPath.startsWith('/posts/')) return true;
+  return currentPath === href || currentPath.startsWith(href);
+};
 ---
 
 <div class="nav-content" id="main-menu">
   <div class="nav-links" aria-label="页面栏目">
     {
       navigation.map((link) => (
-        <a href={link.href} data-en={link.label} data-zh={link.zh}>
+        <a
+          href={link.href}
+          data-en={link.label}
+          data-zh={link.zh}
+          aria-current={isCurrent(link.href) ? 'page' : undefined}
+        >
           {link.label}
         </a>
       ))

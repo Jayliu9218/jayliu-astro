@@ -36,122 +36,106 @@ const skills = [
 <BaseLayout
   pageTitle="About"
   description="关于 Jay Liu 的研究兴趣、技术栈、个人记录方式和联系方式。"
+  pageClass="portfolio-page about-portfolio-page"
 >
-  <main class="page-shell content-page">
-    <section class="page-hero">
-      <p class="section-kicker">About</p>
-      <h1
-        data-i18n-en="I study materials characterization and how to document research more clearly."
-        data-i18n-zh="我关注材料表征，也关注如何把研究过程记录得更清楚。"
-      >
-        I study materials characterization and how to document research more
-        clearly.
-      </h1>
-      <p
-        data-i18n-en="This site is my public index for experimental notes, technical references, projects, and long-running questions. I keep it accurate, concise, and traceable as it grows."
-        data-i18n-zh="这个主页是我的公开索引：一部分用于整理实验与技术笔记，一部分用于记录学习、项目和长期问题。这里的内容会持续更新，并尽量保持准确、简洁、可追溯。"
-      >
-        This site is my public index for experimental notes, technical
-        references, projects, and long-running questions. I keep it accurate,
-        concise, and traceable as it grows.
-      </p>
-      <div class="hero-actions">
-        <a
-          class="button button-primary"
-          href="/resume-en.pdf"
-          data-i18n-en="Download CV"
-          data-i18n-zh="下载英文 CV">Download CV</a
-        >
-        <a
-          class="button button-secondary"
-          href="/blog/"
-          data-i18n-en="Browse posts"
-          data-i18n-zh="浏览文章">Browse posts</a
-        >
+  <main class="portfolio-home about-home">
+    <section class="portfolio-section about-focus-section about-list-section">
+      <div class="section-header">
+        <div>
+          <p class="section-label">About</p>
+          <h2
+            data-i18n-en="About and current focus"
+            data-i18n-zh="关于与当前关注"
+          >
+            About and current focus
+          </h2>
+        </div>
+      </div>
+
+      <div class="about-layout">
+        <div class="about-main">
+          <p
+            data-i18n-en="I connect materials, microscopy, code, and writing: collecting questions in experiments, building methods through analysis, and preserving judgment through writing."
+            data-i18n-zh="我希望把材料、显微、代码和写作连接起来：在实验中积累问题，在分析中建立方法，在写作中沉淀判断。这个站点会优先收纳科研技术相关内容，也会保留一些个人项目和学习复盘。"
+          >
+            I connect materials, microscopy, code, and writing: collecting
+            questions in experiments, building methods through analysis, and
+            preserving judgment through writing.
+          </p>
+          <ul class="clean-list">
+            {
+              interests.map((item) => (
+                <li data-i18n-en={item.en} data-i18n-zh={item.zh}>
+                  {item.en}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <aside class="profile-card">
+          <p class="section-label">Profile</p>
+          <dl>
+            <div>
+              <dt data-i18n-en="Focus" data-i18n-zh="方向">Focus</dt>
+              <dd
+                data-i18n-en="Materials / microscopy / research notes"
+                data-i18n-zh="材料 / 显微 / 科研记录"
+              >
+                Materials / microscopy / research notes
+              </dd>
+            </div>
+            <div>
+              <dt data-i18n-en="Site" data-i18n-zh="站点">Site</dt>
+              <dd
+                data-i18n-en="Astro static personal site"
+                data-i18n-zh="Astro 静态个人主页"
+              >
+                Astro static personal site
+              </dd>
+            </div>
+            <div>
+              <dt data-i18n-en="Links" data-i18n-zh="链接">Links</dt>
+              <dd>
+                <a
+                  href="https://github.com/Jayliu9218"
+                  target="_blank"
+                  rel="noreferrer">GitHub</a
+                >
+                <span>/</span>
+                <a
+                  href="https://scholar.google.com/citations?user=Q-i6GPwAAAAJ"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Scholar
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </aside>
       </div>
     </section>
 
-    <section class="about-layout">
-      <div class="about-main">
-        <h2 data-i18n-en="Current focus" data-i18n-zh="当前关注">
-          Current focus
-        </h2>
-        <p
-          data-i18n-en="I connect materials, microscopy, code, and writing: collecting questions in experiments, building methods through analysis, and preserving judgment through writing."
-          data-i18n-zh="我希望把材料、显微、代码和写作连接起来：在实验中积累问题，在分析中建立方法，在写作中沉淀判断。这个站点会优先收纳科研技术相关内容，也会保留一些个人项目和学习复盘。"
-        >
-          I connect materials, microscopy, code, and writing: collecting
-          questions in experiments, building methods through analysis, and
-          preserving judgment through writing.
-        </p>
-        <ul class="clean-list">
-          {
-            interests.map((item) => (
-              <li data-i18n-en={item.en} data-i18n-zh={item.zh}>
-                {item.en}
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <aside class="profile-card">
-        <h2>Profile</h2>
-        <dl>
-          <div>
-            <dt data-i18n-en="Focus" data-i18n-zh="方向">Focus</dt>
-            <dd
-              data-i18n-en="Materials / microscopy / research notes"
-              data-i18n-zh="材料 / 显微 / 科研记录"
-            >
-              Materials / microscopy / research notes
-            </dd>
-          </div>
-          <div>
-            <dt data-i18n-en="Site" data-i18n-zh="站点">Site</dt>
-            <dd
-              data-i18n-en="Astro static personal site"
-              data-i18n-zh="Astro 静态个人主页"
-            >
-              Astro static personal site
-            </dd>
-          </div>
-          <div>
-            <dt data-i18n-en="Links" data-i18n-zh="链接">Links</dt>
-            <dd>
-              <a
-                href="https://github.com/Jayliu9218"
-                target="_blank"
-                rel="noreferrer">GitHub</a
-              >
-              <span>/</span>
-              <a
-                href="https://scholar.google.com/citations?user=Q-i6GPwAAAAJ"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Scholar
-              </a>
-            </dd>
-          </div>
-        </dl>
-      </aside>
-    </section>
-
-    <section class="skill-section">
-      <div class="section-heading">
-        <p class="section-kicker">Toolkit</p>
-        <h2
-          data-i18n-en="Toolkit and working style"
-          data-i18n-zh="技能栈与工作方式"
-        >
-          Toolkit and working style
-        </h2>
+    <section class="portfolio-section skill-section">
+      <div class="section-header">
+        <div>
+          <p class="section-label">Toolkit</p>
+          <h2
+            data-i18n-en="Toolkit and working style"
+            data-i18n-zh="技能栈与工作方式"
+          >
+            Toolkit and working style
+          </h2>
+        </div>
       </div>
       <div class="skill-grid">
         {
           skills.map((skill) => (
-            <article class="feature-card compact">
+            <article class="tool-card about-skill-card">
+              <span class="tool-icon" aria-hidden="true">
+                +
+              </span>
               <h3>{skill.group}</h3>
               <div class="capability-cloud">
                 {skill.items.map((item) => (

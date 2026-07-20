@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getProjects } from '../lib/projects';
+
+const projects = await getProjects();
+---
+
+<BaseLayout
+  pageTitle="Projects"
+  description="Jay Liu 的工程项目、网页实验、研究学习和长期维护项目。"
+  pageClass="portfolio-page projects-portfolio-page"
+>
+  <main class="portfolio-home projects-home">
+    <section
+      class="portfolio-section project-index-section project-list-section"
+      id="project-index"
+    >
+      <div class="section-header">
+        <div>
+          <p class="section-label" data-i18n-en="Projects" data-i18n-zh="项目">
+            Projects
+          </p>
+          <h2 data-i18n-en="All projects" data-i18n-zh="全部项目">
+            All projects
+          </h2>
+        </div>
+        <div class="mini-stats" aria-label="Project count">
+          <span>
+            <strong>{projects.length}</strong>
+            <span data-i18n-en="entries" data-i18n-zh="个条目">entries</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="projects-list project-index-list">
+        {
+          projects.map((project, index) => (
+            <a class="project-row" href={project.href}>
+              <span class="project-num">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <div class="project-row-content">
+                <div class="project-row-heading">
+                  <h3
+                    data-i18n-en={project.title}
+                    data-i18n-zh={project.titleZh}
+                  >
+                    {project.title}
+                  </h3>
+                  <span
+                    class="project-status"
+                    data-i18n-en={project.status}
+                    data-i18n-zh={project.statusZh}
+                  >
+                    {project.status}
+                  </span>
+                </div>
+                <p
+                  data-i18n-en={project.summary}
+                  data-i18n-zh={project.summaryZh}
+                >
+                  {project.summary}
+                </p>
+                <div class="project-tags">
+                  {project.tags.map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <span class="project-arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

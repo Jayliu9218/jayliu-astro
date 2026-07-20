@@ -14,7 +14,8 @@
     "format:check": "prettier --check .",
     "check:astro": "astro check",
     "check:links": "node scripts/check-internal-links.mjs",
-    "check": "npm run format:check && npm run check:astro && npm run build && npm run check:links"
+    "check:ui": "node scripts/check-ui-contract.mjs",
+    "check": "npm run format:check && npm run check:astro && npm run build && npm run check:links && npm run check:ui"
   },
   "dependencies": {
     "astro": "^6.1.3",

@@ -6,10 +6,10 @@ export const site = {
 };
 
 export const navigation = [
+  { href: '/', label: 'Home', zh: '首页' },
+  { href: '/blog/', label: 'Documents', zh: '文档' },
+  { href: '/projects/', label: 'Projects', zh: '项目' },
   { href: '/about/', label: 'About', zh: '关于' },
-  { href: '/blog/', label: 'Blog', zh: '文档' },
-  { href: '/#projects', label: 'Projects', zh: '项目' },
-  { href: '/#contact', label: 'Contact', zh: '联系' },
 ];
 
 export const profiles = [

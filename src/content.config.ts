@@ -19,4 +19,35 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+const projects = defineCollection({
+  loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string().min(1),
+    titleZh: z.string().min(1),
+    summary: z.string().min(1),
+    summaryZh: z.string().min(1),
+    type: z.string().min(1),
+    typeZh: z.string().min(1),
+    year: z.number().int(),
+    status: z.string().min(1),
+    statusZh: z.string().min(1),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    order: z.number().int().default(0),
+    demoUrl: z.url().optional(),
+    repositoryUrl: z.url().optional(),
+    relatedDocument: z.string().startsWith('/').optional(),
+    overview: z.string().min(1),
+    overviewZh: z.string().min(1),
+    highlights: z
+      .array(
+        z.object({
+          en: z.string().min(1),
+          zh: z.string().min(1),
+        }),
+      )
+      .default([]),
+  }),
+});
+
+export const collections = { posts, projects };
