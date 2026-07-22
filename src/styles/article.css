@@ -2,16 +2,6 @@
   padding: 56px 0 88px;
 }
 
-.article-nav-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-}
-
-.article-nav-bar a,
 .back-link {
   display: inline-flex;
   min-height: 36px;
@@ -26,7 +16,6 @@
   text-decoration: none;
 }
 
-.article-nav-bar a:hover,
 .back-link:hover {
   border-color: rgba(15, 118, 110, 0.32);
   background: #ffffff;

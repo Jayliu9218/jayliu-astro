@@ -59,10 +59,6 @@
     padding-top: 7.5rem;
   }
 
-  .article-portfolio-page .article-nav-bar {
-    margin-bottom: 2.6rem;
-  }
-
   .article-portfolio-page .article-layout {
     grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
@@ -191,9 +187,17 @@
   }
 
   .blog-filter-panel,
-  .blog-list-section,
   .category-index-section {
     padding-top: 4.5rem;
     padding-bottom: 4.5rem;
+  }
+
+  .blog-list-section {
+    padding-top: 3rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .project-list-section {
+    padding-top: 3rem;
   }
 }

@@ -172,7 +172,6 @@
   font-weight: 500;
 }
 
-.about-home h1,
 .portfolio-section h2,
 .project-row h3 {
   font-family: Georgia, 'Times New Roman', serif;
@@ -257,7 +256,6 @@
   text-transform: uppercase;
 }
 
-.about-home h1,
 .portfolio-section h2 {
   margin: 0;
   font-size: clamp(2.2rem, 4vw, 3.4rem);
@@ -308,7 +306,11 @@
 }
 
 .blog-list-section {
-  padding-top: 7rem;
+  padding-top: 4rem;
+}
+
+.blog-list-section > .section-header {
+  margin-bottom: 1.5rem;
 }
 
 .document-list {
@@ -640,9 +642,16 @@
   padding-bottom: 8rem;
 }
 
-.project-list-section,
 .about-list-section {
   padding-top: 7rem;
+}
+
+.project-list-section {
+  padding-top: 4rem;
+}
+
+.project-list-section > .section-header {
+  margin-bottom: 1.5rem;
 }
 
 .project-detail-shell {
@@ -944,41 +953,9 @@
   padding: 9rem 0 6rem;
 }
 
-.article-portfolio-page .article-nav-bar {
-  justify-content: flex-start;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 4rem;
-  padding: 1rem 0;
-}
-
-.article-portfolio-page .article-nav-bar a {
-  min-height: 42px;
-  border-color: var(--line);
-  background: transparent;
-  color: var(--muted);
-  padding: 0.6rem 1.05rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition:
-    border-color 180ms ease,
-    color 180ms ease,
-    background 180ms ease,
-    transform 180ms ease;
-}
-
-.article-portfolio-page .article-nav-bar a:hover,
-.article-portfolio-page .article-nav-bar a:focus-visible {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-  color: var(--accent);
-  outline: none;
-  transform: translateY(-1px);
-}
-
 .article-portfolio-page .article-layout {
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) 200px;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .article-portfolio-page .article-page {
@@ -1144,6 +1121,7 @@
 .article-portfolio-page .article-toc-card {
   border-radius: 16px;
   background: var(--surface);
+  padding: 0.85rem;
   box-shadow: none;
 }
 
@@ -1153,7 +1131,7 @@
 
 .article-portfolio-page .article-toc a {
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: 0.82rem;
 }
 
 .article-portfolio-page .article-toc a:hover {
