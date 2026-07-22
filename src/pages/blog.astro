@@ -81,27 +81,15 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
       </div>
 
       <div
-        class="blog-card-grid"
+        class="document-list"
         aria-label="Post list"
         data-i18n-aria-en="Post list"
         data-i18n-aria-zh="文章列表"
       >
         {
-          posts.map((post, index) => (
-            <a
-              class={`post-card ${index === 0 ? 'featured' : ''}`}
-              href={post.href}
-            >
-              <span
-                class="post-tag"
-                data-i18n-en={post.category.labelEn}
-                data-i18n-zh={post.category.label}
-              >
-                {post.category.labelEn}
-              </span>
-              <h3>{post.title}</h3>
-              <p>{post.description}</p>
-              <div class="post-card-meta">
+          posts.map((post) => (
+            <a class="document-row" href={post.href}>
+              <div class="document-row-meta">
                 <time
                   datetime={
                     post.dateValue ? post.date.toISOString() : undefined
@@ -112,12 +100,25 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
                   {post.dateLabelEn}
                 </time>
                 <span
-                  data-i18n-en={`${post.tags.length || 1} tags`}
-                  data-i18n-zh={`${post.tags.length || 1} 个标签`}
+                  class="document-category"
+                  data-i18n-en={post.category.labelEn}
+                  data-i18n-zh={post.category.label}
                 >
-                  {post.tags.length || 1} tags
+                  {post.category.labelEn}
                 </span>
               </div>
+              <div class="document-row-content">
+                <h3>{post.title}</h3>
+                <p>{post.description}</p>
+                <div class="document-tags" aria-label="Tags">
+                  {post.tags.map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <span class="document-arrow" aria-hidden="true">
+                →
+              </span>
             </a>
           ))
         }
@@ -130,7 +131,7 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
       data-i18n-aria-en="Archive and categories"
       data-i18n-aria-zh="归档与分类"
     >
-      <div class="filter-block">
+      <div class="index-summary-group">
         <div class="section-header compact">
           <div>
             <p class="section-label" data-i18n-en="Archive" data-i18n-zh="归档">
@@ -157,7 +158,7 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
         </div>
       </div>
 
-      <div class="filter-block">
+      <div class="index-summary-group">
         <div class="section-header compact">
           <div>
             <p class="section-label" data-i18n-en="Topics" data-i18n-zh="主题">

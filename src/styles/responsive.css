@@ -3,33 +3,12 @@
     --page: min(100% - 40px, 680px);
   }
 
-  .portfolio-hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-
   .blog-filter-panel,
   .category-index-block,
   .about-layout,
+  .project-index-summary,
   .project-detail-layout {
     grid-template-columns: 1fr;
-  }
-
-  .hero-mark {
-    display: none;
-  }
-
-  .post-grid,
-  .blog-card-grid,
-  .tools-grid,
-  .about-home .skill-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .post-card.featured,
-  .blog-card-grid .post-card.featured {
-    grid-column: span 1;
-    grid-row: span 1;
   }
 
   .project-row {
@@ -56,6 +35,10 @@
   .category-post-list a {
     grid-template-columns: 1fr;
     gap: 0.25rem;
+  }
+
+  .project-index-summary {
+    gap: 1.5rem;
   }
 }
 
@@ -188,6 +171,18 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 0.2rem;
+  }
+
+  .document-row {
+    grid-template-columns: 1fr auto;
+    gap: 0.8rem 1rem;
+  }
+
+  .document-row-meta {
+    display: flex;
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.8rem;
   }
 
   .project-highlights li {

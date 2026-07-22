@@ -22,7 +22,7 @@ src/
 ├── content/          # posts 文档与 projects 项目内容集合
 ├── layouts/          # 全站和文档布局
 ├── lib/              # 文档、项目的排序与列表数据转换
-├── pages/            # 首页、文档、项目、About 和动态详情路由
+├── pages/            # About 首页、文档、项目和动态详情路由
 └── styles/           # 主题、共享组件、Portfolio 与响应式样式
 archive/hexo-source/  # 旧 Hexo 源稿，仅供迁移追溯
 public/               # favicon 和公开下载的简历 PDF
@@ -50,7 +50,7 @@ image:
 
 ## 新增项目
 
-在 `src/content/projects/` 新建 Markdown 文件。每个文件生成 `/projects/<文件名>` 详情页，并自动出现在项目索引与首页精选项目中。
+在 `src/content/projects/` 新建 Markdown 文件。每个文件生成 `/projects/<文件名>` 详情页，并自动出现在项目索引中。
 
 项目的中英文标题、摘要、类型、状态、概览和要点均写在 frontmatter 中；外部演示地址、代码仓库和相关文档是可选字段。完整字段约束见 `src/content.config.ts`，排序规则见 `src/lib/projects.ts`。
 

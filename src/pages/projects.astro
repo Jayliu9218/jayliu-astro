@@ -3,6 +3,46 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getProjects } from '../lib/projects';
 
 const projects = await getProjects();
+
+const projectTypes = Array.from(
+  projects
+    .reduce((map, project) => {
+      const current = map.get(project.type);
+      map.set(project.type, {
+        label: project.type,
+        labelZh: project.typeZh,
+        count: (current?.count || 0) + 1,
+      });
+      return map;
+    }, new Map<string, { label: string; labelZh: string; count: number }>())
+    .values(),
+).sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+
+const projectStatuses = Array.from(
+  projects
+    .reduce((map, project) => {
+      const current = map.get(project.status);
+      map.set(project.status, {
+        label: project.status,
+        labelZh: project.statusZh,
+        count: (current?.count || 0) + 1,
+      });
+      return map;
+    }, new Map<string, { label: string; labelZh: string; count: number }>())
+    .values(),
+).sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+
+const projectTags = Array.from(
+  projects
+    .flatMap((project) => project.tags)
+    .reduce(
+      (map, tag) => map.set(tag, (map.get(tag) || 0) + 1),
+      new Map<string, number>(),
+    )
+    .entries(),
+)
+  .map(([tag, count]) => ({ tag, count }))
+  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
 ---
 
 <BaseLayout
@@ -32,7 +72,68 @@ const projects = await getProjects();
         </div>
       </div>
 
-      <div class="projects-list project-index-list">
+      <div
+        class="project-index-summary"
+        aria-label="Project statistics"
+        data-i18n-aria-en="Project statistics"
+        data-i18n-aria-zh="项目统计"
+      >
+        <section class="index-summary-group">
+          <p class="section-label" data-i18n-en="Types" data-i18n-zh="类型">
+            Types
+          </p>
+          <ul class="count-list">
+            {
+              projectTypes.map((type) => (
+                <li>
+                  <span data-i18n-en={type.label} data-i18n-zh={type.labelZh}>
+                    {type.label}
+                  </span>
+                  <strong>{type.count}</strong>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section class="index-summary-group">
+          <p class="section-label" data-i18n-en="Status" data-i18n-zh="状态">
+            Status
+          </p>
+          <ul class="count-list">
+            {
+              projectStatuses.map((status) => (
+                <li>
+                  <span
+                    data-i18n-en={status.label}
+                    data-i18n-zh={status.labelZh}
+                  >
+                    {status.label}
+                  </span>
+                  <strong>{status.count}</strong>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section class="index-summary-group project-tag-summary">
+          <p class="section-label" data-i18n-en="Tags" data-i18n-zh="标签">
+            Tags
+          </p>
+          <div class="summary-tag-list">
+            {
+              projectTags.map((item) => (
+                <span>
+                  {item.tag} <strong>{item.count}</strong>
+                </span>
+              ))
+            }
+          </div>
+        </section>
+      </div>
+
+      <div class="projects-list project-index-list flat-list">
         {
           projects.map((project, index) => (
             <a class="project-row" href={project.href}>

@@ -4,7 +4,15 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dist = join(root, 'dist');
-const expectedNavigation = ['/', '/blog/', '/projects/', '/about/'];
+const expectedNavigation = ['/', '/blog/', '/projects/'];
+const expectedProfileLinks = [
+  'mailto:jayliu9218@gmail.com',
+  'https://github.com/Jayliu9218',
+  'https://scholar.google.com/citations?user=Q-i6GPwAAAAJ',
+  'https://orcid.org/0009-0001-3925-2219',
+  '/resume-en.pdf',
+  '/resume-zh_CN.pdf',
+];
 
 if (!existsSync(dist)) {
   console.error('dist/ is missing. Run npm run build before checking the UI.');
@@ -88,20 +96,68 @@ for (const file of htmlFiles) {
 }
 
 const homeHtml = readFileSync(join(dist, 'index.html'), 'utf8');
-const homeProjects = homeHtml.match(
-  /<section\b[^>]*id=["']projects["'][^>]*>([\s\S]*?)<\/section>/i,
+for (const section of ['about', 'focus', 'contact']) {
+  if (!homeHtml.includes(`data-home-section="${section}"`)) {
+    failures.push(`/: homepage is missing the ${section} section`);
+  }
+}
+
+const contactHtml = homeHtml.match(
+  /<aside\b[^>]*id=["']contact-links["'][^>]*>([\s\S]*?)<\/aside>/i,
 )?.[1];
-const homeProjectLinks = [
-  ...(homeProjects?.matchAll(
-    /<a\b[^>]*class=["'][^"']*\bproject-row\b[^"']*["'][^>]*\bhref=["']([^"']+)["']/gi,
-  ) ?? []),
+const contactLinks = [
+  ...(contactHtml?.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi) ?? []),
 ].map((match) => match[1]);
 
+if (JSON.stringify(contactLinks) !== JSON.stringify(expectedProfileLinks)) {
+  failures.push('/: homepage contact links are incomplete or out of order');
+}
+
+for (const legacyClass of [
+  'post-grid',
+  'tools-grid',
+  'projects-list',
+  'skill-grid',
+]) {
+  if (homeHtml.includes(`class="${legacyClass}`)) {
+    failures.push(
+      `/: homepage still includes the legacy ${legacyClass} section`,
+    );
+  }
+}
+
+if (existsSync(join(dist, 'about', 'index.html'))) {
+  failures.push('/about/: removed route is still present in the build');
+}
+
+const blogHtml = readFileSync(join(dist, 'blog', 'index.html'), 'utf8');
 if (
-  homeProjectLinks.length === 0 ||
-  homeProjectLinks.some((href) => !href.startsWith('/projects/'))
+  !blogHtml.includes('class="document-list"') ||
+  !blogHtml.includes('class="document-row"')
 ) {
-  failures.push('/: homepage projects must link to internal project details');
+  failures.push('/blog/: documents must render as a flat list');
+}
+if (
+  blogHtml.includes('blog-card-grid') ||
+  blogHtml.includes('post-card') ||
+  blogHtml.includes('filter-block')
+) {
+  failures.push('/blog/: legacy card layout is still present');
+}
+
+const projectsHtml = readFileSync(join(dist, 'projects', 'index.html'), 'utf8');
+for (const requiredClass of [
+  'project-index-summary',
+  'count-list',
+  'summary-tag-list',
+  'project-row',
+]) {
+  if (!projectsHtml.includes(`class="${requiredClass}`)) {
+    failures.push(`/projects/: missing ${requiredClass}`);
+  }
+}
+if (projectsHtml.includes('project-card')) {
+  failures.push('/projects/: legacy card layout is still present');
 }
 
 if (failures.length > 0) {
