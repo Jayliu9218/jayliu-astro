@@ -61,6 +61,8 @@ const socialImage = pageImage ? new URL(pageImage, site.url) : undefined;
       const root = document.documentElement;
       const themeButton = document.querySelector('[data-theme-toggle]');
       const languageButton = document.querySelector('[data-language-toggle]');
+      const menuButton = document.querySelector('[data-menu-toggle]');
+      const siteNav = document.querySelector('.site-nav');
       const navLinks = document.querySelectorAll('.nav-links a[data-en]');
       const i18nNodes = document.querySelectorAll('[data-i18n-en]');
       const i18nAriaNodes = document.querySelectorAll('[data-i18n-aria-en]');
@@ -104,6 +106,14 @@ const socialImage = pageImage ? new URL(pageImage, site.url) : undefined;
       setLanguage(savedLanguage);
       languageButton?.addEventListener('click', () => {
         setLanguage(root.dataset.language === 'zh' ? 'en' : 'zh');
+      });
+
+      menuButton?.addEventListener('click', () => {
+        const isOpen = siteNav?.dataset.menuOpen === 'true';
+        if (siteNav) {
+          siteNav.dataset.menuOpen = String(!isOpen);
+        }
+        menuButton.setAttribute('aria-expanded', String(!isOpen));
       });
     </script>
   </body>

@@ -11,8 +11,9 @@ const news = (await getCollection('news')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 
-const newsDate = (date: Date) =>
-  new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short' }).format(
+const newsYear = (date: Date) => date.getFullYear();
+const newsDay = (date: Date) =>
+  new Intl.DateTimeFormat('en', { month: 'short', day: '2-digit' }).format(
     date,
   );
 ---
@@ -26,18 +27,12 @@ const newsDate = (date: Date) =>
     <aside class="academic-profile" data-home-section="profile">
       <div class="portrait-placeholder" aria-label="Portrait placeholder">
         <span>{academicProfile.initials}</span>
-        <small data-i18n-en="Portrait" data-i18n-zh="头像待更新">Portrait</small
-        >
+        <small data-i18n-en="Portrait" data-i18n-zh="头像待更新">
+          Portrait
+        </small>
       </div>
 
       <div class="profile-identity">
-        <p
-          class="profile-kicker"
-          data-i18n-en="Academic profile"
-          data-i18n-zh="学术主页"
-        >
-          Academic profile
-        </p>
         <h1>{academicProfile.name}</h1>
         <p
           class="profile-position"
@@ -68,7 +63,6 @@ const newsDate = (date: Date) =>
               rel={profile.url.startsWith('http') ? 'noreferrer' : undefined}
             >
               <span>{profile.name}</span>
-              <span aria-hidden="true">↗</span>
             </a>
           ))
         }
@@ -76,10 +70,8 @@ const newsDate = (date: Date) =>
     </aside>
 
     <div class="academic-main">
-      <section class="academic-intro" data-home-section="about">
-        <p class="section-label" data-i18n-en="About" data-i18n-zh="关于">
-          About
-        </p>
+      <section class="academic-card academic-intro" data-home-section="about">
+        <h2 data-i18n-en="About Me" data-i18n-zh="关于我">About Me</h2>
         <p
           class="academic-statement"
           data-i18n-en={academicProfile.bio.en}
@@ -88,13 +80,9 @@ const newsDate = (date: Date) =>
           {academicProfile.bio.en}
         </p>
         <div class="research-interests" data-home-section="focus">
-          <p
-            class="subsection-title"
-            data-i18n-en="Research interests"
-            data-i18n-zh="研究兴趣"
-          >
-            Research interests
-          </p>
+          <h3 data-i18n-en="Research Interests" data-i18n-zh="研究兴趣">
+            Research Interests
+          </h3>
           <ul>
             {
               academicProfile.interests.map((interest) => (
@@ -107,14 +95,62 @@ const newsDate = (date: Date) =>
         </div>
       </section>
 
-      <section class="academic-section news-section" data-home-section="news">
+      <section
+        class="academic-card background-section"
+        data-home-section="education"
+      >
+        <div class="background-column">
+          <h2 data-i18n-en="Education" data-i18n-zh="教育背景">Education</h2>
+          <ol class="education-list">
+            {
+              academicProfile.education.map((item) => (
+                <li>
+                  <span class="institution-badge" aria-hidden="true">
+                    SJ
+                  </span>
+                  <div>
+                    <h3
+                      data-i18n-en={item.institution}
+                      data-i18n-zh={item.institutionZh}
+                    >
+                      {item.institution}
+                    </h3>
+                    <p data-i18n-en={item.degree} data-i18n-zh={item.degreeZh}>
+                      {item.degree}
+                    </p>
+                    <time>{item.period}</time>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <div class="background-column honors-column">
+          <h2 data-i18n-en="Honors & Awards" data-i18n-zh="荣誉与奖项">
+            Honors & Awards
+          </h2>
+          <ul class="honors-list">
+            {
+              academicProfile.honors.map((item) => (
+                <li>
+                  <span data-i18n-en={item.name} data-i18n-zh={item.nameZh}>
+                    {item.name}
+                  </span>
+                  <time>{item.year}</time>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <section
+        class="academic-card academic-section news-section"
+        data-home-section="news"
+      >
         <div class="academic-section-heading">
-          <div>
-            <p class="section-label" data-i18n-en="Updates" data-i18n-zh="近况">
-              Updates
-            </p>
-            <h2 data-i18n-en="News" data-i18n-zh="动态">News</h2>
-          </div>
+          <h2 data-i18n-en="News" data-i18n-zh="动态">News</h2>
         </div>
         <div class="news-list">
           {
@@ -122,7 +158,8 @@ const newsDate = (date: Date) =>
               const content = (
                 <>
                   <time datetime={item.data.date.toISOString()}>
-                    {newsDate(item.data.date)}
+                    <span>{newsYear(item.data.date)}</span>
+                    <i>{newsDay(item.data.date)}</i>
                   </time>
                   <span
                     data-i18n-en={item.data.title}
@@ -136,7 +173,6 @@ const newsDate = (date: Date) =>
               return item.data.url ? (
                 <a class="news-row" href={item.data.url}>
                   {content}
-                  <i aria-hidden="true">→</i>
                 </a>
               ) : (
                 <div class="news-row">{content}</div>
@@ -147,29 +183,20 @@ const newsDate = (date: Date) =>
       </section>
 
       <section
-        class="academic-section selected-publications"
+        class="academic-card academic-section selected-publications"
         data-home-section="publications"
       >
         <div class="academic-section-heading">
-          <div>
-            <p
-              class="section-label"
-              data-i18n-en="Research output"
-              data-i18n-zh="研究成果"
-            >
-              Research output
-            </p>
-            <h2 data-i18n-en="Selected publications" data-i18n-zh="代表性论文">
-              Selected publications
-            </h2>
-          </div>
+          <h2 data-i18n-en="Selected Publications" data-i18n-zh="代表性论文">
+            Selected Publications
+          </h2>
           <a
             class="see-all"
             href="/publications/"
-            data-i18n-en="All publications ->"
-            data-i18n-zh="全部论文 ->"
+            data-i18n-en="view all >>"
+            data-i18n-zh="查看全部 >>"
           >
-            All publications -&gt;
+            view all &gt;&gt;
           </a>
         </div>
         <div class="publication-list compact-publications">
@@ -179,44 +206,6 @@ const newsDate = (date: Date) =>
             ))
           }
         </div>
-      </section>
-
-      <section
-        class="academic-section education-section"
-        data-home-section="education"
-      >
-        <div class="academic-section-heading">
-          <div>
-            <p
-              class="section-label"
-              data-i18n-en="Background"
-              data-i18n-zh="学习经历"
-            >
-              Background
-            </p>
-            <h2 data-i18n-en="Education" data-i18n-zh="教育背景">Education</h2>
-          </div>
-        </div>
-        <ol class="education-list">
-          {
-            academicProfile.education.map((item) => (
-              <li>
-                <time>{item.period}</time>
-                <div>
-                  <h3
-                    data-i18n-en={item.institution}
-                    data-i18n-zh={item.institutionZh}
-                  >
-                    {item.institution}
-                  </h3>
-                  <p data-i18n-en={item.degree} data-i18n-zh={item.degreeZh}>
-                    {item.degree}
-                  </p>
-                </div>
-              </li>
-            ))
-          }
-        </ol>
       </section>
     </div>
   </main>

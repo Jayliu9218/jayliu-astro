@@ -62,6 +62,13 @@ export const academicProfile = {
       period: '2020 - 2024',
     },
   ],
+  honors: [
+    {
+      name: 'First-Class Academic Scholarship',
+      nameZh: '一等学业奖学金',
+      year: '2024',
+    },
+  ],
 };
 
 export const profiles = [

@@ -6,7 +6,7 @@ type Props = {
   index?: number;
 };
 
-const { publication, index = 0 } = Astro.props;
+const { publication } = Astro.props;
 const citation = [
   publication.venue,
   publication.volume,
@@ -15,9 +15,10 @@ const citation = [
 ---
 
 <article class="publication-item">
-  <div class="publication-mark" aria-hidden="true">
-    <span>{String(index + 1).padStart(2, '0')}</span>
-    <i></i>
+  <div class="publication-cover" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
   <div class="publication-content">
     <p class="publication-venue">

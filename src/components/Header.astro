@@ -7,6 +7,17 @@ import Navigation from './Navigation.astro';
     <a class="brand" href="/" aria-label="Jay Liu academic homepage">
       <span class="brand-text">Jay Liu</span>
     </a>
+    <button
+      class="menu-toggle"
+      type="button"
+      data-menu-toggle
+      aria-controls="main-menu"
+      aria-expanded="false"
+      data-i18n-en="Menu"
+      data-i18n-zh="菜单"
+    >
+      Menu
+    </button>
     <Navigation />
     <div class="nav-actions" aria-label="显示设置">
       <button

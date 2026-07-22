@@ -89,9 +89,10 @@ for (const file of htmlFiles) {
 
   if (
     !html.includes('data-theme-toggle') ||
-    !html.includes('data-language-toggle')
+    !html.includes('data-language-toggle') ||
+    !html.includes('data-menu-toggle')
   ) {
-    failures.push(`${route}: theme or language control is missing`);
+    failures.push(`${route}: menu, theme, or language control is missing`);
   }
 }
 
@@ -139,7 +140,7 @@ if (existsSync(join(dist, 'about', 'index.html'))) {
 
 const blogHtml = readFileSync(join(dist, 'blog', 'index.html'), 'utf8');
 if (
-  !blogHtml.includes('class="document-list"') ||
+  !blogHtml.includes('class="document-list collection-card"') ||
   !blogHtml.includes('class="document-row"')
 ) {
   failures.push('/blog/: documents must render as a flat list');
@@ -154,26 +155,22 @@ if (
 
 const projectsHtml = readFileSync(join(dist, 'projects', 'index.html'), 'utf8');
 for (const requiredClass of [
-  'project-index-summary',
-  'count-list',
-  'summary-tag-list',
-  'project-row',
+  'collection-heading',
+  'project-card-grid',
+  'project-card',
+  'collection-years project-filters',
 ]) {
   if (!projectsHtml.includes(`class="${requiredClass}`)) {
     failures.push(`/projects/: missing ${requiredClass}`);
   }
 }
-if (projectsHtml.includes('project-card')) {
-  failures.push('/projects/: legacy card layout is still present');
-}
-
 const publicationsHtml = readFileSync(
   join(dist, 'publications', 'index.html'),
   'utf8',
 );
 for (const requiredClass of [
-  'publications-header',
-  'publication-years',
+  'collection-shell publications-shell',
+  'collection-years publication-years',
   'publication-year-group',
   'publication-item',
 ]) {

@@ -1,42 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { categoryRules, fallbackCategory, getPosts } from '../lib/posts';
+import { getPosts } from '../lib/posts';
 
 const posts = await getPosts();
-const categoryCounts = [...categoryRules, fallbackCategory]
-  .map((category) => ({
-    ...category,
-    count: posts.filter((post) => post.category.key === category.key).length,
-  }))
-  .filter((category) => category.count > 0);
-
-const tagCounts = Array.from(
-  posts
-    .flatMap((post) => post.tags)
-    .reduce(
-      (map, tag) => map.set(tag, (map.get(tag) || 0) + 1),
-      new Map<string, number>(),
-    )
-    .entries(),
-)
-  .map(([tag, count]) => ({ tag, count }))
-  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
-  .slice(0, 18);
-
-const allTagCount = new Set(posts.flatMap((post) => post.tags)).size;
-
-const archiveYears = Array.from(
-  posts
-    .reduce(
-      (map, post) => map.set(post.year, (map.get(post.year) || 0) + 1),
-      new Map<number, number>(),
-    )
-    .entries(),
-)
-  .map(([year, count]) => ({ year, count }))
-  .sort((a, b) => b.year - a.year);
-
-const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
+const years = [...new Set(posts.map((post) => post.year))];
 ---
 
 <BaseLayout
@@ -44,184 +11,24 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
   description="Jay Liu 的科研技术笔记、实验记录、项目复盘和学习日志。"
   pageClass="portfolio-page blog-portfolio-page"
 >
-  <main class="portfolio-home blog-home">
-    <section class="portfolio-section blog-list-section" id="all">
-      <div class="section-header">
-        <div class="section-side">
-          <div
-            class="mini-stats"
-            aria-label="Post count"
-            data-i18n-aria-en="Post count"
-            data-i18n-aria-zh="文章数量"
-          >
-            <span>
-              <strong>{posts.length}</strong>
-              <span data-i18n-en="posts" data-i18n-zh="篇文章">posts</span>
-            </span>
-            <span>
-              <strong>{allTagCount}</strong>
-              <span data-i18n-en="tags" data-i18n-zh="个标签">tags</span>
-            </span>
-          </div>
-          <a
-            class="see-all"
-            href="#categories"
-            data-i18n-en="Index ->"
-            data-i18n-zh="索引 ->"
-          >
-            Index -&gt;
-          </a>
-        </div>
-      </div>
-
-      <div
-        class="document-list"
-        aria-label="Post list"
-        data-i18n-aria-en="Post list"
-        data-i18n-aria-zh="文章列表"
-      >
-        {
-          posts.map((post) => (
-            <a class="document-row" href={post.href}>
-              <div class="document-row-meta">
-                <time
-                  datetime={
-                    post.dateValue ? post.date.toISOString() : undefined
-                  }
-                  data-i18n-en={post.dateLabelEn}
-                  data-i18n-zh={post.dateLabel}
-                >
-                  {post.dateLabelEn}
-                </time>
-                <span
-                  class="document-category"
-                  data-i18n-en={post.category.labelEn}
-                  data-i18n-zh={post.category.label}
-                >
-                  {post.category.labelEn}
-                </span>
-              </div>
-              <div class="document-row-content">
-                <h3>{post.title}</h3>
-                <p>{post.description}</p>
-                <div class="document-tags" aria-label="Tags">
-                  {post.tags.map((tag) => (
-                    <span>{tag}</span>
-                  ))}
-                </div>
-              </div>
-              <span class="document-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
-          ))
-        }
-      </div>
-    </section>
-
-    <section
-      class="blog-filter-panel"
-      aria-label="Archive and categories"
-      data-i18n-aria-en="Archive and categories"
-      data-i18n-aria-zh="归档与分类"
-    >
-      <div class="index-summary-group">
-        <div class="section-header compact">
-          <div>
-            <p class="section-label" data-i18n-en="Archive" data-i18n-zh="归档">
-              Archive
-            </p>
-            <h2 data-i18n-en="Publication history" data-i18n-zh="发布年份分布">
-              Publication history
-            </h2>
-          </div>
-        </div>
-        <div class="archive-bars">
-          {
-            archiveYears.map((item) => (
-              <div
-                class="archive-bar"
-                style={`--bar-size: ${(item.count / maxArchiveCount) * 100}%`}
-              >
-                <span>{item.year}</span>
-                <i aria-hidden="true" />
-                <strong>{item.count}</strong>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-
-      <div class="index-summary-group">
-        <div class="section-header compact">
-          <div>
-            <p class="section-label" data-i18n-en="Topics" data-i18n-zh="主题">
-              Topics
-            </p>
-            <h2 data-i18n-en="By topic" data-i18n-zh="按主题">By topic</h2>
-          </div>
-        </div>
-        <nav
-          class="category-nav"
-          aria-label="Blog categories"
-          data-i18n-aria-en="Blog categories"
-          data-i18n-aria-zh="博客分类"
-        >
-          <a href="#all">
-            <span data-i18n-en="All" data-i18n-zh="全部">All</span>
-            <strong>{posts.length}</strong>
-          </a>
-          {
-            categoryCounts.map((category) => (
-              <a href={`#${category.key}`}>
-                <span
-                  data-i18n-en={category.labelEn}
-                  data-i18n-zh={category.label}
-                >
-                  {category.labelEn}
-                </span>
-                <strong>{category.count}</strong>
-              </a>
-            ))
-          }
-        </nav>
-      </div>
-    </section>
-
-    <section class="portfolio-section category-index-section" id="categories">
-      <div class="section-header">
-        <div>
-          <p class="section-label" data-i18n-en="Index" data-i18n-zh="索引">
-            Index
-          </p>
-          <h2 data-i18n-en="By category" data-i18n-zh="按分类">By category</h2>
-        </div>
-      </div>
-
-      <div class="category-index">
-        {
-          categoryCounts.map((category) => (
-            <section class="category-index-block" id={category.key}>
-              <div>
-                <h3
-                  data-i18n-en={category.labelEn}
-                  data-i18n-zh={category.label}
-                >
-                  {category.labelEn}
-                </h3>
-                <span
-                  data-i18n-en={`${category.count} posts`}
-                  data-i18n-zh={`${category.count} 篇文章`}
-                >
-                  {category.count} posts
-                </span>
-              </div>
-              <div class="category-post-list">
-                {posts
-                  .filter((post) => post.category.key === category.key)
-                  .slice(0, 6)
-                  .map((post) => (
-                    <a href={post.href}>
+  <main class="collection-shell blog-shell">
+    <div class="collection-main document-groups">
+      {
+        years.map((year) => (
+          <section class="document-year-group" id={`year-${year}`}>
+            <h1 class="year-heading">{year}</h1>
+            <div
+              class="document-list collection-card"
+              aria-label={`${year} post list`}
+            >
+              {posts
+                .filter((post) => post.year === year)
+                .map((post) => (
+                  <article class="document-row">
+                    <h2>
+                      <a href={post.href}>{post.title}</a>
+                    </h2>
+                    <div class="document-row-meta">
                       <time
                         datetime={
                           post.dateValue ? post.date.toISOString() : undefined
@@ -231,46 +38,49 @@ const maxArchiveCount = Math.max(...archiveYears.map((item) => item.count), 1);
                       >
                         {post.dateLabelEn}
                       </time>
-                      <strong>{post.title}</strong>
+                      <span
+                        data-i18n-en={post.category.labelEn}
+                        data-i18n-zh={post.category.label}
+                      >
+                        {post.category.labelEn}
+                      </span>
+                      {post.tags.slice(0, 3).map((tag) => (
+                        <span>{tag}</span>
+                      ))}
+                    </div>
+                    <p>{post.description}</p>
+                    <a
+                      class="read-more"
+                      href={post.href}
+                      data-i18n-en="Read more >>"
+                      data-i18n-zh="阅读全文 >>"
+                    >
+                      Read more &gt;&gt;
                     </a>
-                  ))}
-              </div>
-            </section>
-          ))
-        }
-      </div>
-    </section>
+                  </article>
+                ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
 
-    <section
-      class="portfolio-section blog-tag-section"
-      aria-label="Tags"
-      data-i18n-aria-en="Tags"
-      data-i18n-aria-zh="标签"
+    <nav
+      class="collection-years"
+      aria-label="Document years"
+      data-i18n-aria-en="Document years"
+      data-i18n-aria-zh="文档年份"
     >
-      <div class="section-header">
-        <div>
-          <p class="section-label" data-i18n-en="Tags" data-i18n-zh="标签">
-            Tags
-          </p>
-          <h2 data-i18n-en="Keyword cloud" data-i18n-zh="关键词云">
-            Keyword cloud
-          </h2>
-        </div>
-        <div
-          class="mini-stats"
-          aria-label="Tag count"
-          data-i18n-aria-en="Tag count"
-          data-i18n-aria-zh="标签数量"
-        >
-          <span>
-            <strong>{tagCounts.length}</strong>
-            <span data-i18n-en="tags" data-i18n-zh="个标签">tags</span>
-          </span>
-        </div>
-      </div>
-      <div class="tag-cloud">
-        {tagCounts.map((item) => <span>{item.tag}</span>)}
-      </div>
-    </section>
+      {
+        years.map((year, index) => (
+          <a
+            class={index === 0 ? 'is-current' : undefined}
+            href={`#year-${year}`}
+          >
+            {year}
+          </a>
+        ))
+      }
+    </nav>
   </main>
 </BaseLayout>

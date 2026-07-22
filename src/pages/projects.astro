@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getProjects } from '../lib/projects';
 
 const projects = await getProjects();
-
 const projectTypes = Array.from(
   projects
     .reduce((map, project) => {
@@ -16,33 +15,7 @@ const projectTypes = Array.from(
       return map;
     }, new Map<string, { label: string; labelZh: string; count: number }>())
     .values(),
-).sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-
-const projectStatuses = Array.from(
-  projects
-    .reduce((map, project) => {
-      const current = map.get(project.status);
-      map.set(project.status, {
-        label: project.status,
-        labelZh: project.statusZh,
-        count: (current?.count || 0) + 1,
-      });
-      return map;
-    }, new Map<string, { label: string; labelZh: string; count: number }>())
-    .values(),
-).sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-
-const projectTags = Array.from(
-  projects
-    .flatMap((project) => project.tags)
-    .reduce(
-      (map, tag) => map.set(tag, (map.get(tag) || 0) + 1),
-      new Map<string, number>(),
-    )
-    .entries(),
-)
-  .map(([tag, count]) => ({ tag, count }))
-  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+);
 ---
 
 <BaseLayout
@@ -50,96 +23,33 @@ const projectTags = Array.from(
   description="Jay Liu 的工程项目、网页实验、研究学习和长期维护项目。"
   pageClass="portfolio-page projects-portfolio-page"
 >
-  <main class="portfolio-home projects-home">
-    <section
-      class="portfolio-section project-index-section project-list-section"
-      id="project-index"
-    >
-      <div class="section-header">
-        <div class="mini-stats" aria-label="Project count">
-          <span>
-            <strong>{projects.length}</strong>
-            <span data-i18n-en="entries" data-i18n-zh="个条目">entries</span>
-          </span>
-        </div>
-      </div>
+  <main class="collection-shell projects-shell">
+    <section class="collection-main project-index-section" id="project-index">
+      <header class="collection-heading">
+        <h1 data-i18n-en="Projects" data-i18n-zh="项目">Projects</h1>
+        <p
+          data-i18n-en="Research, engineering, and long-running technical work."
+          data-i18n-zh="研究、工程实践与长期技术项目。"
+        >
+          Research, engineering, and long-running technical work.
+        </p>
+      </header>
 
-      <div
-        class="project-index-summary"
-        aria-label="Project statistics"
-        data-i18n-aria-en="Project statistics"
-        data-i18n-aria-zh="项目统计"
-      >
-        <section class="index-summary-group">
-          <p class="section-label" data-i18n-en="Types" data-i18n-zh="类型">
-            Types
-          </p>
-          <ul class="count-list">
-            {
-              projectTypes.map((type) => (
-                <li>
-                  <span data-i18n-en={type.label} data-i18n-zh={type.labelZh}>
-                    {type.label}
-                  </span>
-                  <strong>{type.count}</strong>
-                </li>
-              ))
-            }
-          </ul>
-        </section>
-
-        <section class="index-summary-group">
-          <p class="section-label" data-i18n-en="Status" data-i18n-zh="状态">
-            Status
-          </p>
-          <ul class="count-list">
-            {
-              projectStatuses.map((status) => (
-                <li>
-                  <span
-                    data-i18n-en={status.label}
-                    data-i18n-zh={status.labelZh}
-                  >
-                    {status.label}
-                  </span>
-                  <strong>{status.count}</strong>
-                </li>
-              ))
-            }
-          </ul>
-        </section>
-
-        <section class="index-summary-group project-tag-summary">
-          <p class="section-label" data-i18n-en="Tags" data-i18n-zh="标签">
-            Tags
-          </p>
-          <div class="summary-tag-list">
-            {
-              projectTags.map((item) => (
-                <span>
-                  {item.tag} <strong>{item.count}</strong>
-                </span>
-              ))
-            }
-          </div>
-        </section>
-      </div>
-
-      <div class="projects-list project-index-list flat-list">
+      <div class="project-card-grid">
         {
-          projects.map((project, index) => (
-            <a class="project-row" href={project.href}>
-              <span class="project-num">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <div class="project-row-content">
+          projects.map((project) => (
+            <a class="project-card" href={project.href}>
+              <div class="project-card-cover" aria-hidden="true">
+                <span>{project.year}</span>
+              </div>
+              <div class="project-card-body">
                 <div class="project-row-heading">
-                  <h3
+                  <h2
                     data-i18n-en={project.title}
                     data-i18n-zh={project.titleZh}
                   >
                     {project.title}
-                  </h3>
+                  </h2>
                   <span
                     class="project-status"
                     data-i18n-en={project.status}
@@ -160,13 +70,32 @@ const projectTags = Array.from(
                   ))}
                 </div>
               </div>
-              <span class="project-arrow" aria-hidden="true">
-                →
-              </span>
             </a>
           ))
         }
       </div>
     </section>
+
+    <nav
+      class="collection-years project-filters"
+      aria-label="Project types"
+      data-i18n-aria-en="Project types"
+      data-i18n-aria-zh="项目类型"
+    >
+      <a class="is-current" href="#project-index">
+        <span data-i18n-en="All" data-i18n-zh="全部">All</span>
+        <strong>{projects.length}</strong>
+      </a>
+      {
+        projectTypes.map((type) => (
+          <a href="#project-index">
+            <span data-i18n-en={type.label} data-i18n-zh={type.labelZh}>
+              {type.label}
+            </span>
+            <strong>{type.count}</strong>
+          </a>
+        ))
+      }
+    </nav>
   </main>
 </BaseLayout>
