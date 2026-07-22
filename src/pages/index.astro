@@ -1,99 +1,223 @@
 ---
+import { getCollection } from 'astro:content';
+import PublicationItem from '../components/PublicationItem.astro';
+import { academicProfile, profiles } from '../config/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { profiles } from '../config/site';
+import { getPublications } from '../lib/publications';
 
-const interests = [
-  { en: 'Materials microstructure and microscopy', zh: '材料微结构与显微表征' },
-  {
-    en: 'FIB / SEM / TEM experimental workflows',
-    zh: 'FIB / SEM / TEM 相关实验流程',
-  },
-  {
-    en: 'Research data and reproducible analysis',
-    zh: '科研数据整理与可复现分析',
-  },
-  {
-    en: 'Knowledge systems, technical writing, and long-term learning',
-    zh: '个人知识库、技术写作与长期学习',
-  },
-];
+const publications = await getPublications();
+const selectedPublications = publications.filter((item) => item.selected);
+const news = (await getCollection('news')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const newsDate = (date: Date) =>
+  new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short' }).format(
+    date,
+  );
 ---
 
 <BaseLayout
   pageTitle="Jay Liu"
-  description="关于 Jay Liu 的研究兴趣、技术记录方式和联系方式。"
-  pageClass="portfolio-page about-portfolio-page"
+  description="Jay Liu's academic homepage: stress corrosion cracking, microscopy, materials characterization, publications, and technical notes."
+  pageClass="portfolio-page academic-home-page"
 >
-  <main class="portfolio-home about-home">
-    <section
-      class="portfolio-section about-focus-section about-list-section"
-      data-home-section="about"
-    >
-      <div class="about-layout">
-        <div class="about-main">
-          <p
-            data-i18n-en="I connect materials, microscopy, code, and writing: collecting questions in experiments, building methods through analysis, and preserving judgment through writing."
-            data-i18n-zh="我希望把材料、显微、代码和写作连接起来：在实验中积累问题，在分析中建立方法，在写作中沉淀判断。这个站点会优先收纳科研技术相关内容，也会保留一些个人项目和学习复盘。"
-          >
-            I connect materials, microscopy, code, and writing: collecting
-            questions in experiments, building methods through analysis, and
-            preserving judgment through writing.
-          </p>
-
-          <div class="focus-list" data-home-section="focus">
-            <p
-              class="section-label"
-              data-i18n-en="Current focus"
-              data-i18n-zh="当前关注"
-            >
-              Current focus
-            </p>
-            <ul class="clean-list">
-              {
-                interests.map((item) => (
-                  <li data-i18n-en={item.en} data-i18n-zh={item.zh}>
-                    {item.en}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-        </div>
-
-        <aside
-          class="profile-card contact-card"
-          id="contact-links"
-          data-home-section="contact"
+  <main class="academic-shell">
+    <aside class="academic-profile" data-home-section="profile">
+      <div class="portrait-placeholder" aria-label="Portrait placeholder">
+        <span>{academicProfile.initials}</span>
+        <small data-i18n-en="Portrait" data-i18n-zh="头像待更新">Portrait</small
         >
+      </div>
+
+      <div class="profile-identity">
+        <p
+          class="profile-kicker"
+          data-i18n-en="Academic profile"
+          data-i18n-zh="学术主页"
+        >
+          Academic profile
+        </p>
+        <h1>{academicProfile.name}</h1>
+        <p
+          class="profile-position"
+          data-i18n-en={academicProfile.position.en}
+          data-i18n-zh={academicProfile.position.zh}
+        >
+          {academicProfile.position.en}
+        </p>
+        <p
+          class="profile-affiliation"
+          data-i18n-en={academicProfile.affiliation.en}
+          data-i18n-zh={academicProfile.affiliation.zh}
+        >
+          {academicProfile.affiliation.en}
+        </p>
+      </div>
+
+      <nav
+        class="profile-links"
+        id="contact-links"
+        aria-label="Academic profiles"
+      >
+        {
+          profiles.map((profile) => (
+            <a
+              href={profile.url}
+              target={profile.url.startsWith('http') ? '_blank' : undefined}
+              rel={profile.url.startsWith('http') ? 'noreferrer' : undefined}
+            >
+              <span>{profile.name}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          ))
+        }
+      </nav>
+    </aside>
+
+    <div class="academic-main">
+      <section class="academic-intro" data-home-section="about">
+        <p class="section-label" data-i18n-en="About" data-i18n-zh="关于">
+          About
+        </p>
+        <p
+          class="academic-statement"
+          data-i18n-en={academicProfile.bio.en}
+          data-i18n-zh={academicProfile.bio.zh}
+        >
+          {academicProfile.bio.en}
+        </p>
+        <div class="research-interests" data-home-section="focus">
           <p
-            class="section-label"
-            data-i18n-en="Contact and profiles"
-            data-i18n-zh="联系与个人资料"
+            class="subsection-title"
+            data-i18n-en="Research interests"
+            data-i18n-zh="研究兴趣"
           >
-            Contact and profiles
+            Research interests
           </p>
-          <ul class="contact-list">
+          <ul>
             {
-              profiles.map((profile) => (
-                <li>
-                  <a
-                    href={profile.url}
-                    target={
-                      profile.url.startsWith('http') ? '_blank' : undefined
-                    }
-                    rel={
-                      profile.url.startsWith('http') ? 'noreferrer' : undefined
-                    }
-                  >
-                    <span>{profile.name}</span>
-                    <span aria-hidden="true">→</span>
-                  </a>
+              academicProfile.interests.map((interest) => (
+                <li data-i18n-en={interest.en} data-i18n-zh={interest.zh}>
+                  {interest.en}
                 </li>
               ))
             }
           </ul>
-        </aside>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      <section class="academic-section news-section" data-home-section="news">
+        <div class="academic-section-heading">
+          <div>
+            <p class="section-label" data-i18n-en="Updates" data-i18n-zh="近况">
+              Updates
+            </p>
+            <h2 data-i18n-en="News" data-i18n-zh="动态">News</h2>
+          </div>
+        </div>
+        <div class="news-list">
+          {
+            news.map((item) => {
+              const content = (
+                <>
+                  <time datetime={item.data.date.toISOString()}>
+                    {newsDate(item.data.date)}
+                  </time>
+                  <span
+                    data-i18n-en={item.data.title}
+                    data-i18n-zh={item.data.titleZh}
+                  >
+                    {item.data.title}
+                  </span>
+                </>
+              );
+
+              return item.data.url ? (
+                <a class="news-row" href={item.data.url}>
+                  {content}
+                  <i aria-hidden="true">→</i>
+                </a>
+              ) : (
+                <div class="news-row">{content}</div>
+              );
+            })
+          }
+        </div>
+      </section>
+
+      <section
+        class="academic-section selected-publications"
+        data-home-section="publications"
+      >
+        <div class="academic-section-heading">
+          <div>
+            <p
+              class="section-label"
+              data-i18n-en="Research output"
+              data-i18n-zh="研究成果"
+            >
+              Research output
+            </p>
+            <h2 data-i18n-en="Selected publications" data-i18n-zh="代表性论文">
+              Selected publications
+            </h2>
+          </div>
+          <a
+            class="see-all"
+            href="/publications/"
+            data-i18n-en="All publications ->"
+            data-i18n-zh="全部论文 ->"
+          >
+            All publications -&gt;
+          </a>
+        </div>
+        <div class="publication-list compact-publications">
+          {
+            selectedPublications.map((publication, index) => (
+              <PublicationItem publication={publication} index={index} />
+            ))
+          }
+        </div>
+      </section>
+
+      <section
+        class="academic-section education-section"
+        data-home-section="education"
+      >
+        <div class="academic-section-heading">
+          <div>
+            <p
+              class="section-label"
+              data-i18n-en="Background"
+              data-i18n-zh="学习经历"
+            >
+              Background
+            </p>
+            <h2 data-i18n-en="Education" data-i18n-zh="教育背景">Education</h2>
+          </div>
+        </div>
+        <ol class="education-list">
+          {
+            academicProfile.education.map((item) => (
+              <li>
+                <time>{item.period}</time>
+                <div>
+                  <h3
+                    data-i18n-en={item.institution}
+                    data-i18n-zh={item.institutionZh}
+                  >
+                    {item.institution}
+                  </h3>
+                  <p data-i18n-en={item.degree} data-i18n-zh={item.degreeZh}>
+                    {item.degree}
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+    </div>
   </main>
 </BaseLayout>

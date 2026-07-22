@@ -1,0 +1,62 @@
+---
+import type { PublicationSummary } from '../lib/publications';
+
+type Props = {
+  publication: PublicationSummary;
+  index?: number;
+};
+
+const { publication, index = 0 } = Astro.props;
+const citation = [
+  publication.venue,
+  publication.volume,
+  publication.articleNumber,
+].filter(Boolean);
+---
+
+<article class="publication-item">
+  <div class="publication-mark" aria-hidden="true">
+    <span>{String(index + 1).padStart(2, '0')}</span>
+    <i></i>
+  </div>
+  <div class="publication-content">
+    <p class="publication-venue">
+      <span>{citation.join(' · ')}</span>
+      <time>{publication.year}</time>
+    </p>
+    <h3>{publication.title}</h3>
+    <p class="publication-authors">
+      {
+        publication.authors.map((author, authorIndex) => (
+          <>
+            {authorIndex > 0 && ', '}
+            <span class={author === 'J. Liu' ? 'publication-self' : undefined}>
+              {author}
+            </span>
+          </>
+        ))
+      }
+    </p>
+    <p
+      class="publication-summary"
+      data-i18n-en={publication.summary}
+      data-i18n-zh={publication.summaryZh}
+    >
+      {publication.summary}
+    </p>
+    <div class="publication-footer">
+      <div class="publication-tags" aria-label="Research topics">
+        {publication.tags.map((tag) => <span>{tag}</span>)}
+      </div>
+      <div class="publication-links">
+        {
+          publication.links.map((link) => (
+            <a href={link.url} target="_blank" rel="noreferrer">
+              {link.label} <span aria-hidden="true">↗</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</article>

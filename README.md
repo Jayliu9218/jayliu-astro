@@ -1,6 +1,6 @@
 # Jay Liu — Personal Website
 
-Astro 静态个人主页，用于发布科研技术笔记、项目索引和个人简历。线上地址为 <https://jayliu.netlify.app>。
+Astro 静态学术主页，用于展示研究方向、学术动态、论文、科研技术笔记、项目和个人简历。线上地址为 <https://jayliu.netlify.app>。
 
 ## 常用命令
 
@@ -19,10 +19,10 @@ npm run preview
 src/
 ├── components/       # Header、Navigation、Footer
 ├── config/           # 站点导航、社交链接和公共配置
-├── content/          # posts 文档与 projects 项目内容集合
+├── content/          # posts、projects、publications 与 news 内容集合
 ├── layouts/          # 全站和文档布局
 ├── lib/              # 文档、项目的排序与列表数据转换
-├── pages/            # About 首页、文档、项目和动态详情路由
+├── pages/            # 学术首页、论文、文档、项目和动态详情路由
 └── styles/           # 主题、共享组件、Portfolio 与响应式样式
 archive/hexo-source/  # 旧 Hexo 源稿，仅供迁移追溯
 public/               # favicon 和公开下载的简历 PDF
@@ -53,6 +53,13 @@ image:
 在 `src/content/projects/` 新建 Markdown 文件。每个文件生成 `/projects/<文件名>` 详情页，并自动出现在项目索引中。
 
 项目的中英文标题、摘要、类型、状态、概览和要点均写在 frontmatter 中；外部演示地址、代码仓库和相关文档是可选字段。完整字段约束见 `src/content.config.ts`，排序规则见 `src/lib/projects.ts`。
+
+## 学术信息
+
+- 个人介绍、研究兴趣和教育经历集中在 `src/config/site.ts` 的 `academicProfile`。
+- 论文位于 `src/content/publications/`，自动生成首页代表性论文和 `/publications/` 年份索引。
+- 学术动态位于 `src/content/news/`，按日期倒序显示在首页。
+- 头像当前使用可替换占位区，后续可改为 `public/` 下的公开图片。
 
 ## 简历与部署
 

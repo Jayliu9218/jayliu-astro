@@ -4,9 +4,27 @@ import Navigation from './Navigation.astro';
 
 <header class="site-header">
   <nav class="site-nav" aria-label="主导航">
-    <a class="brand" href="/" aria-label="Jay Liu 关于页面">
+    <a class="brand" href="/" aria-label="Jay Liu academic homepage">
       <span class="brand-text">Jay Liu</span>
     </a>
     <Navigation />
+    <div class="nav-actions" aria-label="显示设置">
+      <button
+        class="nav-control"
+        type="button"
+        data-theme-toggle
+        aria-label="切换明暗模式"
+      >
+        Dark
+      </button>
+      <button
+        class="nav-control"
+        type="button"
+        data-language-toggle
+        aria-label="切换语言"
+      >
+        中
+      </button>
+    </div>
   </nav>
 </header>

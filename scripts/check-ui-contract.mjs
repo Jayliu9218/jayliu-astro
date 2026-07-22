@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dist = join(root, 'dist');
-const expectedNavigation = ['/', '/blog/', '/projects/'];
+const expectedNavigation = ['/', '/publications/', '/blog/', '/projects/'];
 const expectedProfileLinks = [
   'mailto:jayliu9218@gmail.com',
   'https://github.com/Jayliu9218',
@@ -96,14 +96,21 @@ for (const file of htmlFiles) {
 }
 
 const homeHtml = readFileSync(join(dist, 'index.html'), 'utf8');
-for (const section of ['about', 'focus', 'contact']) {
+for (const section of [
+  'profile',
+  'about',
+  'focus',
+  'news',
+  'publications',
+  'education',
+]) {
   if (!homeHtml.includes(`data-home-section="${section}"`)) {
     failures.push(`/: homepage is missing the ${section} section`);
   }
 }
 
 const contactHtml = homeHtml.match(
-  /<aside\b[^>]*id=["']contact-links["'][^>]*>([\s\S]*?)<\/aside>/i,
+  /<nav\b[^>]*id=["']contact-links["'][^>]*>([\s\S]*?)<\/nav>/i,
 )?.[1];
 const contactLinks = [
   ...(contactHtml?.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi) ?? []),
@@ -160,6 +167,25 @@ if (projectsHtml.includes('project-card')) {
   failures.push('/projects/: legacy card layout is still present');
 }
 
+const publicationsHtml = readFileSync(
+  join(dist, 'publications', 'index.html'),
+  'utf8',
+);
+for (const requiredClass of [
+  'publications-header',
+  'publication-years',
+  'publication-year-group',
+  'publication-item',
+]) {
+  if (!publicationsHtml.includes(`class="${requiredClass}`)) {
+    failures.push(`/publications/: missing ${requiredClass}`);
+  }
+}
+
+if (!homeHtml.includes('class="publication-list compact-publications"')) {
+  failures.push('/: selected publications are missing');
+}
+
 if (failures.length > 0) {
   console.error('UI contract failures:');
   failures.forEach((failure) => console.error(`- ${failure}`));
@@ -167,5 +193,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `Checked ${htmlFiles.length} HTML files: layout, navigation, controls, and project routing are consistent.`,
+  `Checked ${htmlFiles.length} HTML files: layout, navigation, controls, academic sections, and content routing are consistent.`,
 );

@@ -10,40 +10,17 @@ const isCurrent = (href: string) => {
 };
 ---
 
-<div class="nav-content" id="main-menu">
-  <div class="nav-links" aria-label="页面栏目">
-    {
-      navigation.map((link) => (
-        <a
-          href={link.href}
-          data-en={link.label}
-          data-zh={link.zh}
-          aria-current={isCurrent(link.href) ? 'page' : undefined}
-        >
-          {link.label}
-        </a>
-      ))
-    }
-  </div>
-
-  <span class="nav-divider" aria-hidden="true">|</span>
-
-  <div class="nav-actions" aria-label="显示设置">
-    <button
-      class="nav-control"
-      type="button"
-      data-theme-toggle
-      aria-label="切换明暗模式"
-    >
-      Dark
-    </button>
-    <button
-      class="nav-control"
-      type="button"
-      data-language-toggle
-      aria-label="切换语言"
-    >
-      中
-    </button>
-  </div>
+<div class="nav-links" id="main-menu" aria-label="页面栏目">
+  {
+    navigation.map((link) => (
+      <a
+        href={link.href}
+        data-en={link.label}
+        data-zh={link.zh}
+        aria-current={isCurrent(link.href) ? 'page' : undefined}
+      >
+        {link.label}
+      </a>
+    ))
+  }
 </div>

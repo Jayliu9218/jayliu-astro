@@ -1,0 +1,74 @@
+---
+import PublicationItem from '../components/PublicationItem.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublications } from '../lib/publications';
+
+const publications = await getPublications();
+const years = [...new Set(publications.map((item) => item.year))];
+---
+
+<BaseLayout
+  pageTitle="Publications"
+  description="Peer-reviewed publications by Jie Liu on stress corrosion cracking, stainless steels, and materials characterization."
+  pageClass="portfolio-page publications-page"
+>
+  <main class="publications-shell">
+    <header class="publications-header">
+      <div>
+        <p
+          class="section-label"
+          data-i18n-en="Research output"
+          data-i18n-zh="研究成果"
+        >
+          Research output
+        </p>
+        <h1 data-i18n-en="Publications" data-i18n-zh="学术论文">
+          Publications
+        </h1>
+      </div>
+      <p
+        data-i18n-en="Peer-reviewed work on stress corrosion cracking, additively manufactured stainless steels, crystallography, and high-temperature water environments."
+        data-i18n-zh="围绕应力腐蚀开裂、增材制造不锈钢、晶体学和高温水环境的同行评议研究。"
+      >
+        Peer-reviewed work on stress corrosion cracking, additively manufactured
+        stainless steels, crystallography, and high-temperature water
+        environments.
+      </p>
+    </header>
+
+    <div class="publications-layout">
+      <nav
+        class="publication-years"
+        aria-label="Publication years"
+        data-i18n-aria-en="Publication years"
+        data-i18n-aria-zh="论文年份"
+      >
+        <p data-i18n-en="Browse by year" data-i18n-zh="按年份浏览">
+          Browse by year
+        </p>
+        {years.map((year) => <a href={`#year-${year}`}>{year}</a>)}
+      </nav>
+
+      <div class="publication-groups">
+        {
+          years.map((year) => {
+            const items = publications.filter((item) => item.year === year);
+            return (
+              <section class="publication-year-group" id={`year-${year}`}>
+                <div class="year-heading">
+                  <h2>{year}</h2>
+                  <span>{items.length}</span>
+                </div>
+                <div class="publication-list">
+                  {items.map((publication, index) => (
+                    <PublicationItem publication={publication} index={index} />
+                  ))}
+                </div>
+              </section>
+            );
+          })
+        }
+      </div>
+    </div>
+  </main>
+</BaseLayout>
