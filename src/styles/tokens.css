@@ -32,26 +32,3 @@
     'Microsoft YaHei',
     sans-serif;
 }
-
-:root[data-theme='dark'] {
-  color-scheme: dark;
-  --bg: #151514;
-  --bg-soft: #20201e;
-  --band-documents: #18231f;
-  --band-projects: #2a2318;
-  --band-tools: #17212a;
-  --band-more: #291e27;
-  --surface: #1d1d1b;
-  --surface-muted: rgba(31, 31, 29, 0.72);
-  --text: #eeeeea;
-  --muted: #b9b6ad;
-  --subtle: #8f8b82;
-  --line: #393731;
-  --line-strong: #555147;
-  --accent: #7fa99f;
-  --accent-strong: #a7d2c8;
-  --accent-warm: #d0a66c;
-  --accent-blue: #86b8d9;
-  --accent-plum: #c58bb5;
-  --shadow: none;
-}

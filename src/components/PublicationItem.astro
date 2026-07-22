@@ -38,13 +38,7 @@ const citation = [
         ))
       }
     </p>
-    <p
-      class="publication-summary"
-      data-i18n-en={publication.summary}
-      data-i18n-zh={publication.summaryZh}
-    >
-      {publication.summary}
-    </p>
+    <p class="publication-summary">{publication.summary}</p>
     <div class="publication-footer">
       <div class="publication-tags" aria-label="Research topics">
         {publication.tags.map((tag) => <span>{tag}</span>)}

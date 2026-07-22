@@ -11,7 +11,6 @@ year: 2026
 articleNumber: '113852'
 doi: '10.1016/j.corsci.2026.113852'
 summary: 'A coupled experimental and crystal-plasticity analysis of crack initiation in additively manufactured 316L stainless steel.'
-summaryZh: '结合实验与晶体塑性分析，研究增材制造 316L 不锈钢的晶间应力腐蚀开裂起始。'
 tags: ['IGSCC', '316L', 'CPFEM']
 selected: true
 order: 1

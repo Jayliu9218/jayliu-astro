@@ -8,7 +8,7 @@ const years = [...new Set(posts.map((post) => post.year))];
 
 <BaseLayout
   pageTitle="Documents"
-  description="Jay Liu 的科研技术笔记、实验记录、项目复盘和学习日志。"
+  description="Jay Liu's technical notes, experiment records, project reviews, and learning journal."
   pageClass="portfolio-page blog-portfolio-page"
 >
   <main class="collection-shell blog-shell">
@@ -33,28 +33,16 @@ const years = [...new Set(posts.map((post) => post.year))];
                         datetime={
                           post.dateValue ? post.date.toISOString() : undefined
                         }
-                        data-i18n-en={post.dateLabelEn}
-                        data-i18n-zh={post.dateLabel}
                       >
-                        {post.dateLabelEn}
+                        {post.dateLabel}
                       </time>
-                      <span
-                        data-i18n-en={post.category.labelEn}
-                        data-i18n-zh={post.category.label}
-                      >
-                        {post.category.labelEn}
-                      </span>
+                      <span>{post.category.label}</span>
                       {post.tags.slice(0, 3).map((tag) => (
                         <span>{tag}</span>
                       ))}
                     </div>
                     <p>{post.description}</p>
-                    <a
-                      class="read-more"
-                      href={post.href}
-                      data-i18n-en="Read more >>"
-                      data-i18n-zh="阅读全文 >>"
-                    >
+                    <a class="read-more" href={post.href}>
                       Read more &gt;&gt;
                     </a>
                   </article>
@@ -65,12 +53,7 @@ const years = [...new Set(posts.map((post) => post.year))];
       }
     </div>
 
-    <nav
-      class="collection-years"
-      aria-label="Document years"
-      data-i18n-aria-en="Document years"
-      data-i18n-aria-zh="文档年份"
-    >
+    <nav class="collection-years" aria-label="Document years">
       {
         years.map((year, index) => (
           <a

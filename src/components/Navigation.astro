@@ -10,13 +10,11 @@ const isCurrent = (href: string) => {
 };
 ---
 
-<div class="nav-links" id="main-menu" aria-label="页面栏目">
+<div class="nav-links" id="main-menu" aria-label="Site sections">
   {
     navigation.map((link) => (
       <a
         href={link.href}
-        data-en={link.label}
-        data-zh={link.zh}
         aria-current={isCurrent(link.href) ? 'page' : undefined}
       >
         {link.label}

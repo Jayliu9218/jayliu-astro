@@ -3,7 +3,6 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 export type Category = {
   key: string;
   label: string;
-  labelEn: string;
   match: string[];
 };
 
@@ -15,7 +14,6 @@ export type PostSummary = {
   dateValue: number;
   year: number;
   dateLabel: string;
-  dateLabelEn: string;
   tags: string[];
   category: Category;
   href: string;
@@ -24,8 +22,7 @@ export type PostSummary = {
 export const categoryRules: Category[] = [
   {
     key: 'course',
-    label: '课程笔记',
-    labelEn: 'Course notes',
+    label: 'Course notes',
     match: [
       'course',
       'cfd',
@@ -38,8 +35,7 @@ export const categoryRules: Category[] = [
   },
   {
     key: 'tooling',
-    label: '工具方法',
-    labelEn: 'Tools',
+    label: 'Tools',
     match: [
       'tooling',
       'commands',
@@ -57,8 +53,7 @@ export const categoryRules: Category[] = [
   },
   {
     key: 'research',
-    label: '科研实验',
-    labelEn: 'Research',
+    label: 'Research',
     match: [
       'fib',
       'note',
@@ -70,14 +65,12 @@ export const categoryRules: Category[] = [
   },
   {
     key: 'life',
-    label: '生活随笔',
-    labelEn: 'Life',
+    label: 'Life',
     match: ['life', 'reflection', 'diary'],
   },
   {
     key: 'web',
-    label: 'Web 与创作',
-    labelEn: 'Web',
+    label: 'Web',
     match: [
       'web',
       'astro',
@@ -91,8 +84,7 @@ export const categoryRules: Category[] = [
 
 export const fallbackCategory: Category = {
   key: 'notes',
-  label: '杂项记录',
-  labelEn: 'Notes',
+  label: 'Notes',
   match: [],
 };
 
@@ -118,16 +110,12 @@ export async function getPosts(): Promise<PostSummary[]> {
         entry,
         title: entry.data.title,
         description:
-          entry.data.description || '一篇正在整理中的研究、技术或学习记录。',
+          entry.data.description ||
+          'A research, technical, or learning note in progress.',
         date,
         dateValue,
         year: date.getFullYear(),
-        dateLabel: date.toLocaleDateString('zh-CN', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        }),
-        dateLabelEn: date.toLocaleDateString('en', {
+        dateLabel: date.toLocaleDateString('en', {
           year: 'numeric',
           month: 'short',
           day: '2-digit',

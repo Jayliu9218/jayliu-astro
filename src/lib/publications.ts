@@ -10,7 +10,6 @@ export type PublicationSummary = {
   articleNumber?: string;
   doi?: string;
   summary: string;
-  summaryZh: string;
   tags: string[];
   selected: boolean;
   order: number;

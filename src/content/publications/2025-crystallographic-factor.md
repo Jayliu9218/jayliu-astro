@@ -16,7 +16,6 @@ volume: '297'
 articleNumber: '121322'
 doi: '10.1016/j.actamat.2025.121322'
 summary: 'A crystallography-informed framework for predicting intergranular cracking susceptibility in high-temperature water.'
-summaryZh: '将晶体学因子纳入高温水环境不锈钢晶间开裂敏感性预测。'
 tags: ['IGSCC', 'crystallography', 'prediction']
 selected: true
 order: 2

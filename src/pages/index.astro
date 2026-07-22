@@ -27,27 +27,13 @@ const newsDay = (date: Date) =>
     <aside class="academic-profile" data-home-section="profile">
       <div class="portrait-placeholder" aria-label="Portrait placeholder">
         <span>{academicProfile.initials}</span>
-        <small data-i18n-en="Portrait" data-i18n-zh="头像待更新">
-          Portrait
-        </small>
+        <small>Portrait</small>
       </div>
 
       <div class="profile-identity">
         <h1>{academicProfile.name}</h1>
-        <p
-          class="profile-position"
-          data-i18n-en={academicProfile.position.en}
-          data-i18n-zh={academicProfile.position.zh}
-        >
-          {academicProfile.position.en}
-        </p>
-        <p
-          class="profile-affiliation"
-          data-i18n-en={academicProfile.affiliation.en}
-          data-i18n-zh={academicProfile.affiliation.zh}
-        >
-          {academicProfile.affiliation.en}
-        </p>
+        <p class="profile-position">{academicProfile.position}</p>
+        <p class="profile-affiliation">{academicProfile.affiliation}</p>
       </div>
 
       <nav
@@ -58,6 +44,9 @@ const newsDay = (date: Date) =>
         {
           profiles.map((profile) => (
             <a
+              class={
+                profile.url.startsWith('mailto:') ? 'profile-email' : undefined
+              }
               href={profile.url}
               target={profile.url.startsWith('http') ? '_blank' : undefined}
               rel={profile.url.startsWith('http') ? 'noreferrer' : undefined}
@@ -71,26 +60,12 @@ const newsDay = (date: Date) =>
 
     <div class="academic-main">
       <section class="academic-card academic-intro" data-home-section="about">
-        <h2 data-i18n-en="About Me" data-i18n-zh="关于我">About Me</h2>
-        <p
-          class="academic-statement"
-          data-i18n-en={academicProfile.bio.en}
-          data-i18n-zh={academicProfile.bio.zh}
-        >
-          {academicProfile.bio.en}
-        </p>
+        <h2>About Me</h2>
+        <p class="academic-statement">{academicProfile.bio}</p>
         <div class="research-interests" data-home-section="focus">
-          <h3 data-i18n-en="Research Interests" data-i18n-zh="研究兴趣">
-            Research Interests
-          </h3>
+          <h3>Research Interests</h3>
           <ul>
-            {
-              academicProfile.interests.map((interest) => (
-                <li data-i18n-en={interest.en} data-i18n-zh={interest.zh}>
-                  {interest.en}
-                </li>
-              ))
-            }
+            {academicProfile.interests.map((interest) => <li>{interest}</li>)}
           </ul>
         </div>
       </section>
@@ -100,7 +75,7 @@ const newsDay = (date: Date) =>
         data-home-section="education"
       >
         <div class="background-column">
-          <h2 data-i18n-en="Education" data-i18n-zh="教育背景">Education</h2>
+          <h2>Education</h2>
           <ol class="education-list">
             {
               academicProfile.education.map((item) => (
@@ -109,15 +84,8 @@ const newsDay = (date: Date) =>
                     SJ
                   </span>
                   <div>
-                    <h3
-                      data-i18n-en={item.institution}
-                      data-i18n-zh={item.institutionZh}
-                    >
-                      {item.institution}
-                    </h3>
-                    <p data-i18n-en={item.degree} data-i18n-zh={item.degreeZh}>
-                      {item.degree}
-                    </p>
+                    <h3>{item.institution}</h3>
+                    <p>{item.degree}</p>
                     <time>{item.period}</time>
                   </div>
                 </li>
@@ -127,16 +95,12 @@ const newsDay = (date: Date) =>
         </div>
 
         <div class="background-column honors-column">
-          <h2 data-i18n-en="Honors & Awards" data-i18n-zh="荣誉与奖项">
-            Honors & Awards
-          </h2>
+          <h2>Honors & Awards</h2>
           <ul class="honors-list">
             {
               academicProfile.honors.map((item) => (
                 <li>
-                  <span data-i18n-en={item.name} data-i18n-zh={item.nameZh}>
-                    {item.name}
-                  </span>
+                  <span>{item.name}</span>
                   <time>{item.year}</time>
                 </li>
               ))
@@ -150,7 +114,7 @@ const newsDay = (date: Date) =>
         data-home-section="news"
       >
         <div class="academic-section-heading">
-          <h2 data-i18n-en="News" data-i18n-zh="动态">News</h2>
+          <h2>News</h2>
         </div>
         <div class="news-list">
           {
@@ -161,12 +125,7 @@ const newsDay = (date: Date) =>
                     <span>{newsYear(item.data.date)}</span>
                     <i>{newsDay(item.data.date)}</i>
                   </time>
-                  <span
-                    data-i18n-en={item.data.title}
-                    data-i18n-zh={item.data.titleZh}
-                  >
-                    {item.data.title}
-                  </span>
+                  <span>{item.data.title}</span>
                 </>
               );
 
@@ -187,17 +146,8 @@ const newsDay = (date: Date) =>
         data-home-section="publications"
       >
         <div class="academic-section-heading">
-          <h2 data-i18n-en="Selected Publications" data-i18n-zh="代表性论文">
-            Selected Publications
-          </h2>
-          <a
-            class="see-all"
-            href="/publications/"
-            data-i18n-en="view all >>"
-            data-i18n-zh="查看全部 >>"
-          >
-            view all &gt;&gt;
-          </a>
+          <h2>Selected Publications</h2>
+          <a class="see-all" href="/publications/"> view all &gt;&gt; </a>
         </div>
         <div class="publication-list compact-publications">
           {

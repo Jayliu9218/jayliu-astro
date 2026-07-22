@@ -12,11 +12,6 @@ const tocHeadings = (headings as Heading[]).filter(
   (heading) => heading.depth === 2 || heading.depth === 3,
 );
 const date = new Date(frontmatter.pubDate);
-const dateLabel = date.toLocaleDateString('zh-CN', {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-});
 const dateLabelEn = date.toLocaleDateString('en', {
   year: 'numeric',
   month: 'short',
@@ -35,15 +30,9 @@ const dateLabelEn = date.toLocaleDateString('en', {
     <div class="article-layout">
       <article class="article-page">
         <header class="article-header">
-          <p class="section-label" data-i18n-en="Writing" data-i18n-zh="写作">
-            Writing
-          </p>
+          <p class="section-label">Writing</p>
           <div class="article-meta">
-            <time
-              datetime={date.toISOString()}
-              data-i18n-en={dateLabelEn}
-              data-i18n-zh={dateLabel}
-            >
+            <time datetime={date.toISOString()}>
               {dateLabelEn}
             </time>
             {frontmatter.author && <span>{frontmatter.author}</span>}
@@ -76,20 +65,9 @@ const dateLabelEn = date.toLocaleDateString('en', {
 
       {
         tocHeadings.length > 0 && (
-          <aside
-            class="article-sidebar"
-            aria-label="Table of contents"
-            data-i18n-aria-en="Table of contents"
-            data-i18n-aria-zh="文章目录"
-          >
+          <aside class="article-sidebar" aria-label="Table of contents">
             <div class="article-toc-card">
-              <p
-                class="panel-title"
-                data-i18n-en="Contents"
-                data-i18n-zh="目录"
-              >
-                Contents
-              </p>
+              <p class="panel-title">Contents</p>
               <nav id="article-toc" class="article-toc">
                 {tocHeadings.map((heading) => (
                   <a

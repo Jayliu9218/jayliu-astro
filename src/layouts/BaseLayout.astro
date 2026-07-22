@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import 'katex/dist/katex.min.css';
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import { site } from '../config/site';
 
 const {
@@ -20,7 +19,7 @@ const socialImage = pageImage ? new URL(pageImage, site.url) : undefined;
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,74 +39,13 @@ const socialImage = pageImage ? new URL(pageImage, site.url) : undefined;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <title>{siteTitle}</title>
-    <script is:inline>
-      try {
-        const root = document.documentElement;
-        const theme = localStorage.getItem('theme') || 'light';
-        const language = localStorage.getItem('language') || 'en';
-        root.dataset.theme = theme;
-        root.dataset.language = language;
-        root.lang = language === 'zh' ? 'zh-CN' : 'en';
-      } catch {
-        // Storage may be unavailable; the document defaults remain usable.
-      }
-    </script>
   </head>
   <body class={pageClass}>
     <Header />
     <slot />
-    <Footer />
     <script is:inline>
-      const root = document.documentElement;
-      const themeButton = document.querySelector('[data-theme-toggle]');
-      const languageButton = document.querySelector('[data-language-toggle]');
       const menuButton = document.querySelector('[data-menu-toggle]');
       const siteNav = document.querySelector('.site-nav');
-      const navLinks = document.querySelectorAll('.nav-links a[data-en]');
-      const i18nNodes = document.querySelectorAll('[data-i18n-en]');
-      const i18nAriaNodes = document.querySelectorAll('[data-i18n-aria-en]');
-
-      const savedTheme = root.dataset.theme || 'light';
-      root.dataset.theme = savedTheme;
-      if (themeButton) {
-        themeButton.textContent = savedTheme === 'dark' ? 'Light' : 'Dark';
-        themeButton.addEventListener('click', () => {
-          const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-          root.dataset.theme = nextTheme;
-          localStorage.setItem('theme', nextTheme);
-          themeButton.textContent = nextTheme === 'dark' ? 'Light' : 'Dark';
-        });
-      }
-
-      const savedLanguage = root.dataset.language || 'en';
-      function setLanguage(language) {
-        root.lang = language === 'zh' ? 'zh-CN' : 'en';
-        root.dataset.language = language;
-        navLinks.forEach((link) => {
-          link.textContent = link.dataset[language] || link.textContent;
-        });
-        i18nNodes.forEach((node) => {
-          node.textContent =
-            node.dataset[`i18n${language === 'zh' ? 'Zh' : 'En'}`] ||
-            node.textContent;
-        });
-        i18nAriaNodes.forEach((node) => {
-          const ariaLabel = node.getAttribute(`data-i18n-aria-${language}`);
-          if (ariaLabel) {
-            node.setAttribute('aria-label', ariaLabel);
-          }
-        });
-        if (languageButton) {
-          languageButton.textContent = language === 'zh' ? 'EN' : '中';
-        }
-        localStorage.setItem('language', language);
-      }
-
-      setLanguage(savedLanguage);
-      languageButton?.addEventListener('click', () => {
-        setLanguage(root.dataset.language === 'zh' ? 'en' : 'zh');
-      });
-
       menuButton?.addEventListener('click', () => {
         const isOpen = siteNav?.dataset.menuOpen === 'true';
         if (siteNav) {

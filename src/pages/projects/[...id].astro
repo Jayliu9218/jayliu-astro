@@ -21,48 +21,25 @@ const data = project.data;
 
 <BaseLayout
   pageTitle={data.title}
-  description={data.summaryZh}
+  description={data.summary}
   pageClass="portfolio-page project-detail-page"
 >
   <main class="page-shell project-detail-shell">
-    <nav
-      class="detail-nav-bar"
-      aria-label="Project navigation"
-      data-i18n-aria-en="Project navigation"
-      data-i18n-aria-zh="项目导航"
-    >
-      <a
-        href="/projects/"
-        data-i18n-en="Back to Projects"
-        data-i18n-zh="返回项目">Back to Projects</a
-      >
-      <a href="/blog/" data-i18n-en="Documents" data-i18n-zh="文档">
-        Documents
-      </a>
-      <a href="/" data-i18n-en="About" data-i18n-zh="关于">About</a>
+    <nav class="detail-nav-bar" aria-label="Project navigation">
+      <a href="/projects/">Back to Projects</a>
+      <a href="/blog/">Documents</a>
+      <a href="/">About</a>
     </nav>
 
     <article class="project-detail">
       <header class="project-detail-header">
-        <p
-          class="section-label"
-          data-i18n-en={data.type}
-          data-i18n-zh={data.typeZh}
-        >
-          {data.type}
-        </p>
+        <p class="section-label">{data.type}</p>
         <div class="project-detail-meta">
           <span>{data.year}</span>
-          <span data-i18n-en={data.status} data-i18n-zh={data.statusZh}>
-            {data.status}
-          </span>
+          <span>{data.status}</span>
         </div>
-        <h1 data-i18n-en={data.title} data-i18n-zh={data.titleZh}>
-          {data.title}
-        </h1>
-        <p data-i18n-en={data.summary} data-i18n-zh={data.summaryZh}>
-          {data.summary}
-        </p>
+        <h1>{data.title}</h1>
+        <p>{data.summary}</p>
         <div class="project-tags">
           {data.tags.map((tag) => <span>{tag}</span>)}
         </div>
@@ -74,8 +51,6 @@ const data = project.data;
                 href={data.demoUrl}
                 target="_blank"
                 rel="noreferrer"
-                data-i18n-en="Open live project"
-                data-i18n-zh="打开线上项目"
               >
                 Open live project
               </a>
@@ -88,8 +63,6 @@ const data = project.data;
                 href={data.repositoryUrl}
                 target="_blank"
                 rel="noreferrer"
-                data-i18n-en="View repository"
-                data-i18n-zh="查看代码仓库"
               >
                 View repository
               </a>
@@ -97,12 +70,7 @@ const data = project.data;
           }
           {
             data.relatedDocument && (
-              <a
-                class="btn btn-secondary"
-                href={data.relatedDocument}
-                data-i18n-en="Read related document"
-                data-i18n-zh="阅读相关文档"
-              >
+              <a class="btn btn-secondary" href={data.relatedDocument}>
                 Read related document
               </a>
             )
@@ -112,40 +80,25 @@ const data = project.data;
 
       <div class="project-detail-layout">
         <section class="project-overview">
-          <p class="section-label" data-i18n-en="Overview" data-i18n-zh="概览">
-            Overview
-          </p>
-          <h2
-            data-i18n-en="What this project is for"
-            data-i18n-zh="这个项目解决什么问题"
-          >
-            What this project is for
-          </h2>
-          <p data-i18n-en={data.overview} data-i18n-zh={data.overviewZh}>
-            {data.overview}
-          </p>
+          <p class="section-label">Overview</p>
+          <h2>What this project is for</h2>
+          <p>{data.overview}</p>
         </section>
 
         <aside class="project-facts">
-          <p class="section-label" data-i18n-en="Details" data-i18n-zh="信息">
-            Details
-          </p>
+          <p class="section-label">Details</p>
           <dl>
             <div>
-              <dt data-i18n-en="Type" data-i18n-zh="类型">Type</dt>
-              <dd data-i18n-en={data.type} data-i18n-zh={data.typeZh}>
-                {data.type}
-              </dd>
+              <dt>Type</dt>
+              <dd>{data.type}</dd>
             </div>
             <div>
-              <dt data-i18n-en="Year" data-i18n-zh="年份">Year</dt>
+              <dt>Year</dt>
               <dd>{data.year}</dd>
             </div>
             <div>
-              <dt data-i18n-en="Status" data-i18n-zh="状态">Status</dt>
-              <dd data-i18n-en={data.status} data-i18n-zh={data.statusZh}>
-                {data.status}
-              </dd>
+              <dt>Status</dt>
+              <dd>{data.status}</dd>
             </div>
           </dl>
         </aside>
@@ -154,16 +107,8 @@ const data = project.data;
       <section class="project-highlights">
         <div class="section-header compact">
           <div>
-            <p
-              class="section-label"
-              data-i18n-en="Highlights"
-              data-i18n-zh="要点"
-            >
-              Highlights
-            </p>
-            <h2 data-i18n-en="Key decisions" data-i18n-zh="关键设计">
-              Key decisions
-            </h2>
+            <p class="section-label">Highlights</p>
+            <h2>Key decisions</h2>
           </div>
         </div>
         <ol>
@@ -171,9 +116,7 @@ const data = project.data;
             data.highlights.map((highlight, index) => (
               <li>
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                <p data-i18n-en={highlight.en} data-i18n-zh={highlight.zh}>
-                  {highlight.en}
-                </p>
+                <p>{highlight}</p>
               </li>
             ))
           }

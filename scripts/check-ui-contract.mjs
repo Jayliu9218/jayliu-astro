@@ -87,12 +87,19 @@ for (const file of htmlFiles) {
     );
   }
 
-  if (
-    !html.includes('data-theme-toggle') ||
-    !html.includes('data-language-toggle') ||
-    !html.includes('data-menu-toggle')
-  ) {
-    failures.push(`${route}: menu, theme, or language control is missing`);
+  if (!html.includes('data-menu-toggle')) {
+    failures.push(`${route}: mobile menu control is missing`);
+  }
+
+  for (const removedFeature of [
+    'data-theme-toggle',
+    'data-language-toggle',
+    'data-i18n-',
+    'data-theme=',
+  ]) {
+    if (html.includes(removedFeature)) {
+      failures.push(`${route}: removed UI feature remains: ${removedFeature}`);
+    }
   }
 }
 
@@ -119,6 +126,20 @@ const contactLinks = [
 
 if (JSON.stringify(contactLinks) !== JSON.stringify(expectedProfileLinks)) {
   failures.push('/: homepage contact links are incomplete or out of order');
+}
+if (
+  !contactHtml?.includes('class="profile-email"') ||
+  !contactHtml.includes('jayliu9218@gmail.com')
+) {
+  failures.push('/: email address must be visible on its own profile line');
+}
+
+for (const file of htmlFiles) {
+  const html = readFileSync(file, 'utf8');
+  const route = routeForHtml(file);
+  if (html.includes('class="site-footer"')) {
+    failures.push(`${route}: removed footer remains`);
+  }
 }
 
 for (const legacyClass of [
@@ -190,5 +211,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `Checked ${htmlFiles.length} HTML files: layout, navigation, controls, academic sections, and content routing are consistent.`,
+  `Checked ${htmlFiles.length} HTML files: layout, navigation, single-language UI, academic sections, and content routing are consistent.`,
 );
