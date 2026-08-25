@@ -4,6 +4,12 @@
 
 html {
   background: var(--bg);
+  /* Keep the viewport width stable when navigating between pages with
+     different content heights. Without a reserved scrollbar gutter, every
+     centered control and card shifts when the vertical scrollbar appears or
+     disappears. */
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
   scroll-behavior: smooth;
 }
 

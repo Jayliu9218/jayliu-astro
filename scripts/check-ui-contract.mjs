@@ -44,6 +44,13 @@ function expectedActiveRoute(route) {
 
 const failures = [];
 const htmlFiles = walk(dist).filter((file) => file.endsWith('.html'));
+const baseCss = readFileSync(join(root, 'src', 'styles', 'base.css'), 'utf8');
+
+if (!/scrollbar-gutter\s*:\s*stable/.test(baseCss)) {
+  failures.push(
+    'shared layout must reserve the vertical scrollbar gutter to prevent navigation layout shifts',
+  );
+}
 
 for (const file of htmlFiles) {
   const html = readFileSync(file, 'utf8');
