@@ -1,12 +1,15 @@
 ---
-title: '导出 Cycle Tempo 运行结果为数据表'
-author: 'Jay Liu'
-description: '导出 Cycle Tempo 运行结果为数据表 将cycle tempo运行结果导出为数据表。 我在使用该软件时并没有发现能直接导出数据表的功能，但发现cycle tempo能在其内部生成运行数据，所以可以利用表格识别功能将其转为最终的...'
+title: Cycle-Tempo 操作笔记
+author: Jay Liu
+description: Cycle-Tempo 运行结果导出与许可证问题的处理记录。
 pubDate: 2024-01-01
-tags: ['Cycle Tempo', 'data workflow', 'engineering']
+tags:
+  - cycle-tempo
+  - data
+  - engineering
 ---
 
-# 导出 Cycle Tempo 运行结果为数据表
+## 导出 Cycle-Tempo 运行结果为数据表
 
 将cycle tempo运行结果导出为数据表。
 
@@ -21,7 +24,7 @@ tags: ['Cycle Tempo', 'data workflow', 'engineering']
 5. 生成数据表，并截图保存，将图片进行表格识别，（这里用到了“白描”，一个很好用的识别网站）
 6. 导出为xlxs等数据表格式进行分析
 
-# 伪破解lisence expire问题
+## 处理许可证过期问题
 
 ```
 Your lisence will expire
@@ -44,11 +47,3 @@ Your lisence will expire
 需要注意的是，Cycle Tempo是32位程序，所以需要对应下载32位的RunAsDate
 
 指定为到期前任意一个时间即可，没有到期提示
-
-Author: [Jayliu](https://Jayliu9218.github.io)
-
-Link: https://jayliu9218.github.io/2023/10/30/Cycle-Tempo/
-
-Copyright Notice: All articles in this blog are licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) unless stating additionally.
-
-[software](https://jayliu9218.github.io/tags/software/)

@@ -1,29 +1,30 @@
 ---
-title: '计算流体力学入门'
-author: 'Jay Liu'
-description: '《计算流体力学入门》 John D Anderon 姚朝晖 20231022 控制体方程 1. 空间固定，有限控制体： 2. 随流体运动，有限控制体： 3. 空间固定，无穷小流体： 4. 随流体运动，无穷小流体：'
+title: 计算流体力学入门
+author: Jay Liu
+description: 计算流体力学课程笔记，记录控制体方程、物质导数与速度散度等基础概念。
 pubDate: 2023-10-22
-tags: ['CFD', 'course', 'fluid mechanics']
+tags:
+  - cfd
+  - course
+  - fluid-mechanics
 ---
-
-# 《计算流体力学入门》
 
 John D Anderon
 
 姚朝晖
 
-# 2023-10-22
+## 2023-10-22
 
-## 控制体方程
+### 控制体方程
 
 1. 空间固定，有限控制体：
 2. 随流体运动，有限控制体：
 3. 空间固定，无穷小流体：
 4. 随流体运动，无穷小流体：
 
-# 2023-10-23
+## 2023-10-23
 
-## 物质导数
+### 物质导数
 
 物理意义：
 
@@ -43,16 +44,8 @@ df = \frac{\partial f}{\partial x}dx + \frac{\partial f}{\partial y}dy +  \frac{
 \frac{df}{dt} = \frac{Df}{Dt} = u\frac{\partial f}{\partial x} + v\frac{\partial  f}{\partial y} + w\frac{\partial f}{\partial z} + \frac{\partial  f}{\partial t}
 $$
 
-## 速度散度 $\nabla \cdot V$
+### 速度散度 $\nabla \cdot V$
 
 $$
 \frac{D{V}}{}
 $$
-
-Author: [Jayliu](https://Jayliu9218.github.io)
-
-Link: [https://jayliu9218.github.io/2023/10/23/%E8%AE%A1%E7%AE%97%E6%B5%81%E4%BD%93%E5%8A%9B%E5%AD%A6/](https://jayliu9218.github.io/2023/10/23/计算流体力学/)
-
-Copyright Notice: All articles in this blog are licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) unless stating additionally.
-
-[course](https://jayliu9218.github.io/tags/course/)

@@ -1,12 +1,15 @@
 ---
-title: 'Build of Thermal Loop'
-author: 'Jay Liu'
-description: '部分做功 压气机做功 WIN1 WIN8 WIN11 WIN17 WOUT 程序设计思路 程序设计思路 1. 验证程序 1. 简单循环 2. 再压缩循环 2. 主程序 1. 根据循环流程图构建回路矩阵'
+title: 热力学回路构建
+author: Jay Liu
+description: 热力学回路的部件做功、计算流程与程序设计笔记。
 pubDate: 2023-03-01
-tags: ['thermal', 'engineering', 'notes']
+tags:
+  - thermal
+  - engineering
+  - note
 ---
 
-# 部分做功
+## 部分做功
 
 压气机做功
 
@@ -100,7 +103,7 @@ s(P_{33},T_{33}) = s(P_{36},T_{36})/ISEN \to T_{33}
 W_{OUT18} = S_4S_5*(h_{36}-h_{33})
 $$
 
-# 程序设计思路
+## 程序设计思路
 
 程序设计思路
 
@@ -134,9 +137,9 @@ $$
       2. 设置遗传算法基础参数，设置效率为适应度函数
       3. 运行主程序，迭代
 
-# LOOP
+## Loop
 
-## code of loop
+### Loop 代码
 
 xxx-apparatus
 
@@ -156,14 +159,6 @@ xxx-apparatus
 
 111-split off
 
-## example
+### 示例
 
 001-011001-100-001011-001-100
-
-Author: [Jayliu](https://Jayliu9218.github.io)
-
-Link: [https://jayliu9218.github.io/2023/05/23/%E6%A0%B8%E7%94%B5%E7%83%AD%E5%8A%9B%E5%AD%A6%E5%BE%AA%E7%8E%AF/](https://jayliu9218.github.io/2023/05/23/核电热力学循环/)
-
-Copyright Notice: All articles in this blog are licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) unless stating additionally.
-
-[Nuclear](https://jayliu9218.github.io/tags/Nuclear/)

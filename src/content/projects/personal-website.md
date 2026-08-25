@@ -11,7 +11,6 @@ tags:
 featured: true
 order: 3
 demoUrl: https://jayliu.netlify.app/
-relatedDocument: /posts/personal-website-deploy
 overview: This website is the common entry point for technical writing, project case studies, practical tools, and profile information. Its current architecture uses Astro content collections and static routes for transparent, maintainable publishing.
 highlights:
   - Unifies documents and projects under one information architecture.

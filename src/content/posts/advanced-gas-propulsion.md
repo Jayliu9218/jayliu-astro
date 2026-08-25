@@ -1,30 +1,27 @@
 ---
-title: 'Advanced Gas Propulsion'
-author: 'Jay Liu'
-description: '周文武（[zhouww@sjtu.edu.cn](mailto:zhouww@sjtu.edu.cn)）机动学院A楼825 研究兴趣：航发/燃机先进冷却技术、先进流动实验测量与诊断技术'
+title: 先进燃气推进技术
+author: Jay Liu
+description: 燃气推进课程笔记，涵盖可压缩流、激波、燃气轮机循环及航空发动机性能分析。
 pubDate: 2023-02-16
-tags: ['course', 'propulsion', 'thermal']
+tags:
+  - course
+  - propulsion
+  - thermal
 ---
 
 周文武（[zhouww@sjtu.edu.cn](mailto:zhouww@sjtu.edu.cn)）机动学院A楼825
 
 研究兴趣：航发/燃机先进冷却技术、先进流动实验测量与诊断技术
 
-# 目录
+## 第 1 周（2023-02-16）
 
-[toc]
-
-# WEEK1-2023-02-16
-
-[返回顶部](# 目录)
-
-## 参考教材
+### 参考教材
 
 1. Elements of Propulsion
 2. 航空发动机：飞机的心脏
 3. Fundamentals of Jet Propulsion with Applications
 
-## 考核
+### 考核
 
 1. 出勤 10 （随机抽查、课堂测验）
 2. 作业 25 （有附加题20分，满分取100分）
@@ -35,11 +32,11 @@ tags: ['course', 'propulsion', 'thermal']
 
 ---
 
-## 绪论
+### 绪论
 
-### 燃气推进技术分类
+#### 燃气推进技术分类
 
-### 飞行器发动机分类
+#### 飞行器发动机分类
 
 1. 涡轮发动机 Aero Engine Mach 0-4
    1. 涡喷：压气机+燃烧室+涡轮+喷嘴
@@ -51,14 +48,14 @@ tags: ['course', 'propulsion', 'thermal']
    3. 燃烧室：超声速燃烧&气动加热（总温高达$4000K$）
 3. **超燃冲压 Scramjet Mach 5-10**
 
-### 经济效益
+#### 经济效益
 
-### 发展历史
+#### 发展历史
 
 1. 活塞式
 2. 航空涡轮喷气 Frank Whittle
 
-## 基本原理
+### 基本原理
 
 1. **Brayton Cycle（布雷登循环）**
 2. 涡轮喷气发动机（WP）【耗油率极高】：进气道进气——压气机增压——燃烧室加热——涡轮膨胀做功带动压气机——尾喷管膨胀加速——排气
@@ -67,7 +64,7 @@ tags: ['course', 'propulsion', 'thermal']
 5. 涡桨发动机
 6. 冲压发动机
 
-### 关键技术 / 特点
+#### 关键技术与特点
 
 1. 超高安全性与可靠性：整体与零件——鸟击实验、吞冰实验
 2. 极高转速（$\rm 10^4$级RPM）：叶片承受巨大离心力
@@ -77,7 +74,7 @@ tags: ['course', 'propulsion', 'thermal']
 
 目前提高发动机性能最有效的方法：**提高涡轮入口温度**
 
-### 三大技术（入口温度$\gg$高温合金耐受温度）
+#### 三大技术（入口温度 $\gg$ 高温合金耐受温度）
 
 1. 材料技术
    1. 高温下仍保持强度
@@ -90,19 +87,17 @@ tags: ['course', 'propulsion', 'thermal']
 
 ---
 
-# WEEK2-2023-02-23
+## 第 2 周（2023-02-23）
 
-[返回顶部](# 先进燃气推进技术)
+### 可压缩流基本知识
 
-## 可压缩流基本知识
-
-### 一维流动假设
+#### 一维流动假设
 
 1. 忽略其他二维因素，全局设计考虑
 2. 亚音速近似结果好于超音速（激波？）
 3. CFD$\to$DNS
 
-### 控制体法
+#### 控制体法
 
 1. **CV & CS**
 2. 简化非线性方程
@@ -111,7 +106,7 @@ tags: ['course', 'propulsion', 'thermal']
 5. 电磁力等作用忽略不计
 6. Mach Number 对于压缩性的影响
 
-## 守恒方程
+### 守恒方程
 
 1. continity equation
    $$
@@ -138,7 +133,7 @@ tags: ['course', 'propulsion', 'thermal']
    \rho_i u_i A_i(h_i+\frac{u_i^2}{2})-\dot{W}*{out}+\dot{Q}*{in}=\rho_e u_e A_e+p_e A_e(h_e+\frac{u_e^2}{2})
    $$
 
-### Typical State Paremeter
+#### 典型状态参数（Typical State Parameters）
 
 1. 焓 enthaply
 2. 内能
@@ -154,9 +149,9 @@ $$
 
 5. 马赫数 $M=u/ \alpha$
 
-## 由理想气体到一般气体
+### 由理想气体到一般气体
 
-## 滞止
+### 滞止
 
 1. **来流被等熵绝热引导到静止状态**
 2. 滞止焓
@@ -178,14 +173,14 @@ $$
 \frac{p_{01} }{p_1}=(1+\frac{\kappa-1}{2}M_1^2)^{\frac{\kappa}{\kappa-1} }
 $$
 
-### 发动机气体过程
+#### 发动机气体过程
 
 1. Intake——Compression——Combustion——Exhaust
 2. 假设**等熵绝热**流动
 3. 滞止焓为定值
 4. 与介质种类无关
 
-## 质量流量函数 D(M) 质量守恒+理想气体状态方程+代换整理
+### 质量流量函数 $D(M)$
 
 1. continity equation
    $$
@@ -210,17 +205,15 @@ $$
 
 ---
 
-# WEEK3-2023-03-02
+## 第 3 周（2023-03-02）
 
-[返回顶部](# 先进燃气推进技术)
-
-## Calc:From Mach Number to D(M)
+### 从马赫数计算 $D(M)$
 
 $$
 M\rightarrow T_0,P_0\rightarrow \dot{m}\rightarrow D\left( M \right) \rightarrow
 $$
 
-## 推力方程 G(M)
+### 推力方程 $G(M)$
 
 1. momentum equation
    $$
@@ -260,26 +253,26 @@ $$
 
 1. $G(1)=G(M)|_{max}$
 
-## one-dimentional non isentropic flow
+### 一维非等熵流动
 
 1. 非等熵流动
    $$
    Tds=dh-\frac{dp}{\rho}\xrightarrow{}\triangle s=s_2-s_1=c_pln(\frac{T_2}{T_1})-Rln(\frac{p_2}{p_1})
    $$
 
-## 激波
+### 激波
 
 1. Mach Angle with Mach Line
    $$
    sin\beta = \frac{\alpha}{u} = \frac{1}{M}
    $$
 
-### 激波 Property
+#### 激波特性
 
 1. too thin about 厚度几个分子自由程
 2. **不可逆**
 
-### 前后变化
+#### 激波前后变化
 
 1. $s_2>s_1$
 2. $M_1>1>M_2$
@@ -308,19 +301,17 @@ $$
 
 ---
 
-# WEEK4-2023-03-09
+## 第 4 周（2023-03-09）
 
-[返回顶部](# 先进燃气推进技术)
+### 激波前后计算
 
-## 激波前后计算
-
-### 物理解释
+#### 物理解释
 
 1. 能量方程与熵方程结合
 2. 激波熵增加在物理意义上的解释
 3. $G(M)$的变化
 
-### 静压与静温计算
+#### 静压与静温计算
 
 1. 静压
    $$
@@ -331,7 +322,7 @@ $$
    \frac{T_2}{T_1}=\frac{T_{02} }{T_{01}  }(\frac{1+\frac{\kappa-1}{2}M_1^2}{1+\frac{\kappa-1}{2}M_2^2})^{\frac{\kappa}{\kappa-1} }=\frac{G_1}{G_2}(\frac{1+\kappa M_1^2}{1+\kappa  M_2^2})=(\frac{1+\frac{\kappa-1}{2}M_1^2}{1+\frac{\kappa-1}{2}M_2^2})^{\frac{\kappa}{\kappa-1} }
    $$
 
-## 斜激波计算
+### 斜激波计算
 
 1. 斜激波垂直分量前后马赫数满足正激波的马赫数关系
    $\theta$是流动改变角度，$\beta$是激波与流动方向夹角
@@ -354,7 +345,7 @@ $$
 M_2=\frac{M_{2n} }{sin(\beta - \theta)}
 $$
 
-## 例题2
+### 例题 2
 
 已知激波前参数$p_1,T_1,M_1$，求激波后参数
 **_Solution:_**
@@ -395,11 +386,11 @@ $$
 So\ \lim_{M\to \infty}N(M)=3.1305\ which\ means\ if\ N(M)\ is\  3.1306,no\ matter\ how\ enormous\ M\ is,there\ can\ never\ be\ another\  M\ matched\ with\ it
 $$
 
-## 燃气轮机循环
+### 燃气轮机循环
 
-### 气体热力过程
+#### 气体热力过程
 
-### 布雷登热力循环
+#### 布雷顿热力循环
 
 [![brayton](https://ts1.cn.mm.bing.net/th/id/R-C.0452bbc9879b020e232c7e03afc3089e?rik=sdrXWzBYcDy0aw&riu=http://www.denaircompressor.com/uploads/allimg/111011/1_111011112247_1.png&ehk=UzdQ0KgWGFS4C2qfVnV8LpZC9txNLwqSa7EJrwANmhY=&risl=&pid=ImgRaw&r=0)](https://ts1.cn.mm.bing.net/th/id/R-C.0452bbc9879b020e232c7e03afc3089e?rik=sdrXWzBYcDy0aw&riu=http://www.denaircompressor.com/uploads/allimg/111011/1_111011112247_1.png&ehk=UzdQ0KgWGFS4C2qfVnV8LpZC9txNLwqSa7EJrwANmhY=&risl=&pid=ImgRaw&r=0)
 
@@ -420,17 +411,15 @@ $$
    \eta = 1-\frac{T_1}{T_2}
    $$
 
-## 例题3
+### 例题 3
 
 已知$q,p_1,T_1,p_2$，求$T_2,T_3,T_4,p_3,p_4,\eta$
 
-# WEEK5-2023-3-16
+## 第 5 周（2023-03-16）
 
-[返回顶部](# 先进燃气推进技术)
+### 理想循环分析：涡喷发动机
 
-## 理想循环分析-涡喷
-
-### 常用术语定义
+#### 常用术语定义
 
 压比
 
@@ -454,7 +443,7 @@ $$
 \tau_c=\frac{T_{0,3} }{T_{0,2} }
 $$
 
-### 理想状态 位置0处温度和压力
+#### 理想状态下位置 0 的温度和压力
 
 $$
 \tau_r=\frac{T_{0,0} }{T_{0} }=1+\frac{\kappa-1}{2}M_0^2
@@ -464,34 +453,32 @@ $$
 \pi_r=\frac{p_{0,0} }{p_{0} }=(1+\frac{\kappa-1}{2}M_0^2)^{\frac{\kappa}{\kappa-1} }
 $$
 
-## 不同部件
+### 不同部件
 
-### 进气道：滞止参数均没有发生变化
+#### 进气道：滞止参数不变
 
 $$
 \tau_d=\frac{T_{0,2} }{T_{0,0} }=1,\pi_d=\tau_d^{\frac{\kappa}{\kappa-1} }=1
 $$
 
-### 压气机compressor：等熵过程
+#### 压气机（Compressor）：等熵过程
 
 $$
 
 
 $$
 
-### 燃烧室burner：定压过程（假设无损失）
+#### 燃烧室（Burner）：定压过程（假设无损失）
 
 Rayleigh流动
 
-### 涡轮tuibine：等熵过程
+#### 涡轮（Turbine）：等熵过程
 
-### 喷管nuzzle：等熵过程
+#### 喷管（Nozzle）：等熵过程
 
-# WEEK6-2023-3-23
+## 第 6 周（2023-03-23）
 
-[返回顶部](# 先进燃气推进技术)
-
-## 出入口关系推导推力
+### 根据出入口关系推导推力
 
 出口温度
 
@@ -535,7 +522,7 @@ $$
 \frac{T}{\dot{m}g}=\frac{u_0}{g}(\sqrt{\frac{\tau_b(\tau_r \tau_c \tau_t-1)}{\tau_r-1} }-1)
 $$
 
-## 做功分析
+### 做功分析
 
 压气机做功等于涡轮做功（二者共轴），在$\dot{m}*f\ll \dot{m}\*0$的情况下
 
@@ -553,7 +540,7 @@ $$
 
 代入单位推力
 
-## 燃油耗油率
+### 燃油消耗率
 
 $$
 S=\frac{\dot{m}_f}{T}
@@ -563,7 +550,7 @@ $$
 
 分析耗油率与局部件性能关系
 
-## 涡轮入口温度
+### 涡轮入口温度
 
 最低温度
 
@@ -575,13 +562,13 @@ $$
 \tau_\lambda =\frac{T_{04} }{T_0}=\tau_r\tau_c\tau_b
 $$
 
-## 例题4
+### 例题 4
 
-[> ? Hexo ????????img.png)](<c:\Users\Jayliu\Pictures\Screenshots\屏幕截图(61).png>)
+> 原始图片缺失：`屏幕截图(61).png`
 
-## 例题5
+### 例题 5
 
-[> ? Hexo ????????img.png)](<c:\Users\Jayliu\Pictures\Screenshots\屏幕截图(60).png>)
+> 原始图片缺失：`屏幕截图(60).png`
 
 从定义出发
 
@@ -589,13 +576,11 @@ $$
 ssssfff
 $$
 
-# WEEK7-2023-3-30
+## 第 7 周（2023-03-30）
 
-[返回顶部](# 先进燃气推进技术)
+### 加力燃烧室
 
-## 加力燃烧室
-
-### 温压关系
+#### 温压关系
 
 假设理想燃烧，总压无损失，温度高，音速高，马赫数低
 
@@ -619,7 +604,7 @@ p_{09}=p_0\pi_r\pi_c\pi_t
 \frac{T_9}{T_0}=\frac{\tau_{\lambda,ab} }{\tau_r\tau_c\tau_t}=\tau_{ab}\tau_b
 $$
 
-### 推力计算
+#### 推力计算
 
 $$
 M_9^2=\frac{2}{\gamma-1}(\tau_r\tau_c\tau_t-1)
@@ -628,7 +613,7 @@ M_9^2=\frac{2}{\gamma-1}(\tau_r\tau_c\tau_t-1)
 \
 $$
 
-### 耗油率计算
+#### 耗油率计算
 
 能量守恒，得到加力燃烧室单位耗油率
 
@@ -656,13 +641,13 @@ $$
 f_{total}=\frac{\dot{m}*f+\dot{m}*{f,ab} }{\dot{m} }
 $$
 
-## 理想循环分析-涡扇
+### 理想循环分析：涡扇发动机
 
 > Fan，3'——风扇出口，9'——喷嘴出口
 
 > 涵道比（bypass ratio）$\beta=\frac{\dot{m}*{\rm F} }{\dot{m}*{\rm c} }$
 
-### 推力计算
+#### 推力计算
 
 $$
 T=\dot{m}*{ c}(u_9-u_0)+\dot{m}*{ F}(u_{9'}-u_0)+(p_9-p_0)A_9+(p_{9'}-p_0)A_{9'}
@@ -686,7 +671,7 @@ $$
 \frac{u_9}{u_0}=\frac{M_9}{M_0}\sqrt{\frac{T_9}{T_0} }=\sqrt{\frac{\tau_{ b}(\tau_{ r} \tau_{ c} \tau_{t}-1)}{\tau_{ r}-1} }
 $$
 
-### 状态关系式
+#### 状态关系式
 
 $$
 \frac{T_{09'} }{T_{9'} }=(1+\frac{\gamma-1}{2}M_{9'}^2)=\frac{T_0}{T_{9'} }\tau_{  r}\tau_{ F}\ ,\ \tau_{ F}=\frac{T_{03'} }{T_{02'} }
@@ -700,17 +685,17 @@ $$
 \frac{M_{9'} }{M_0}=\frac{1}{M_0}\sqrt{\frac{2}{\gamma-1}(\tau_{r}\tau_{F}-1)}=\frac{u_{9'} }{u_0}
 $$
 
-## 例题 6
+### 例题 6
 
-[> ? Hexo ????????image-20230406130735876](c:\Users\Jayliu\AppData\Roaming\Typora\typora-user-images\image-20230406130735876.png)
+> 原始图片缺失：`image-20230406130735876.png`
 
-[> ? Hexo ????????image-20230406130751254](c:\Users\Jayliu\AppData\Roaming\Typora\typora-user-images\image-20230406130751254.png)
+> 原始图片缺失：`image-20230406130751254.png`
 
 $$
 u_9 = \frac{2}{3}
 $$
 
-# WEEK8-2023-4-6
+## 第 8 周（2023-04-06）
 
 Author: [Jayliu](https://Jayliu9218.github.io)
 

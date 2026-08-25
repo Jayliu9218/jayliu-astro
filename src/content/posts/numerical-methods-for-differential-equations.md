@@ -1,30 +1,30 @@
 ---
-title: '微分方程数值解法基础教程'
-author: 'Jay Liu'
-description: '《微分方程数值解法基础教程》 林群 第三版 20231009 误差分析： 1. 替代误差——相容性：差商替代微商； 2. 舍入误差——稳定性：充分小步长扰动； 3. 跳跃误差——收敛性：整体截断误差（局部截断误差、差分解在不同积分曲线上...'
+title: 微分方程数值解法基础教程
+author: Jay Liu
+description: 微分方程数值方法课程笔记，涵盖误差、收敛性、稳定性与 Runge–Kutta 方法。
 pubDate: 2023-10-09
-tags: ['course', 'numerical methods', 'math']
+tags:
+  - course
+  - math
 ---
-
-# 《微分方程数值解法基础教程》
 
 林群
 
 第三版
 
-# 2023-10-09
+## 2023-10-09
 
-## 误差分析：
+### 误差分析
 
 1. 替代误差——相容性：差商替代微商；
 2. 舍入误差——稳定性：充分小步长扰动；
 3. 跳跃误差——收敛性：整体截断误差（局部截断误差、差分解在不同积分曲线上的跳跃）扰动；
 
-## 数值方法相容且稳定，则必收敛：
+### 数值方法相容且稳定，则必收敛
 
 不考虑局部替代误差，得到稳定性，再结合相容性即得收敛性。
 
-## 线性多步法：
+### 线性多步法
 
 1. 线性组合思想构造多点差商逼近微分方程，展开$u(t+jh),u'(t+jh)$表示局部截断误差$L[u(t),t]$；
    1. 对于方程$\Sigma_{j=0}^{k}\alpha_ju_{(m+j)} = h\Sigma_{j=0}^{k}{\beta_jf(t_{m+j},u_{m+j})}$：
@@ -36,14 +36,6 @@ tags: ['course', 'numerical methods', 'math']
 3. Gronwall不等式与根条件；
 4. 相容性、稳定性与收敛性的证明；
 
-## 绝对稳定性
+### 绝对稳定性
 
-## Runge-Kutta法：
-
-Author: [Jayliu](https://Jayliu9218.github.io)
-
-Link: [https://jayliu9218.github.io/2023/10/22/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E6%95%B0%E5%80%BC%E8%A7%A3%E6%B3%95%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/](https://jayliu9218.github.io/2023/10/22/微分方程数值解法基础教程/)
-
-Copyright Notice: All articles in this blog are licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) unless stating additionally.
-
-[course](https://jayliu9218.github.io/tags/course/)
+### Runge–Kutta 法
