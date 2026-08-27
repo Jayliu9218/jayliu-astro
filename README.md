@@ -19,7 +19,7 @@ npm run preview
 src/
 ├── components/       # Header、Navigation、Footer
 ├── config/           # 站点导航、社交链接和公共配置
-├── content/          # posts、projects、publications 与 news 内容集合
+├── content/          # posts、publications 与 news 内容集合
 ├── layouts/          # 全站和文档布局
 ├── lib/              # 文档、项目的排序与列表数据转换
 ├── pages/            # 学术首页、论文、文档、项目和动态详情路由
@@ -48,11 +48,11 @@ image:
 
 `title` 和 `pubDate` 必填；其余字段可选。字段由 `src/content.config.ts` 验证，分类规则集中在 `src/lib/posts.ts`。
 
-## 新增项目
+## 维护项目列表
 
-在 `src/content/projects/` 新建 Markdown 文件。每个文件生成 `/projects/<文件名>` 详情页，并自动出现在项目索引中。
+Projects 页面展示 GitHub 公开仓库的静态快照，数据集中维护在 `src/lib/projects.ts`。每个条目包含仓库名、展示标题、README 摘要、主要语言、标签和 GitHub URL；卡片直接打开对应仓库，不生成站内项目详情页。
 
-项目的中英文标题、摘要、类型、状态、概览和要点均写在 frontmatter 中；外部演示地址、代码仓库和相关文档是可选字段。完整字段约束见 `src/content.config.ts`，排序规则见 `src/lib/projects.ts`。
+新增或调整项目时，应同步更新数组顺序与 `scripts/check-ui-contract.mjs` 中的预期仓库链接。页面构建期间不会调用 GitHub API。
 
 ## 学术信息
 

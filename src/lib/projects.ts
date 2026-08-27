@@ -1,38 +1,72 @@
-import { getCollection, type CollectionEntry } from 'astro:content';
-
 export type ProjectSummary = {
-  entry: CollectionEntry<'projects'>;
+  repository: string;
   title: string;
   summary: string;
-  type: string;
-  year: number;
-  status: string;
+  category: string;
+  language: string;
   tags: string[];
-  featured: boolean;
-  order: number;
-  href: string;
+  mark: string;
+  url: string;
 };
 
-export async function getProjects(): Promise<ProjectSummary[]> {
-  const entries = await getCollection('projects');
+const projects: ProjectSummary[] = [
+  {
+    repository: 'personal-website',
+    title: 'Personal Website',
+    summary:
+      'An Astro-based academic homepage for research interests, publications, technical notes, projects, and public CVs.',
+    category: 'Academic platform',
+    language: 'HTML',
+    tags: ['Astro', 'Content Collections', 'Static Site'],
+    mark: 'WEB',
+    url: 'https://github.com/Jayliu9218/personal-website',
+  },
+  {
+    repository: 'py4DSTEM-pipeline',
+    title: 'py4DSTEM Pipeline',
+    summary:
+      'A Windows desktop application for browsing HDF5 data and running guided 4D-STEM processing workflows with review gates.',
+    category: 'Scientific software',
+    language: 'Python',
+    tags: ['PySide6', 'py4DSTEM', 'HDF5', '4D-STEM'],
+    mark: '4D',
+    url: 'https://github.com/Jayliu9218/py4DSTEM-pipeline',
+  },
+  {
+    repository: 'couple-memory',
+    title: 'Couple Memory',
+    summary:
+      'A responsive Astro site for preserving shared memories through timelines, photographs, travel, food, letters, and small statistics.',
+    category: 'Web project',
+    language: 'CSS',
+    tags: ['Astro', 'Storytelling', 'Responsive'],
+    mark: 'CM',
+    url: 'https://github.com/Jayliu9218/couple-memory',
+  },
+  {
+    repository: 'phase_orientation_screening',
+    title: 'Phase / Orientation Screening',
+    summary:
+      'A py4DSTEM-based screening workflow for phase identification and orientation mapping with explicit quality-control checks.',
+    category: 'Research workflow',
+    language: 'Python',
+    tags: ['py4DSTEM', 'Phase ID', 'Orientation Mapping'],
+    mark: 'QC',
+    url: 'https://github.com/Jayliu9218/phase_orientation_screening',
+  },
+  {
+    repository: 'large-4dstem-analysis',
+    title: 'Large 4D-STEM Analysis',
+    summary:
+      'A unified non-visual pipeline for fingerprint screening, Bragg detection, crystallographic indexing, and optional validation.',
+    category: 'Scientific pipeline',
+    language: 'Python',
+    tags: ['4D-STEM', 'Diffraction', 'Indexing'],
+    mark: '4D',
+    url: 'https://github.com/Jayliu9218/large-4dstem-analysis',
+  },
+];
 
-  return entries
-    .map((entry) => ({
-      entry,
-      title: entry.data.title,
-      summary: entry.data.summary,
-      type: entry.data.type,
-      year: entry.data.year,
-      status: entry.data.status,
-      tags: entry.data.tags,
-      featured: entry.data.featured,
-      order: entry.data.order,
-      href: `/projects/${entry.id}`,
-    }))
-    .sort(
-      (a, b) =>
-        Number(b.featured) - Number(a.featured) ||
-        a.order - b.order ||
-        b.year - a.year,
-    );
+export function getProjects(): ProjectSummary[] {
+  return projects;
 }

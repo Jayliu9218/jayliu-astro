@@ -2,19 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getProjects } from '../lib/projects';
 
-const projects = await getProjects();
-const projectTypes = Array.from(
-  projects
-    .reduce((map, project) => {
-      const current = map.get(project.type);
-      map.set(project.type, {
-        label: project.type,
-        count: (current?.count || 0) + 1,
-      });
-      return map;
-    }, new Map<string, { label: string; count: number }>())
-    .values(),
-);
+const projects = getProjects();
 ---
 
 <BaseLayout
@@ -22,51 +10,63 @@ const projectTypes = Array.from(
   description="Jay Liu's engineering projects, web experiments, research learning, and long-running technical work."
   pageClass="portfolio-page projects-portfolio-page"
 >
-  <main class="collection-shell projects-shell">
-    <section class="collection-main project-index-section" id="project-index">
-      <header class="collection-heading">
-        <h1>Projects</h1>
-        <p>Research, engineering, and long-running technical work.</p>
+  <main class="collection-shell projects-shell" id="project-index">
+    <section class="collection-main project-index-section">
+      <header class="collection-heading project-collection-heading">
+        <div>
+          <div class="project-title-row">
+            <h1>Projects</h1>
+            <span class="project-building-badge" data-project-building>
+              On building
+            </span>
+          </div>
+          <p>Research software and web projects maintained on GitHub.</p>
+        </div>
+        <a
+          class="project-github-link"
+          href="https://github.com/Jayliu9218?tab=repositories"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View GitHub profile <span aria-hidden="true">↗</span>
+        </a>
       </header>
 
       <div class="project-card-grid">
         {
           projects.map((project) => (
-            <a class="project-card" href={project.href}>
+            <a
+              class="project-card"
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.title} on GitHub (opens in a new tab)`}
+            >
               <div class="project-card-cover" aria-hidden="true">
-                <span>{project.year}</span>
+                <span class="project-card-mark">{project.mark}</span>
+                <span class="project-card-language">{project.language}</span>
               </div>
               <div class="project-card-body">
+                <p class="project-card-category">{project.category}</p>
                 <div class="project-row-heading">
                   <h2>{project.title}</h2>
-                  <span class="project-status">{project.status}</span>
+                  <span class="project-external-mark" aria-hidden="true">
+                    ↗
+                  </span>
                 </div>
+                <p class="project-repository">{project.repository}</p>
                 <p>{project.summary}</p>
                 <div class="project-tags">
                   {project.tags.map((tag) => (
                     <span>{tag}</span>
                   ))}
                 </div>
+                <span class="project-card-action">View repository</span>
               </div>
             </a>
           ))
         }
       </div>
     </section>
-
-    <nav class="collection-years project-filters" aria-label="Project types">
-      <a class="is-current" href="#project-index">
-        <span>All</span>
-        <strong>{projects.length}</strong>
-      </a>
-      {
-        projectTypes.map((type) => (
-          <a href="#project-index">
-            <span>{type.label}</span>
-            <strong>{type.count}</strong>
-          </a>
-        ))
-      }
-    </nav>
   </main>
 </BaseLayout>

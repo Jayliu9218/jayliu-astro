@@ -19,25 +19,6 @@ const posts = defineCollection({
   }),
 });
 
-const projects = defineCollection({
-  loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
-  schema: z.object({
-    title: z.string().min(1),
-    summary: z.string().min(1),
-    type: z.string().min(1),
-    year: z.number().int(),
-    status: z.string().min(1),
-    tags: z.array(z.string()).default([]),
-    featured: z.boolean().default(false),
-    order: z.number().int().default(0),
-    demoUrl: z.url().optional(),
-    repositoryUrl: z.url().optional(),
-    relatedDocument: z.string().startsWith('/').optional(),
-    overview: z.string().min(1),
-    highlights: z.array(z.string().min(1)).default([]),
-  }),
-});
-
 const publications = defineCollection({
   loader: glob({
     base: './src/content/publications',
@@ -75,4 +56,4 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { posts, projects, publications, news };
+export const collections = { posts, publications, news };

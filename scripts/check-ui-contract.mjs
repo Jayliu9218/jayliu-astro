@@ -13,6 +13,13 @@ const expectedProfileLinks = [
   '/resume-en.pdf',
   '/resume-zh_CN.pdf',
 ];
+const expectedProjectLinks = [
+  'https://github.com/Jayliu9218/personal-website',
+  'https://github.com/Jayliu9218/py4DSTEM-pipeline',
+  'https://github.com/Jayliu9218/couple-memory',
+  'https://github.com/Jayliu9218/phase_orientation_screening',
+  'https://github.com/Jayliu9218/large-4dstem-analysis',
+];
 
 if (!existsSync(dist)) {
   console.error('dist/ is missing. Run npm run build before checking the UI.');
@@ -186,11 +193,67 @@ for (const requiredClass of [
   'collection-heading',
   'project-card-grid',
   'project-card',
-  'collection-years project-filters',
+  'project-building-badge',
+  'project-github-link',
 ]) {
   if (!projectsHtml.includes(`class="${requiredClass}`)) {
     failures.push(`/projects/: missing ${requiredClass}`);
   }
+}
+if (
+  !projectsHtml.includes('data-project-building') ||
+  !projectsHtml.includes('On building')
+) {
+  failures.push('/projects/: missing the On building page status');
+}
+
+const projectCardAnchors = [
+  ...projectsHtml.matchAll(
+    /<a\b[^>]*class=["'][^"']*\bproject-card\b[^"']*["'][^>]*>/gi,
+  ),
+].map(([tag]) => ({
+  href: attribute(tag, 'href'),
+  target: attribute(tag, 'target'),
+  rel: attribute(tag, 'rel')?.split(/\s+/) ?? [],
+}));
+
+if (
+  JSON.stringify(projectCardAnchors.map((anchor) => anchor.href)) !==
+  JSON.stringify(expectedProjectLinks)
+) {
+  failures.push('/projects/: repository cards are incomplete or out of order');
+}
+for (const anchor of projectCardAnchors) {
+  if (
+    anchor.target !== '_blank' ||
+    !anchor.rel.includes('noopener') ||
+    !anchor.rel.includes('noreferrer')
+  ) {
+    failures.push(
+      `/projects/: ${anchor.href} must open safely in a new browser tab`,
+    );
+  }
+}
+
+for (const removedProject of [
+  'Inspiration Flow',
+  'Medical Study',
+  'CFD Learning Path',
+  'Build of Thermal Loop',
+  'Jayliu9218.github.io',
+]) {
+  if (projectsHtml.includes(removedProject)) {
+    failures.push(`/projects/: removed project remains: ${removedProject}`);
+  }
+}
+
+const projectOutputEntries = readdirSync(join(dist, 'projects'), {
+  withFileTypes: true,
+});
+if (projectOutputEntries.some((entry) => entry.isDirectory())) {
+  failures.push(
+    '/projects/: removed project detail routes remain in the build',
+  );
 }
 const publicationsHtml = readFileSync(
   join(dist, 'publications', 'index.html'),
